@@ -56,7 +56,7 @@ const Navbar = () => {
       <div className="container flex h-16 items-center justify-between">
         <Link to="/" className="flex items-center gap-2">
           <Code2 className="h-6 w-6" />
-          <span className="text-lg font-semibold tracking-tight">LiquidMktplace</span>
+          <span className="text-lg font-semibold tracking-tight">LiquidMarketplace</span>
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex">
@@ -126,7 +126,7 @@ const Navbar = () => {
             <div className="mb-4 flex items-center justify-between">
               <Link to="/" className="flex items-center gap-2" onClick={() => setOpen(false)}>
                 <Code2 className="h-6 w-6" />
-                <span className="text-lg font-semibold tracking-tight">LiquidMktplace</span>
+                <span className="text-lg font-semibold tracking-tight">LiquidMarketplace</span>
               </Link>
               <button aria-label="Close menu" onClick={() => setOpen(false)} className="p-1">
                 <X className="h-5 w-5" />

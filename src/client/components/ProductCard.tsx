@@ -35,12 +35,12 @@ const ProductCard = ({ snippet, type, displayMode = "grid" }: ProductCardPropsWi
         to={type === "animation3d" ? `/animation/${snippet.id}` : `/snippet/${snippet.id}`}
         className={
           displayMode === "list"
-            ? "group flex w-full flex-row items-center gap-6 overflow-hidden rounded-2xl border bg-card p-4 transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
-            : "group flex flex-col overflow-hidden rounded-2xl border bg-card transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+            ? "group flex w-full flex-row items-center gap-6 overflow-hidden rounded-2xl border bg-card/80 p-4 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-xl"
+            : "group flex flex-col overflow-hidden rounded-2xl border bg-card/80 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-xl"
         }
       >
         {displayMode !== "list" && (
-          <div className="aspect-[16/10] bg-secondary flex items-center justify-center overflow-hidden">
+          <div className="aspect-[16/10] bg-secondary/70 flex items-center justify-center overflow-hidden">
             {type === "animation3d" ? (
               <AnimationPreview
                 previewType={snippet.previewType}
@@ -70,6 +70,11 @@ const ProductCard = ({ snippet, type, displayMode = "grid" }: ProductCardPropsWi
           {type === "liquid" && (
             <span className="rounded-full bg-secondary px-2.5 py-0.5 text-xs font-medium text-muted-foreground">
               {snippet.category}
+            </span>
+          )}
+          {type === "animation3d" && snippet.tags?.[0] && (
+            <span className="rounded-full border border-primary/20 bg-primary/5 px-2.5 py-0.5 text-xs font-medium text-primary">
+              {snippet.tags[0]}
             </span>
           )}
         </div>
