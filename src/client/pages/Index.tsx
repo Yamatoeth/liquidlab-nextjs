@@ -1,6 +1,7 @@
 "use client";
 import { useState, useMemo } from "react";
 import { snippets } from "@/data/snippets";
+import { animations3D } from "../../data/animations";
 import Hero from "@/components/Hero";
 import CategoryFilter from "@/components/CategoryFilter";
 import ProductCard from "@/components/ProductCard";
@@ -8,6 +9,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Sparkles } from "lucide-react";
 import { Link } from "@App/useRouter";
+import { useAnimations } from "@/hooks/useAnimations";
+import type { Animation3D } from "@/types/animation3d";
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -30,6 +33,40 @@ const Index = () => {
   // suggestions are provided by Supabase-backed autocomplete in the Hero component
   const suggestions: string[] = []
 
+  // Animations dynamiques depuis Supabase
+  const { animations, loading, error } = useAnimations({ search: searchQuery });
+
+  // Map SupabaseAnimation to Animation3D type for ProductCard
+  const mapSupabaseToAnimation3D = (anim): Animation3D => ({
+    id: anim.id,
+    title: anim.title,
+    description: anim.description || anim.short_description || '',
+    renderer: ((): 'custom' | 'threejs' | 'gsap' | 'css' | 'webgl' => {
+      // Optionally, you could infer from tags or type
+      if (Array.isArray(anim.tags)) {
+        if (anim.tags.includes('three') || anim.tags.includes('threejs')) return 'threejs';
+        if (anim.tags.includes('gsap')) return 'gsap';
+        if (anim.tags.includes('css')) return 'css';
+        if (anim.tags.includes('webgl')) return 'webgl';
+      }
+      return 'custom';
+    })(),
+    previewType: anim.preview_video_url
+      ? 'video'
+      : anim.preview_image_url
+      ? 'gif'
+      : 'iframe',
+    previewSrc: anim.preview_video_url || anim.preview_image_url || `/animations/${anim.slug || anim.id}.html`,
+    htmlFile: `/animations/${anim.slug || anim.id}.html`,
+    tags: anim.tags || [],
+    dependencies: anim.tags || [],
+    difficulty: anim.complexity === 'complex' ? 'advanced' : anim.complexity === 'moderate' ? 'intermediate' : 'beginner',
+    performanceScore: anim.performance_tier === 'heavy' ? 5 : anim.performance_tier === 'standard' ? 3 : 1,
+    price: 0,
+    features: [],
+    images: anim.screenshots || [],
+  });
+
   return (
     <div className="flex min-h-screen flex-col">
       <Navbar />
@@ -39,84 +76,32 @@ const Index = () => {
         onSelectSuggestion={(v) => setSearchQuery(v)}
       />
 
-      {/* Featured Snippets */}
-      {(() => {
-        const featuredIds = ["mega-menu", "floating-cart", "sticky-atc"]
-        const featuredSnippets = snippets.filter((s) => featuredIds.includes(s.id))
-        if (featuredSnippets.length === 0) return null
-        return (
-          <section className="border-b">
-            <div className="container py-8">
-              <div className="mb-6 flex items-center justify-between">
-                <h2 className="text-2xl font-bold">Featured Snippets</h2>
-                <Link to="/" className="text-sm text-muted-foreground">Explore all</Link>
-              </div>
 
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {featuredSnippets.map((snippet) => (
-                  <ProductCard key={snippet.id} snippet={snippet} />
-                ))}
-              </div>
-            </div>
-          </section>
-        )
-      })()}
-
-      {/* All-Access Banner */}
-      <section className="border-b">
-        <div className="container py-8">
-          <div className="flex flex-col items-center justify-between gap-4 rounded-2xl bg-primary p-8 text-primary-foreground md:flex-row">
-            <div className="flex items-center gap-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary-foreground/10">
-                <Sparkles className="h-6 w-6" />
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold">All-Access Pass</h3>
-                <p className="text-sm text-primary-foreground/70">
-                  Unlock every snippet for $19/month or $149/year
-                </p>
-              </div>
-            </div>
-            <Link
-              to="/dashboard"
-              className="inline-flex h-10 items-center rounded-lg bg-primary-foreground px-6 text-sm font-medium text-primary transition-colors hover:bg-primary-foreground/90"
-            >
-              Subscribe Now
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Product Grid */}
+      {/* Animations 3D Grid */}
       <main className="flex-1">
         <div className="container py-12">
           <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
-              <h2 className="text-2xl font-bold">Browse Snippets</h2>
+              <h2 className="text-2xl font-bold">3D Animations</h2>
               <p className="text-sm text-muted-foreground">
-                {filteredSnippets.length} snippet{filteredSnippets.length !== 1 ? "s" : ""} available
+                {loading ? "Loading..." : `${animations.length} animation${animations.length !== 1 ? "s" : ""} available`}
               </p>
             </div>
-            <CategoryFilter
-              selected={selectedCategories}
-              onChange={setSelectedCategories}
-            />
+            {/* Optionnel : CategoryFilter pour animations 3D */}
           </div>
-
-          {filteredSnippets.length > 0 ? (
+          {loading ? (
+            <div className="py-20 text-center text-muted-foreground">Loading animations…</div>
+          ) : error || !Array.isArray(animations) || animations.length === 0 ? (
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {filteredSnippets.map((snippet) => (
-                <ProductCard key={snippet.id} snippet={snippet} />
+              {animations3D.map((anim) => (
+                <ProductCard key={anim.id} snippet={anim} type="animation3d" />
               ))}
             </div>
           ) : (
-            <div className="py-20 text-center">
-              <p className="text-lg font-medium text-muted-foreground">
-                No snippets found
-              </p>
-              <p className="mt-1 text-sm text-muted-foreground">
-                Try adjusting your search or filter
-              </p>
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {animations.map((anim) => (
+                <ProductCard key={anim.id} snippet={mapSupabaseToAnimation3D(anim)} type="animation3d" />
+              ))}
             </div>
           )}
         </div>

@@ -1,18 +1,20 @@
 "use client";
 import { Link } from "@App/useRouter";
 import { ArrowRight, Heart } from "lucide-react";
-import type { Snippet } from "@/data/snippets";
+import type { LiquidSnippet } from "@/types/liquidSnippet";
+import type { Animation3D } from "@/types/animation3d";
+import { AnimationPreview } from "./AnimationPreview";
 import { useEffect, useState } from 'react'
 import { useSession } from '@/hooks/useSession'
 import { isFavorited, toggleFavorite } from '@/lib/favorites'
 import LoadingSpinner from './ui/LoadingSpinner'
 import { useToast } from '@/hooks/use-toast'
 
-interface ProductCardProps {
-  snippet: Snippet;
-}
+type ProductCardProps =
+  | { snippet: LiquidSnippet; type: "liquid" }
+  | { snippet: Animation3D; type: "animation3d" };
 
-const ProductCard = ({ snippet }: ProductCardProps) => {
+const ProductCard = ({ snippet, type }: ProductCardProps) => {
   const { session } = useSession()
   const [fav, setFav] = useState(false)
   const [favLoading, setFavLoading] = useState(false)
@@ -28,11 +30,17 @@ const ProductCard = ({ snippet }: ProductCardProps) => {
   }, [snippet.id, session])
   return (
     <Link
-      to={`/snippet/${snippet.id}`}
+      to={type === "animation3d" ? `/animation/${snippet.id}` : `/snippet/${snippet.id}`}
       className="group flex flex-col overflow-hidden rounded-2xl border bg-card transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
     >
       <div className="aspect-[16/10] bg-secondary flex items-center justify-center overflow-hidden">
-        {snippet.images && snippet.images[0] ? (
+        {type === "animation3d" ? (
+          <AnimationPreview
+            previewType={snippet.previewType}
+            previewSrc={snippet.previewSrc}
+            title={snippet.title}
+          />
+        ) : snippet.images && snippet.images[0] ? (
           <img
             src={`/snippets/${snippet.images[0]}`}
             alt={snippet.title}
@@ -51,9 +59,11 @@ const ProductCard = ({ snippet }: ProductCardProps) => {
 
       <div className="flex flex-1 flex-col p-5">
         <div className="mb-2 flex items-center gap-2">
-          <span className="rounded-full bg-secondary px-2.5 py-0.5 text-xs font-medium text-muted-foreground">
-            {snippet.category}
-          </span>
+          {type === "liquid" && (
+            <span className="rounded-full bg-secondary px-2.5 py-0.5 text-xs font-medium text-muted-foreground">
+              {snippet.category}
+            </span>
+          )}
         </div>
         <h3 className="mb-1 text-lg font-semibold group-hover:text-foreground">
           {snippet.title}

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DNA Helix — FORMA</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #030810; overflow: hidden; width: 100vw; height: 100vh; }
+  canvas { display: block; }
+  .label { position: fixed; bottom: 24px; left: 24px; font-family: 'Courier New', monospace; font-size: 11px; letter-spacing: 0.15em; color: rgba(255,255,255,0.2); text-transform: uppercase; pointer-events: none; }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div class="label">DNA Helix · Scroll to speed</div>
+<script>
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+let W, H;
+function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+resize(); window.addEventListener('resize', resize);
+
+let speed = 1;
+window.addEventListener('wheel', e => { speed = Math.max(0.2, Math.min(5, speed + e.deltaY*0.002)); });
+
+const mouse = { x: 0.5, y: 0.5 };
+window.addEventListener('mousemove', e => { mouse.x = e.clientX/W; mouse.y = e.clientY/H; });
+
+let time = 0;
+const PAIRS = 30;
+const HELIX_H = 0.85;
+const COLORS_A = ['#00d4ff','#0088ff'];
+const COLORS_B = ['#ff4090','#ff00cc'];
+const BASE_COLORS = {'AT':'#44ffcc','TA':'#44ccff','GC':'#ffaa44','CG':'#ff6644'};
+const BASES = ['AT','TA','GC','CG'];
+
+function draw3DPoint(x, y, z, r, color, alpha=1) {
+  const scale = 1 + z*0.003;
+  const rx = x; const ry = y;
+  const ra = r * scale;
+  const grad = ctx.createRadialGradient(rx-ra*0.3, ry-ra*0.3, 0, rx, ry, ra);
+  grad.addColorStop(0, color+'ff');
+  grad.addColorStop(0.5, color+'aa');
+  grad.addColorStop(1, color+'00');
+  ctx.globalAlpha = alpha * Math.max(0.3, scale);
+  ctx.beginPath(); ctx.arc(rx, ry, ra, 0, Math.PI*2);
+  ctx.fillStyle = grad; ctx.fill();
+  ctx.globalAlpha = 1;
+}
+
+function draw() {
+  time += 0.012 * speed;
+
+  ctx.fillStyle = 'rgba(3,8,16,0.3)';
+  ctx.fillRect(0, 0, W, H);
+
+  // Background glow
+  const bgG = ctx.createRadialGradient(W/2, H/2, 0, W/2, H/2, W*0.5);
+  bgG.addColorStop(0, 'rgba(0,80,160,0.06)');
+  bgG.addColorStop(1, 'rgba(0,0,0,0)');
+  ctx.fillStyle = bgG; ctx.fillRect(0,0,W,H);
+
+  const cx = W/2 + (mouse.x-0.5)*40;
+  const radiusX = Math.min(W,H) * 0.14;
+  const radiusY = Math.min(W,H) * 0.05;
+  const totalH = H * HELIX_H;
+  const startY = H * (1-HELIX_H)/2;
+  const pitch = totalH / PAIRS;
+
+  // Collect all segments for z-sorting
+  const segments = [];
+
+  for (let i = 0; i < PAIRS; i++) {
+    const t = i / PAIRS;
+    const angle = time + t * Math.PI * 4; // 2 full turns
+    const y = startY + i * pitch + (time * 30 % pitch);
+    if (y < -50 || y > H+50) continue;
+
+    // Strand A
+    const ax = cx + Math.cos(angle) * radiusX;
+    const ay = y + Math.sin(angle) * radiusY;
+    const az = Math.sin(angle) * 100;
+
+    // Strand B (opposite)
+    const bx = cx + Math.cos(angle + Math.PI) * radiusX;
+    const by = y + Math.sin(angle + Math.PI) * radiusY;
+    const bz = Math.sin(angle + Math.PI) * 100;
+
+    const baseColor = BASE_COLORS[BASES[i%4]];
+    const midZ = (az+bz)/2;
+
+    segments.push({ type:'rung', ax,ay,az, bx,by,bz, midZ, baseColor, i });
+    segments.push({ type:'nodeA', x:ax, y:ay, z:az, color:COLORS_A[i%2] });
+    segments.push({ type:'nodeB', x:bx, y:by, z:bz, color:COLORS_B[i%2] });
+
+    // Connect rungs
+    if (i > 0) {
+      // Previous A point
+      const pAngle = time + ((i-1)/PAIRS)*Math.PI*4;
+      const pAx = cx + Math.cos(pAngle)*radiusX;
+      const pAy = startY+(i-1)*pitch+(time*30%pitch)+Math.sin(pAngle)*radiusY;
+      const pAz = Math.sin(pAngle)*100;
+      segments.push({ type:'backbone', x1:pAx,y1:pAy,z1:pAz, x2:ax,y2:ay,z2:az, color:COLORS_A[0], midZ:(pAz+az)/2 });
+
+      const pBx = cx + Math.cos(pAngle+Math.PI)*radiusX;
+      const pBy = startY+(i-1)*pitch+(time*30%pitch)+Math.sin(pAngle+Math.PI)*radiusY;
+      const pBz = Math.sin(pAngle+Math.PI)*100;
+      segments.push({ type:'backbone', x1:pBx,y1:pBy,z1:pBz, x2:bx,y2:by,z2:bz, color:COLORS_B[0], midZ:(pBz+bz)/2 });
+    }
+  }
+
+  // Sort by z
+  segments.sort((a,b) => a.midZ - b.midZ);
+
+  // Draw
+  segments.forEach(s => {
+    if (s.type === 'rung') {
+      const alpha = 0.3 + (s.midZ+100)/200*0.5;
+      ctx.save();
+      ctx.globalAlpha = Math.max(0.1, alpha);
+      const grad = ctx.createLinearGradient(s.ax, s.ay, s.bx, s.by);
+      grad.addColorStop(0, COLORS_A[0]);
+      grad.addColorStop(0.5, s.baseColor);
+      grad.addColorStop(1, COLORS_B[0]);
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = 1.5 + s.midZ/80;
+      ctx.beginPath(); ctx.moveTo(s.ax, s.ay); ctx.lineTo(s.bx, s.by); ctx.stroke();
+      // base pair center dot
+      const mx=(s.ax+s.bx)/2, my=(s.ay+s.by)/2;
+      ctx.beginPath(); ctx.arc(mx, my, 2, 0, Math.PI*2);
+      ctx.fillStyle = s.baseColor; ctx.fill();
+      ctx.restore();
+    } else if (s.type === 'backbone') {
+      const alpha = 0.4 + (s.midZ+100)/200*0.4;
+      ctx.save(); ctx.globalAlpha = Math.max(0.15, alpha);
+      ctx.strokeStyle = s.color;
+      ctx.lineWidth = 1 + s.midZ/120;
+      ctx.beginPath(); ctx.moveTo(s.x1,s.y1); ctx.lineTo(s.x2,s.y2); ctx.stroke();
+      ctx.restore();
+    } else {
+      draw3DPoint(s.x, s.y, s.z, 4 + s.z/30, s.color, 0.7 + s.z/300);
+    }
+  });
+
+  requestAnimationFrame(draw);
+}
+draw();
+</script>
+</body>
+</html>

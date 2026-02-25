@@ -1,13 +1,4 @@
-export interface Snippet {
-    id: string;
-    title: string;
-    description: string;
-    category: string;
-    price: number;
-    images: string[];
-    code: string;
-    features: string[];
-}
+import type { LiquidSnippet } from '../../types/liquidSnippet';
 
 export const categories = [
   "All",
@@ -29,7 +20,7 @@ export const categories = [
   "PWA",
 ];
 
-export const snippets: Snippet[] = [
+export const snippets: LiquidSnippet[] = [
   {
     id: "mega-menu",
     title: "Social Proof",

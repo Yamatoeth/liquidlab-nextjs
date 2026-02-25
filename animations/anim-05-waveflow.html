@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wave Flow — FORMA</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #03030a; overflow: hidden; width: 100vw; height: 100vh; }
+  canvas { display: block; }
+  .label {
+    position: fixed; bottom: 24px; left: 24px;
+    font-family: 'Courier New', monospace;
+    font-size: 11px; letter-spacing: 0.15em;
+    color: rgba(255,255,255,0.2);
+    text-transform: uppercase;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div class="label">Wave Flow · Move cursor</div>
+<script>
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+let W, H;
+const mouse = { x: 0.5, y: 0.5 };
+const smooth = { x: 0.5, y: 0.5 };
+let time = 0;
+
+function resize() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+window.addEventListener('mousemove', e => { mouse.x = e.clientX / W; mouse.y = e.clientY / H; });
+window.addEventListener('touchmove', e => { mouse.x = e.touches[0].clientX / W; mouse.y = e.touches[0].clientY / H; }, { passive: true });
+
+// Layered sine waves
+const LAYERS = 8;
+const layers = Array.from({ length: LAYERS }, (_, i) => ({
+  amplitude: 30 + i * 15,
+  frequency: 0.003 + i * 0.001,
+  speed: 0.008 + i * 0.003,
+  yBase: 0,
+  hue: 200 + i * 20,
+  alpha: 0.06 - i * 0.004,
+  phase: (i / LAYERS) * Math.PI * 2,
+}));
+
+function drawWave(layer, index) {
+  const yBase = H * (0.3 + index * 0.06);
+  ctx.beginPath();
+  ctx.moveTo(0, H);
+  
+  const mouseInfluence = (smooth.y - 0.5) * 80;
+  
+  for (let x = 0; x <= W; x += 4) {
+    const wave1 = Math.sin(x * layer.frequency + time * layer.speed + layer.phase) * layer.amplitude;
+    const wave2 = Math.sin(x * layer.frequency * 2.3 + time * layer.speed * 1.4) * layer.amplitude * 0.4;
+    const mouseWave = Math.sin((x / W - smooth.x) * Math.PI * 3) * mouseInfluence * 0.5;
+    const y = yBase + wave1 + wave2 + mouseWave;
+    ctx.lineTo(x, y);
+  }
+  ctx.lineTo(W, H);
+  ctx.closePath();
+
+  const grad = ctx.createLinearGradient(0, yBase - layer.amplitude * 2, 0, H);
+  grad.addColorStop(0, `hsla(${layer.hue},80%,60%,${layer.alpha * 2})`);
+  grad.addColorStop(0.5, `hsla(${layer.hue + 20},70%,50%,${layer.alpha})`);
+  grad.addColorStop(1, `hsla(${layer.hue},60%,30%,0)`);
+  ctx.fillStyle = grad;
+  ctx.fill();
+}
+
+function draw() {
+  time++;
+  smooth.x += (mouse.x - smooth.x) * 0.03;
+  smooth.y += (mouse.y - smooth.y) * 0.03;
+
+  ctx.fillStyle = 'rgba(3,3,10,0.25)';
+  ctx.fillRect(0, 0, W, H);
+
+  // Background gradient pulse
+  const bgGrad = ctx.createRadialGradient(
+    smooth.x * W, smooth.y * H, 0,
+    smooth.x * W, smooth.y * H, Math.max(W, H) * 0.8
+  );
+  bgGrad.addColorStop(0, `hsla(${240 + smooth.x * 40},60%,15%,0.3)`);
+  bgGrad.addColorStop(1, 'hsla(240,60%,5%,0)');
+  ctx.fillStyle = bgGrad;
+  ctx.fillRect(0, 0, W, H);
+
+  // Draw waves back to front
+  for (let i = LAYERS - 1; i >= 0; i--) {
+    drawWave(layers[i], i);
+  }
+
+  // Highlight line on each wave top
+  for (let i = 0; i < LAYERS; i++) {
+    const layer = layers[i];
+    const yBase = H * (0.3 + i * 0.06);
+    ctx.beginPath();
+    const mouseInfluence = (smooth.y - 0.5) * 80;
+    for (let x = 0; x <= W; x += 4) {
+      const wave1 = Math.sin(x * layer.frequency + time * layer.speed + layer.phase) * layer.amplitude;
+      const wave2 = Math.sin(x * layer.frequency * 2.3 + time * layer.speed * 1.4) * layer.amplitude * 0.4;
+      const mouseWave = Math.sin((x / W - smooth.x) * Math.PI * 3) * mouseInfluence * 0.5;
+      const y = yBase + wave1 + wave2 + mouseWave;
+      x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.strokeStyle = `hsla(${layer.hue},90%,75%,${0.15 - i * 0.015})`;
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  }
+
+  requestAnimationFrame(draw);
+}
+draw();
+</script>
+</body>
+</html>

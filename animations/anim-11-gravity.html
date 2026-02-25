@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gravity Balls — FORMA</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #07070f; overflow: hidden; width: 100vw; height: 100vh; cursor: none; }
+  canvas { display: block; }
+  .label { position: fixed; bottom: 24px; left: 24px; font-family: 'Courier New', monospace; font-size: 11px; letter-spacing: 0.15em; color: rgba(255,255,255,0.2); text-transform: uppercase; pointer-events: none; }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div class="label">Gravity · Click to spawn · Move to attract</div>
+<script>
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+let W, H;
+function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+resize(); window.addEventListener('resize', resize);
+
+const mouse = { x: W/2, y: H/2, down: false };
+window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+window.addEventListener('mousedown', () => mouse.down = true);
+window.addEventListener('mouseup', () => mouse.down = false);
+window.addEventListener('click', e => spawnBall(e.clientX, e.clientY));
+window.addEventListener('touchmove', e => { mouse.x = e.touches[0].clientX; mouse.y = e.touches[0].clientY; }, { passive: true });
+window.addEventListener('touchstart', e => spawnBall(e.touches[0].clientX, e.touches[0].clientY), { passive: true });
+
+const COLORS = ['#7c6af7','#f76af0','#6af7c8','#f7a46a','#6ab4f7','#f7f76a'];
+const GRAVITY = 0.35;
+const DAMPING = 0.72;
+const FRICTION = 0.995;
+
+class Ball {
+  constructor(x, y) {
+    this.x = x; this.y = y;
+    this.r = 12 + Math.random() * 22;
+    this.vx = (Math.random()-0.5)*8;
+    this.vy = (Math.random()-0.5)*8 - 3;
+    this.color = COLORS[Math.floor(Math.random()*COLORS.length)];
+    this.mass = this.r * this.r;
+    this.trail = [];
+  }
+  update(balls) {
+    // Store trail
+    this.trail.push({x: this.x, y: this.y});
+    if (this.trail.length > 8) this.trail.shift();
+
+    // Mouse attract when held
+    if (mouse.down) {
+      const dx = mouse.x - this.x, dy = mouse.y - this.y;
+      const dist = Math.sqrt(dx*dx+dy*dy)+1;
+      const force = Math.min(800/dist, 8);
+      this.vx += (dx/dist)*force*0.08;
+      this.vy += (dy/dist)*force*0.08;
+    }
+
+    this.vy += GRAVITY;
+    this.vx *= FRICTION; this.vy *= FRICTION;
+    this.x += this.vx; this.y += this.vy;
+
+    // Floor
+    if (this.y + this.r > H) { this.y = H - this.r; this.vy *= -DAMPING; this.vx *= 0.85; }
+    // Ceiling
+    if (this.y - this.r < 0) { this.y = this.r; this.vy *= -DAMPING; }
+    // Walls
+    if (this.x + this.r > W) { this.x = W - this.r; this.vx *= -DAMPING; }
+    if (this.x - this.r < 0) { this.x = this.r; this.vx *= -DAMPING; }
+  }
+  collide(other) {
+    const dx = other.x - this.x, dy = other.y - this.y;
+    const dist = Math.sqrt(dx*dx+dy*dy);
+    const minDist = this.r + other.r;
+    if (dist < minDist && dist > 0) {
+      const nx = dx/dist, ny = dy/dist;
+      const overlap = minDist - dist;
+      const totalMass = this.mass + other.mass;
+      this.x -= nx * overlap * (other.mass/totalMass);
+      this.y -= ny * overlap * (other.mass/totalMass);
+      other.x += nx * overlap * (this.mass/totalMass);
+      other.y += ny * overlap * (this.mass/totalMass);
+      const dvx = this.vx - other.vx, dvy = this.vy - other.vy;
+      const dot = dvx*nx + dvy*ny;
+      if (dot > 0) {
+        const impulse = (2*dot)/(totalMass/this.mass + totalMass/other.mass);
+        this.vx -= impulse * nx * (other.mass/this.mass) * 0.8;
+        this.vy -= impulse * ny * (other.mass/this.mass) * 0.8;
+        other.vx += impulse * nx * (this.mass/other.mass) * 0.8;
+        other.vy += impulse * ny * (this.mass/other.mass) * 0.8;
+      }
+    }
+  }
+  draw() {
+    // Trail
+    this.trail.forEach((t,i) => {
+      ctx.beginPath();
+      ctx.arc(t.x, t.y, this.r*(i/this.trail.length)*0.4, 0, Math.PI*2);
+      ctx.fillStyle = this.color + Math.floor((i/this.trail.length)*40).toString(16).padStart(2,'0');
+      ctx.fill();
+    });
+    // Shadow
+    ctx.beginPath();
+    ctx.ellipse(this.x, H-4, this.r*0.7, 5, 0, 0, Math.PI*2);
+    ctx.fillStyle = 'rgba(0,0,0,0.25)';
+    ctx.fill();
+    // Ball
+    const grad = ctx.createRadialGradient(this.x-this.r*0.3, this.y-this.r*0.3, 0, this.x, this.y, this.r);
+    grad.addColorStop(0, '#fff');
+    grad.addColorStop(0.2, this.color);
+    grad.addColorStop(1, this.color+'44');
+    ctx.beginPath(); ctx.arc(this.x, this.y, this.r, 0, Math.PI*2);
+    ctx.fillStyle = grad; ctx.fill();
+    // Shine
+    ctx.beginPath(); ctx.arc(this.x-this.r*0.28, this.y-this.r*0.28, this.r*0.22, 0, Math.PI*2);
+    ctx.fillStyle = 'rgba(255,255,255,0.5)'; ctx.fill();
+  }
+}
+
+let balls = [];
+function spawnBall(x, y) { if (balls.length < 40) balls.push(new Ball(x, y)); }
+
+// Spawn initial
+for (let i=0; i<12; i++) spawnBall(100+Math.random()*(W-200), 50+Math.random()*200);
+
+// Floor line
+function draw() {
+  ctx.fillStyle = 'rgba(7,7,15,0.6)';
+  ctx.fillRect(0,0,W,H);
+  // Floor
+  ctx.fillStyle = 'rgba(255,255,255,0.04)';
+  ctx.fillRect(0, H-2, W, 2);
+
+  balls.forEach(b => b.update(balls));
+  for (let i=0; i<balls.length; i++) for (let j=i+1; j<balls.length; j++) balls[i].collide(balls[j]);
+  balls.forEach(b => b.draw());
+
+  // Cursor
+  ctx.beginPath(); ctx.arc(mouse.x, mouse.y, mouse.down ? 16 : 8, 0, Math.PI*2);
+  ctx.strokeStyle = mouse.down ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,0.3)';
+  ctx.lineWidth = 1.5; ctx.stroke();
+
+  requestAnimationFrame(draw);
+}
+draw();
+</script>
+</body>
+</html>

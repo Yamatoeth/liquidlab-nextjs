@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rain Glass — FORMA</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { overflow: hidden; width: 100vw; height: 100vh; background: #0a1520; }
+  canvas { position: fixed; inset: 0; }
+  #bg { z-index: 0; }
+  #rain { z-index: 1; }
+  .label { position: fixed; bottom: 24px; left: 24px; font-family: 'Courier New', monospace; font-size: 11px; letter-spacing: 0.15em; color: rgba(255,255,255,0.2); text-transform: uppercase; z-index: 2; pointer-events: none; }
+</style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+<canvas id="rain"></canvas>
+<div class="label">Rain Glass · Atmospheric</div>
+<script>
+const bg = document.getElementById('bg');
+const bgCtx = bg.getContext('2d');
+const rc = document.getElementById('rain');
+const ctx = rc.getContext('2d');
+let W, H;
+
+function resize() {
+  W = bg.width = rc.width = window.innerWidth;
+  H = bg.height = rc.height = window.innerHeight;
+  drawBg();
+}
+resize(); window.addEventListener('resize', resize);
+
+function drawBg() {
+  const grad = bgCtx.createLinearGradient(0, 0, 0, H);
+  grad.addColorStop(0, '#0a1520');
+  grad.addColorStop(0.4, '#0d1e30');
+  grad.addColorStop(1, '#050d15');
+  bgCtx.fillStyle = grad;
+  bgCtx.fillRect(0, 0, W, H);
+
+  // City lights blur (bokeh)
+  const lights = [
+    {x:0.1,y:0.6,r:80,c:'#ff8040'},{x:0.2,y:0.75,r:50,c:'#ffcc40'},
+    {x:0.35,y:0.65,r:90,c:'#4080ff'},{x:0.5,y:0.7,r:60,c:'#ff4060'},
+    {x:0.6,y:0.6,r:110,c:'#40ffcc'},{x:0.7,y:0.72,r:70,c:'#ffcc40'},
+    {x:0.85,y:0.65,r:85,c:'#8040ff'},{x:0.95,y:0.7,r:55,c:'#ff8040'},
+    {x:0.28,y:0.55,r:65,c:'#4060ff'},{x:0.75,y:0.58,r:75,c:'#ff6040'},
+  ];
+  lights.forEach(l => {
+    const g = bgCtx.createRadialGradient(l.x*W, l.y*H, 0, l.x*W, l.y*H, l.r);
+    g.addColorStop(0, l.c+'60');
+    g.addColorStop(0.5, l.c+'20');
+    g.addColorStop(1, l.c+'00');
+    bgCtx.fillStyle = g;
+    bgCtx.beginPath(); bgCtx.arc(l.x*W, l.y*H, l.r, 0, Math.PI*2); bgCtx.fill();
+  });
+
+  // Ground reflection
+  bgCtx.fillStyle = 'rgba(30,50,80,0.4)';
+  bgCtx.fillRect(0, H*0.78, W, H*0.22);
+}
+
+// Streaks
+class Streak {
+  constructor() { this.reset(); }
+  reset() {
+    this.x = Math.random()*W;
+    this.y = -20;
+    this.len = 10 + Math.random()*20;
+    this.speed = 8 + Math.random()*14;
+    this.alpha = 0.15 + Math.random()*0.35;
+    this.width = 0.5 + Math.random()*1;
+  }
+  update() { this.y += this.speed; if (this.y > H+20) this.reset(); }
+  draw() {
+    ctx.beginPath();
+    ctx.moveTo(this.x, this.y);
+    ctx.lineTo(this.x - this.speed*0.3, this.y - this.len);
+    ctx.strokeStyle = `rgba(180,210,255,${this.alpha})`;
+    ctx.lineWidth = this.width;
+    ctx.stroke();
+  }
+}
+
+// Drops on glass
+class Drop {
+  constructor() { this.reset(true); }
+  reset(init=false) {
+    this.x = Math.random()*W;
+    this.y = init ? Math.random()*H : -10;
+    this.r = 2 + Math.random()*5;
+    this.vy = 0.2 + Math.random()*0.8;
+    this.vx = (Math.random()-0.5)*0.3;
+    this.trail = [];
+    this.dripping = Math.random()>0.4;
+    this.alpha = 0.5 + Math.random()*0.5;
+    this.waiting = Math.random()*200;
+  }
+  update() {
+    if (this.waiting > 0) { this.waiting--; return; }
+    if (!this.dripping) return;
+    this.trail.push({x:this.x, y:this.y});
+    if (this.trail.length > 20) this.trail.shift();
+    this.x += this.vx;
+    this.y += this.vy;
+    this.vy += 0.02;
+    this.vx += (Math.random()-0.5)*0.1;
+    if (this.y > H+20) this.reset();
+  }
+  draw() {
+    if (this.waiting > 0) {
+      // Static drop
+      ctx.save();
+      ctx.globalAlpha = this.alpha * 0.5;
+      const g = ctx.createRadialGradient(this.x-this.r*0.3, this.y-this.r*0.3, 0, this.x, this.y, this.r);
+      g.addColorStop(0, 'rgba(255,255,255,0.6)');
+      g.addColorStop(0.5, 'rgba(180,210,255,0.2)');
+      g.addColorStop(1, 'rgba(100,150,200,0.05)');
+      ctx.fillStyle = g;
+      ctx.beginPath(); ctx.arc(this.x, this.y, this.r, 0, Math.PI*2); ctx.fill();
+      ctx.restore();
+      return;
+    }
+    // Trail
+    if (this.trail.length > 1) {
+      ctx.save(); ctx.globalAlpha = this.alpha * 0.15;
+      ctx.strokeStyle = 'rgba(180,210,255,0.4)';
+      ctx.lineWidth = this.r * 0.4;
+      ctx.lineCap = 'round';
+      ctx.beginPath();
+      this.trail.forEach((t,i) => i===0 ? ctx.moveTo(t.x,t.y) : ctx.lineTo(t.x,t.y));
+      ctx.stroke(); ctx.restore();
+    }
+    // Drop
+    ctx.save(); ctx.globalAlpha = this.alpha;
+    const g = ctx.createRadialGradient(this.x-this.r*0.3, this.y-this.r*0.3, 0, this.x, this.y, this.r);
+    g.addColorStop(0, 'rgba(255,255,255,0.8)');
+    g.addColorStop(0.4, 'rgba(180,220,255,0.3)');
+    g.addColorStop(1, 'rgba(100,160,220,0.05)');
+    ctx.fillStyle = g;
+    ctx.beginPath(); ctx.arc(this.x, this.y, this.r, 0, Math.PI*2); ctx.fill();
+    ctx.restore();
+  }
+}
+
+const streaks = Array.from({length:120}, () => new Streak());
+const drops = Array.from({length:80}, () => new Drop());
+
+function draw() {
+  ctx.clearRect(0,0,W,H);
+  streaks.forEach(s => { s.update(); s.draw(); });
+  drops.forEach(d => { d.update(); d.draw(); });
+  requestAnimationFrame(draw);
+}
+draw();
+</script>
+</body>
+</html>

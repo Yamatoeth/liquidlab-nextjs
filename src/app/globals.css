@@ -57,6 +57,20 @@
 	}
 }
 
+/* Smooth theme transitions */
+:root {
+	transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease;
+}
+
+/* Enhanced theme toggle button styles */
+[data-theme="dark"] .theme-toggle-hover {
+	background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+[data-theme="light"] .theme-toggle-hover {
+	background: linear-gradient(135deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0) 100%);
+}
+
 @custom-variant dark (&:where(.dark, .dark *));
 
 .dark {

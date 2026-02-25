@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flow Field — FORMA</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #03030a; overflow: hidden; width: 100vw; height: 100vh; }
+  canvas { display: block; }
+  .label { position: fixed; bottom: 24px; left: 24px; font-family: 'Courier New', monospace; font-size: 11px; letter-spacing: 0.15em; color: rgba(255,255,255,0.15); text-transform: uppercase; pointer-events: none; }
+  .btn { position: fixed; bottom: 20px; right: 24px; font-family: 'Courier New', monospace; font-size: 11px; letter-spacing: 0.12em; color: rgba(255,255,255,0.3); text-transform: uppercase; cursor: pointer; background: none; border: 1px solid rgba(255,255,255,0.1); padding: 6px 14px; transition: all 0.2s; }
+  .btn:hover { color: rgba(255,255,255,0.7); border-color: rgba(255,255,255,0.3); }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div class="label">Flow Field · Generative</div>
+<button class="btn" id="clearBtn">Clear</button>
+<script>
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+let W, H;
+
+function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+resize(); window.addEventListener('resize', () => { resize(); init(); });
+
+// Simplex-like noise via sin/cos composition (no lib needed)
+function noise(x, y, t) {
+  return (
+    Math.sin(x*0.006 + t*0.3) * 0.25 +
+    Math.cos(y*0.008 - t*0.2) * 0.25 +
+    Math.sin((x+y)*0.004 + t*0.15) * 0.25 +
+    Math.cos((x-y)*0.005 + t*0.35) * 0.25
+  );
+}
+
+const PALETTES = [
+  ['#ff006e','#8338ec','#3a86ff','#06d6a0','#ffbe0b'],
+  ['#00f5ff','#7c6af7','#f76af0','#6af7c8'],
+  ['#ff8c00','#ff006e','#fb5607','#ffbe0b'],
+  ['#6af7f7','#ffffff','#a0a0ff'],
+];
+let palIdx = 0;
+
+const N = 2000;
+let particles = [];
+let time = 0;
+
+function getPalette() { return PALETTES[palIdx % PALETTES.length]; }
+
+function init() {
+  particles = Array.from({ length: N }, () => ({
+    x: Math.random() * W,
+    y: Math.random() * H,
+    age: Math.random() * 200,
+    maxAge: 100 + Math.random() * 200,
+    color: null,
+    speed: 0.8 + Math.random() * 1.5,
+    px: 0, py: 0,
+  }));
+}
+init();
+
+function resetParticle(p) {
+  p.x = Math.random() * W;
+  p.y = Math.random() * H;
+  p.age = 0;
+  p.maxAge = 80 + Math.random() * 200;
+  const pal = getPalette();
+  p.color = pal[Math.floor(Math.random()*pal.length)];
+  p.speed = 0.8 + Math.random() * 1.5;
+}
+
+particles.forEach(p => resetParticle(p));
+
+document.getElementById('clearBtn').addEventListener('click', () => {
+  ctx.fillStyle = 'rgba(3,3,10,1)';
+  ctx.fillRect(0,0,W,H);
+  palIdx++;
+});
+
+function draw() {
+  time += 0.004;
+
+  // Very light fade (accumulates into painting)
+  ctx.fillStyle = 'rgba(3,3,10,0.015)';
+  ctx.fillRect(0,0,W,H);
+
+  particles.forEach(p => {
+    p.px = p.x; p.py = p.y;
+    const angle = noise(p.x, p.y, time) * Math.PI * 4;
+    p.x += Math.cos(angle) * p.speed;
+    p.y += Math.sin(angle) * p.speed;
+    p.age++;
+
+    if (p.age > p.maxAge || p.x<0 || p.x>W || p.y<0 || p.y>H) {
+      resetParticle(p); return;
+    }
+
+    const lifeAlpha = Math.sin((p.age/p.maxAge)*Math.PI);
+    ctx.globalAlpha = lifeAlpha * 0.18;
+    ctx.strokeStyle = p.color;
+    ctx.lineWidth = 0.8 + lifeAlpha * 0.8;
+    ctx.beginPath(); ctx.moveTo(p.px, p.py); ctx.lineTo(p.x, p.y); ctx.stroke();
+  });
+  ctx.globalAlpha = 1;
+
+  requestAnimationFrame(draw);
+}
+draw();
+</script>
+</body>
+</html>

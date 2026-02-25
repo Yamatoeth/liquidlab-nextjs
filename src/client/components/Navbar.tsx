@@ -7,6 +7,7 @@ import LoadingSpinner from './ui/LoadingSpinner'
 import { useSession } from "@/hooks/useSession";
 import auth from "@/lib/auth";
 import { getFavoritesCount } from '@/lib/favorites'
+import { ThemeToggle } from "./ThemeToggle";
 
 const Navbar = () => {
   const { session, loading } = useSession();
@@ -87,6 +88,7 @@ const Navbar = () => {
         </div>
 
         <div className="flex items-center gap-3">
+          <ThemeToggle />
           {session ? (
             <>
               <span className="hidden text-sm text-muted-foreground md:block">{email}</span>
