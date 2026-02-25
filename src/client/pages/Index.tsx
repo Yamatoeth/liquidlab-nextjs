@@ -5,6 +5,7 @@ import { animations3D } from "../../data/animations";
 import Hero from "@/components/Hero";
 import CategoryFilter from "@/components/CategoryFilter";
 import ProductCard from "@/components/ProductCard";
+import DisplayModeToggle from "@/components/DisplayModeToggle";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Sparkles } from "lucide-react";
@@ -35,6 +36,7 @@ const Index = () => {
 
   // Animations dynamiques depuis Supabase
   const { animations, loading, error } = useAnimations({ search: searchQuery });
+  const [displayMode, setDisplayMode] = useState<"list" | "grid3" | "grid6">("grid3");
 
   // Map SupabaseAnimation to Animation3D type for ProductCard
   const mapSupabaseToAnimation3D = (anim): Animation3D => ({
@@ -87,20 +89,22 @@ const Index = () => {
                 {loading ? "Loading..." : `${animations.length} animation${animations.length !== 1 ? "s" : ""} available`}
               </p>
             </div>
-            {/* Optionnel : CategoryFilter pour animations 3D */}
+            <div className="flex items-center gap-3">
+              <DisplayModeToggle value={displayMode} onChange={setDisplayMode} />
+            </div>
           </div>
           {loading ? (
             <div className="py-20 text-center text-muted-foreground">Loading animations…</div>
           ) : error || !Array.isArray(animations) || animations.length === 0 ? (
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className={displayMode === "list" ? "flex flex-col gap-4" : displayMode === "grid6" ? "grid gap-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6" : "grid gap-6 sm:grid-cols-2 lg:grid-cols-3"}>
               {animations3D.map((anim) => (
-                <ProductCard key={anim.id} snippet={anim} type="animation3d" />
+                <ProductCard key={anim.id} snippet={anim} type="animation3d" displayMode={displayMode === "list" ? "list" : "grid"} />
               ))}
             </div>
           ) : (
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className={displayMode === "list" ? "flex flex-col gap-4" : displayMode === "grid6" ? "grid gap-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6" : "grid gap-6 sm:grid-cols-2 lg:grid-cols-3"}>
               {animations.map((anim) => (
-                <ProductCard key={anim.id} snippet={mapSupabaseToAnimation3D(anim)} type="animation3d" />
+                <ProductCard key={anim.id} snippet={mapSupabaseToAnimation3D(anim)} type="animation3d" displayMode={displayMode === "list" ? "list" : "grid"} />
               ))}
             </div>
           )}

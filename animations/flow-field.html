@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Hero Animation</title>
+    <style>
+        body { margin: 0; overflow: hidden; background: #050505; font-family: 'Inter', sans-serif; }
+        canvas { display: block; }
+        #hero-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            pointer-events: none;
+            z-index: 10;
+        }
+        h1 { font-size: 4rem; letter-spacing: -2px; margin: 0; font-weight: 800; text-transform: uppercase; }
+        p { opacity: 0.6; font-size: 1.1rem; }
+    </style>
+</head>
+<body>
+
+    <div id="hero-content">
+        <h1>L'Innovation Pure</h1>
+        <p>Expérience interactive développée avec Three.js</p>
+    </div>
+
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+
+        // --- CONFIGURATION ---
+        let scene, camera, renderer, particles;
+        const PARTICLE_COUNT = 15000;
+        let mouseX = 0, mouseY = 0;
+
+        init();
+        animate();
+
+        function init() {
+            // Scene & Camera
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 5;
+
+            // Renderer
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            // Geométrie des particules
+            const geometry = new THREE.BufferGeometry();
+            const positions = new Float32Array(PARTICLE_COUNT * 3);
+            const colors = new Float32Array(PARTICLE_COUNT * 3);
+
+            for (let i = 0; i < PARTICLE_COUNT; i++) {
+                // Position initiale en forme de nuage
+                positions[i * 3] = (Math.random() - 0.5) * 10;
+                positions[i * 3 + 1] = (Math.random() - 0.5) * 10;
+                positions[i * 3 + 2] = (Math.random() - 0.5) * 10;
+
+                // Couleurs : Dégradé de bleu premium vers violet
+                colors[i * 3] = 0.2 + Math.random() * 0.2; // R
+                colors[i * 3 + 1] = 0.4 + Math.random() * 0.3; // G
+                colors[i * 3 + 2] = 0.9; // B
+            }
+
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+            // Material avec texture de point doux
+            const material = new THREE.PointsMaterial({
+                size: 0.015,
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.8,
+                blending: THREE.AdditiveBlending
+            });
+
+            particles = new THREE.Points(geometry, material);
+            scene.add(particles);
+
+            // Events
+            window.addEventListener('mousemove', onMouseMove);
+            window.addEventListener('resize', onWindowResize);
+        }
+
+        function onMouseMove(event) {
+            mouseX = (event.clientX / window.innerWidth) - 0.5;
+            mouseY = (event.clientY / window.innerHeight) - 0.5;
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            const time = Date.now() * 0.0005;
+            const positions = particles.geometry.attributes.position.array;
+
+            for (let i = 0; i < PARTICLE_COUNT; i++) {
+                const i3 = i * 3;
+                
+                // Algorithme de mouvement sinusoïdal complexe (Flow Field)
+                const x = positions[i3];
+                const y = positions[i3 + 1];
+                
+                positions[i3] += Math.sin(time + y) * 0.002;
+                positions[i3 + 1] += Math.cos(time + x) * 0.002;
+                
+                // Interaction souris
+                positions[i3] += (mouseX * 0.1 - positions[i3]) * 0.01;
+                positions[i3 + 1] += (-mouseY * 0.1 - positions[i3 + 1]) * 0.01;
+            }
+
+            particles.geometry.attributes.position.needsUpdate = true;
+
+            // Rotation lente globale
+            particles.rotation.y += 0.001;
+            particles.rotation.x += 0.0005;
+
+            renderer.render(scene, camera);
+        }
+    </script>
+</body>
+</html>

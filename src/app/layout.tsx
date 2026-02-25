@@ -9,7 +9,7 @@ export default function RootLayout({
 }>) {
 
   return (
-    <html lang="en" className="light" style={{ colorScheme: 'light' }}>
+    <html lang="en">
       <body>
         <Providers>{children}</Providers>
       </body>

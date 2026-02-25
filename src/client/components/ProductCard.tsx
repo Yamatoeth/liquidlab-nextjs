@@ -14,7 +14,9 @@ type ProductCardProps =
   | { snippet: LiquidSnippet; type: "liquid" }
   | { snippet: Animation3D; type: "animation3d" };
 
-const ProductCard = ({ snippet, type }: ProductCardProps) => {
+type ProductCardPropsWithMode = ProductCardProps & { displayMode?: "list" | "grid" };
+
+const ProductCard = ({ snippet, type, displayMode = "grid" }: ProductCardPropsWithMode) => {
   const { session } = useSession()
   const [fav, setFav] = useState(false)
   const [favLoading, setFavLoading] = useState(false)
@@ -28,36 +30,42 @@ const ProductCard = ({ snippet, type }: ProductCardProps) => {
     })()
     return () => { mounted = false }
   }, [snippet.id, session])
-  return (
-    <Link
-      to={type === "animation3d" ? `/animation/${snippet.id}` : `/snippet/${snippet.id}`}
-      className="group flex flex-col overflow-hidden rounded-2xl border bg-card transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
-    >
-      <div className="aspect-[16/10] bg-secondary flex items-center justify-center overflow-hidden">
-        {type === "animation3d" ? (
-          <AnimationPreview
-            previewType={snippet.previewType}
-            previewSrc={snippet.previewSrc}
-            title={snippet.title}
-          />
-        ) : snippet.images && snippet.images[0] ? (
-          <img
-            src={`/snippets/${snippet.images[0]}`}
-            alt={snippet.title}
-            className="w-full h-full object-contain"
-            onError={(e) => {
-              e.currentTarget.onerror = null;
-              e.currentTarget.src = '/snippets/placeholder.png';
-            }}
-          />
-        ) : (
-          <div className="p-6 font-mono text-xs leading-relaxed text-muted-foreground opacity-60 group-hover:opacity-80 transition-opacity">
-            <span>No image</span>
+    return (
+      <Link
+        to={type === "animation3d" ? `/animation/${snippet.id}` : `/snippet/${snippet.id}`}
+        className={
+          displayMode === "list"
+            ? "group flex w-full flex-row items-center gap-6 overflow-hidden rounded-2xl border bg-card p-4 transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+            : "group flex flex-col overflow-hidden rounded-2xl border bg-card transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+        }
+      >
+        {displayMode !== "list" && (
+          <div className="aspect-[16/10] bg-secondary flex items-center justify-center overflow-hidden">
+            {type === "animation3d" ? (
+              <AnimationPreview
+                previewType={snippet.previewType}
+                previewSrc={snippet.previewSrc}
+                title={snippet.title}
+              />
+            ) : snippet.images && snippet.images[0] ? (
+              <img
+                src={`/snippets/${snippet.images[0]}`}
+                alt={snippet.title}
+                className="w-full h-full object-contain"
+                onError={(e) => {
+                  e.currentTarget.onerror = null;
+                  e.currentTarget.src = '/snippets/placeholder.png';
+                }}
+              />
+            ) : (
+              <div className="p-6 font-mono text-xs leading-relaxed text-muted-foreground opacity-60 group-hover:opacity-80 transition-opacity">
+                <span>No image</span>
+              </div>
+            )}
           </div>
         )}
-      </div>
 
-      <div className="flex flex-1 flex-col p-5">
+        <div className={displayMode === "list" ? "flex flex-1 flex-col py-0" : "flex flex-1 flex-col p-5"}>
         <div className="mb-2 flex items-center gap-2">
           {type === "liquid" && (
             <span className="rounded-full bg-secondary px-2.5 py-0.5 text-xs font-medium text-muted-foreground">
@@ -72,7 +80,6 @@ const ProductCard = ({ snippet, type }: ProductCardProps) => {
           {snippet.description}
         </p>
         <div className="flex items-center justify-between">
-          <span className="text-lg font-bold">${snippet.price}</span>
           <div className="flex items-center gap-3">
             <button
               aria-label="Toggle favorite"

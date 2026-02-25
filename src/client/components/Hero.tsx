@@ -37,7 +37,19 @@ const Hero = ({ searchQuery, onSearchChange, onSelectSuggestion }: HeroProps) =>
 
       {/* Placeholder for premium background animation */}
       <div className="pointer-events-none absolute inset-0 z-0">
-        {/* TODO: Insert premium 3D animation background here */}
+        {/* Insert premium 3D animation background here */}
+        <div style={{ width: '100vw', height: '100%', position: 'absolute', top: 0, left: 0 }}>
+          {/* Dynamically import Hero3D for SSR safety */}
+          {typeof window !== 'undefined' && (
+            <>
+              {/* @ts-ignore - ignore SSR issues for now */}
+              {(() => {
+                const Hero3D = require('../../app/Hero3D').default;
+                return <Hero3D />;
+              })()}
+            </>
+          )}
+        </div>
       </div>
     </section>
   );

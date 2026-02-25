@@ -6,6 +6,7 @@ import { Package, Lock } from "lucide-react"
 import { Link } from "@App/useRouter"
 import { snippets } from "@/data/snippets"
 import ProductCard from "@/components/ProductCard"
+import DisplayModeToggle from "@/components/DisplayModeToggle"
 
 export default function Dashboard() {
   const [purchasedIds, setPurchasedIds] = useState<string[]>([])
@@ -21,6 +22,8 @@ export default function Dashboard() {
   }, [])
 
   const mySnippets = useMemo(() => snippets.filter((s) => purchasedIds.includes(s.id)), [purchasedIds])
+
+  const [displayMode, setDisplayMode] = useState<"list" | "grid3" | "grid6">("grid3")
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -64,10 +67,13 @@ export default function Dashboard() {
             </div>
           ) : (
             <div>
-              <h2 className="mb-6 text-xl font-semibold">Purchased Snippets</h2>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="mb-4 flex items-center justify-between">
+                <h2 className="text-xl font-semibold">Purchased Snippets</h2>
+                <DisplayModeToggle value={displayMode} onChange={setDisplayMode} />
+              </div>
+              <div className={displayMode === "list" ? "flex flex-col gap-4" : displayMode === "grid6" ? "grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6" : "grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"}>
                 {mySnippets.map((s) => (
-                  <ProductCard key={s.id} snippet={s} />
+                  <ProductCard key={s.id} snippet={s} displayMode={displayMode === "list" ? "list" : "grid"} />
                 ))}
               </div>
             </div>

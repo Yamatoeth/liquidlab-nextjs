@@ -1,8 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@theme {
+
+/* Mesh gradient animation for subscription page */
+.animate-gradient-mesh {
+	animation: meshMove 16s ease-in-out infinite alternate;
+	background-attachment: fixed;
+	will-change: background-position;
+}
+@keyframes meshMove {
+	0% { background-position: 0% 50%; }
+	100% { background-position: 100% 50%; }
+}
+
+:root {
 	--color-background: oklch(100% 0 0);
 	--color-foreground: oklch(14.5% 0.025 264);
 
@@ -71,8 +85,6 @@
 	background: linear-gradient(135deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0) 100%);
 }
 
-@custom-variant dark (&:where(.dark, .dark *));
-
 .dark {
 	--color-background: oklch(14.5% 0.025 264);
 	--color-foreground: oklch(98% 0.01 264);
@@ -102,10 +114,12 @@
 
 @layer base {
 	* {
-		@apply border-border;
+		border-color: var(--color-border);
 	}
 	body {
-		@apply bg-background text-foreground font-sans antialiased;
+		background-color: var(--color-background);
+		color: var(--color-foreground);
+		@apply font-sans antialiased;
 	}
 	.container {
 		margin-left: auto;
