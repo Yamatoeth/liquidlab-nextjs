@@ -27,10 +27,15 @@ const Navbar = () => {
         setFavLoading(true)
         const c = await getFavoritesCount(session)
         if (mounted) setFavCount(c)
-      } catch (e: any) {
+      } catch (e: unknown) {
         console.warn('Failed to load favorites count', e)
-        setFavError(e?.message || 'Failed to load')
-        toast({ title: 'Favorites load failed', description: e?.message || 'Could not fetch favorites count.' })
+        if (e && typeof e === 'object' && 'message' in e && typeof (e as any).message === 'string') {
+          setFavError((e as any).message)
+          toast({ title: 'Favorites load failed', description: (e as any).message })
+        } else {
+          setFavError('Failed to load')
+          toast({ title: 'Favorites load failed', description: 'Could not fetch favorites count.' })
+        }
       } finally {
         if (mounted) setFavLoading(false)
       }

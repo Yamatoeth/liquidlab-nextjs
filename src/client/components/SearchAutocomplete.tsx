@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Search } from 'lucide-react'
 import { suggestSnippets } from '@/lib/search'
+import type { Snippet } from '@/client/data/snippets'
 import { useNavigate } from '@App/useRouter'
 import LoadingSpinner from './ui/LoadingSpinner'
 import ErrorAlert from './ui/ErrorAlert'
@@ -13,7 +14,7 @@ interface Props {
 }
 
 const SearchAutocomplete = ({ value, onChange, onSelect }: Props) => {
-  const [suggestions, setSuggestions] = useState<any[]>([])
+  const [suggestions, setSuggestions] = useState<Snippet[]>([])
   const [active, setActive] = useState(0)
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -38,12 +39,16 @@ const SearchAutocomplete = ({ value, onChange, onSelect }: Props) => {
       }
       setLoading(true)
       setError(null)
-      let res: any[] = []
+      let res: Snippet[] = []
       try {
         res = await suggestSnippets(value, 6)
         setSuggestions(res)
-      } catch (e: any) {
-        setError(e?.message || 'Failed to load suggestions')
+      } catch (e: unknown) {
+        let message = 'Failed to load suggestions';
+        if (e && typeof e === 'object' && 'message' in e && typeof (e as any).message === 'string') {
+          message = (e as any).message;
+        }
+        setError(message)
         setSuggestions([])
       } finally {
         setLoading(false)

@@ -79,11 +79,15 @@ const ProductCard = ({ snippet }: ProductCardProps) => {
                   // toggleFavorite returns boolean for new state; update to be safe
                   setFav(!!next)
                   toast({ title: next ? 'Added favorite' : 'Removed favorite' })
-                } catch (err: any) {
+                } catch (err: unknown) {
                   // rollback on error
                   setFav(prev)
                   console.error('Favorite toggle failed', err)
-                  toast({ title: 'Favorite failed', description: err?.message || 'Please try again.' })
+                  let message = 'Please try again.';
+                  if (err && typeof err === 'object' && 'message' in err && typeof (err as any).message === 'string') {
+                    message = (err as any).message;
+                  }
+                  toast({ title: 'Favorite failed', description: message })
                 } finally {
                   setFavLoading(false)
                 }
