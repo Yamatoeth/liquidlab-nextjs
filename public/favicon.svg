@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <rect width="100" height="100" rx="16" fill="#0ea5a4"/>
+  <g transform="translate(50,50)">
+    <text x="0" y="8" font-size="44" font-family="Segoe UI, Roboto, Arial" text-anchor="middle" fill="#ffffff" font-weight="700">LL</text>
+  </g>
+</svg>

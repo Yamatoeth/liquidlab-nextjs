@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Code Rain — FORMA</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #000; overflow: hidden; width: 100vw; height: 100vh; cursor: none; }
+  canvas { display: block; }
+  .label { position: fixed; bottom: 24px; left: 24px; font-family: 'Courier New', monospace; font-size: 11px; letter-spacing: 0.15em; color: rgba(0,255,100,0.3); text-transform: uppercase; pointer-events: none; }
+  .overlay-text {
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    font-family: 'Courier New', monospace; font-size: clamp(14px, 2vw, 18px);
+    color: rgba(0,255,80,0.12); letter-spacing: 0.2em;
+    text-transform: uppercase; text-align: center; line-height: 2;
+    pointer-events: none; z-index: 1;
+  }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div class="overlay-text">
+  ACCESS GRANTED<br>
+  SYSTEM ONLINE<br>
+  01001001 01000001 01001101
+</div>
+<div class="label">Code Rain · Move cursor</div>
+<script>
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+let W, H, cols, drops;
+
+const CHARS = 'アイウエオカキクケコサシスセソタチツテトナニヌネノ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ</>{}[]|@#$%^&*';
+const FONT_SIZE = 14;
+
+const mouse = { x: -999, y: -999 };
+window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+window.addEventListener('mouseleave', () => { mouse.x = -999; mouse.y = -999; });
+
+function init() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+  cols = Math.floor(W / FONT_SIZE);
+  drops = Array.from({length: cols}, () => ({
+    y: Math.random() * -100,
+    speed: 0.3 + Math.random() * 0.8,
+    bright: Math.random() > 0.95,
+    chars: Array.from({length: 40}, () => CHARS[Math.floor(Math.random()*CHARS.length)]),
+    len: 8 + Math.floor(Math.random()*25),
+    changeTimer: Math.floor(Math.random()*10),
+  }));
+}
+init(); window.addEventListener('resize', init);
+
+let frame = 0;
+
+function draw() {
+  frame++;
+  ctx.fillStyle = 'rgba(0,0,0,0.08)';
+  ctx.fillRect(0, 0, W, H);
+
+  ctx.font = `${FONT_SIZE}px monospace`;
+
+  drops.forEach((drop, i) => {
+    const x = i * FONT_SIZE;
+
+    // Mouse proximity effect
+    const dx = x - mouse.x;
+    const dy = drop.y * FONT_SIZE - mouse.y;
+    const dist = Math.sqrt(dx*dx+dy*dy);
+    const isNearMouse = dist < 120;
+
+    // Randomize chars occasionally
+    drop.changeTimer--;
+    if (drop.changeTimer <= 0) {
+      drop.chars[0] = CHARS[Math.floor(Math.random()*CHARS.length)];
+      drop.changeTimer = 3 + Math.floor(Math.random()*8);
+    }
+
+    // Draw column
+    for (let j = 0; j < drop.len; j++) {
+      const cy = (drop.y - j) * FONT_SIZE;
+      if (cy < -FONT_SIZE || cy > H) continue;
+      const t = j / drop.len;
+      const char = drop.chars[j % drop.chars.length];
+
+      if (j === 0) {
+        // Head - bright white
+        const hue = isNearMouse ? 180 : 120;
+        ctx.fillStyle = isNearMouse ? `rgba(0,255,255,${0.9})` : `rgba(200,255,200,0.95)`;
+        if (isNearMouse) {
+          ctx.shadowColor = '#00ffff'; ctx.shadowBlur = 12;
+        } else {
+          ctx.shadowColor = '#00ff44'; ctx.shadowBlur = 8;
+        }
+      } else {
+        const alpha = (1-t) * (drop.bright ? 0.9 : 0.6);
+        const g = Math.floor(100 + (1-t)*155);
+        if (isNearMouse && j < 5) {
+          ctx.fillStyle = `rgba(0,${g+50},${g+50},${alpha})`;
+        } else {
+          ctx.fillStyle = `rgba(0,${g},${Math.floor(g*0.3)},${alpha})`;
+        }
+        ctx.shadowBlur = 0;
+      }
+      ctx.fillText(char, x, cy);
+    }
+    ctx.shadowBlur = 0;
+
+    // Advance
+    drop.y += drop.speed * (isNearMouse ? 2 : 1);
+    if (drop.y * FONT_SIZE > H + drop.len * FONT_SIZE) {
+      drop.y = -drop.len - Math.random()*30;
+      drop.speed = 0.3 + Math.random()*0.8;
+      drop.bright = Math.random()>0.95;
+      drop.len = 8 + Math.floor(Math.random()*25);
+    }
+  });
+
+  requestAnimationFrame(draw);
+}
+draw();
+</script>
+</body>
+</html>

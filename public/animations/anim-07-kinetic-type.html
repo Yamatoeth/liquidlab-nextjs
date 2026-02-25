@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kinetic Type — FORMA</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;700&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #07070e;
+    overflow: hidden; width: 100vw; height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+  .stage { text-align: center; position: relative; z-index: 1; }
+  .pre { font-family: 'Space Grotesk', sans-serif; font-weight: 300; font-size: clamp(12px, 1.5vw, 16px); letter-spacing: 0.4em; color: rgba(255,255,255,0.35); text-transform: uppercase; margin-bottom: 20px; }
+
+  .main-word {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(80px, 14vw, 180px);
+    line-height: 0.9;
+    display: block;
+    overflow: hidden;
+  }
+
+  .char {
+    display: inline-block;
+    background: linear-gradient(135deg, #fff 0%, #a090ff 50%, #ff70f0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    opacity: 0;
+    transform: translateY(60px) skewX(-8deg);
+    transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .char.in { opacity: 1; transform: translateY(0) skewX(0deg); }
+  .char.out { opacity: 0; transform: translateY(-60px) skewX(8deg); }
+
+  .sub {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 300;
+    font-size: clamp(14px, 2vw, 18px);
+    color: rgba(255,255,255,0.4);
+    margin-top: 24px;
+    letter-spacing: 0.08em;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease 0.3s, transform 0.6s ease 0.3s;
+  }
+  .sub.in { opacity: 1; transform: translateY(0); }
+
+  .cursor-line {
+    display: inline-block;
+    width: 3px; height: clamp(60px, 10vw, 130px);
+    background: linear-gradient(to bottom, #a090ff, #ff70f0);
+    margin-left: 8px;
+    vertical-align: middle;
+    animation: blink 0.9s step-end infinite;
+    border-radius: 2px;
+  }
+  @keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0; } }
+
+  .counter {
+    position: fixed; bottom: 24px; right: 24px;
+    font-family: 'Courier New', monospace; font-size: 11px;
+    letter-spacing: 0.15em; color: rgba(255,255,255,0.2);
+    text-transform: uppercase;
+  }
+  .label { position: fixed; bottom: 24px; left: 24px; font-family: 'Courier New', monospace; font-size: 11px; letter-spacing: 0.15em; color: rgba(255,255,255,0.2); text-transform: uppercase; }
+
+  /* BG grid */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: 
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="pre">Crafted for</div>
+  <span class="main-word" id="word"></span>
+  <span class="cursor-line" id="cursor"></span>
+  <div class="sub" id="sub">The future is yours to design.</div>
+</div>
+<div class="label">Kinetic Type · Auto-cycle</div>
+<div class="counter" id="counter">01 / 06</div>
+
+<script>
+const words = [
+  { text: 'BUILDERS', sub: 'Ship faster. Build bolder.' },
+  { text: 'FOUNDERS', sub: 'Ideas that reshape everything.' },
+  { text: 'CREATORS', sub: 'Make something unforgettable.' },
+  { text: 'DREAMERS', sub: 'Vision is just the beginning.' },
+  { text: 'REBELS', sub: 'Break the rules. Set new ones.' },
+  { text: 'FUTURE', sub: 'It starts right here.' },
+];
+
+let current = 0;
+const wordEl = document.getElementById('word');
+const subEl = document.getElementById('sub');
+const counterEl = document.getElementById('counter');
+
+function setWord(word) {
+  wordEl.innerHTML = '';
+  word.text.split('').forEach((ch, i) => {
+    const span = document.createElement('span');
+    span.className = 'char';
+    span.textContent = ch === ' ' ? '\u00A0' : ch;
+    span.style.transitionDelay = `${i * 0.04}s`;
+    wordEl.appendChild(span);
+  });
+  subEl.className = 'sub';
+  subEl.textContent = word.sub;
+
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    wordEl.querySelectorAll('.char').forEach(c => c.classList.add('in'));
+    subEl.classList.add('in');
+  }));
+}
+
+function outWord(cb) {
+  const chars = wordEl.querySelectorAll('.char');
+  chars.forEach((c, i) => {
+    c.style.transitionDelay = `${i * 0.03}s`;
+    c.classList.remove('in');
+    c.classList.add('out');
+  });
+  subEl.className = 'sub';
+  setTimeout(cb, chars.length * 30 + 400);
+}
+
+function cycle() {
+  outWord(() => {
+    current = (current + 1) % words.length;
+    counterEl.textContent = `${String(current + 1).padStart(2,'0')} / ${String(words.length).padStart(2,'0')}`;
+    setWord(words[current]);
+  });
+}
+
+setWord(words[0]);
+setInterval(cycle, 2800);
+</script>
+</body>
+</html>

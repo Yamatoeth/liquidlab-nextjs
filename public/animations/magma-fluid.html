@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MAGMA</title>
+<style>
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+  html, body {
+    width:100%; height:100%;
+    background:#000;
+    overflow:hidden; cursor:none;
+  }
+  canvas { display:block; position:fixed; inset:0; z-index:0; }
+
+  #cur {
+    position:fixed; pointer-events:none; z-index:9999;
+    width:10px; height:10px; border-radius:50%;
+    background:radial-gradient(circle, #fff8 0%, #ff4400 60%, transparent 100%);
+    transform:translate(-50%,-50%);
+    box-shadow: 0 0 12px #ff6600, 0 0 30px #ff220088;
+    mix-blend-mode: screen;
+    transition: width .15s, height .15s;
+  }
+  #cur-heat {
+    position:fixed; pointer-events:none; z-index:9998;
+    width:60px; height:60px; border-radius:50%;
+    background: radial-gradient(circle, rgba(255,80,0,0.12) 0%, transparent 70%);
+    transform:translate(-50%,-50%);
+    transition: all .2s ease;
+    mix-blend-mode: screen;
+  }
+
+  /* Vignette */
+  #vig {
+    position:fixed; inset:0; pointer-events:none; z-index:4;
+    background: radial-gradient(ellipse at 50% 50%, transparent 20%, rgba(0,0,0,0.75) 100%);
+  }
+
+  /* Heat distortion shimmer */
+  #shimmer {
+    position:fixed; inset:0; pointer-events:none; z-index:3;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 4px,
+      rgba(255,40,0,0.012) 4px,
+      rgba(255,40,0,0.012) 5px
+    );
+    animation: shim 8s linear infinite;
+  }
+  @keyframes shim { from{background-position:0 0} to{background-position:0 200px} }
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur-heat"></div>
+<div id="vig"></div>
+<div id="shimmer"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+// ════════════════════════════════════════════
+// RENDERER
+// ════════════════════════════════════════════
+const W = innerWidth, H = innerHeight;
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(W, H);
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.6;
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+document.body.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x020000);
+scene.fog = new THREE.FogExp2(0x080000, 0.018);
+
+const camera = new THREE.PerspectiveCamera(60, W / H, 0.1, 200);
+camera.position.set(0, 6, 18);
+camera.lookAt(0, 0, 0);
+
+// ════════════════════════════════════════════
+// MOUSE
+// ════════════════════════════════════════════
+const mouse = { x: 0, y: 0, px: 0, py: 0 };
+const curEl  = document.getElementById('cur');
+const heatEl = document.getElementById('cur-heat');
+
+document.addEventListener('mousemove', e => {
+  mouse.px = mouse.x; mouse.py = mouse.y;
+  mouse.x  = (e.clientX / W) * 2 - 1;
+  mouse.y  = -(e.clientY / H) * 2 + 1;
+  curEl.style.left   = e.clientX + 'px';
+  curEl.style.top    = e.clientY + 'px';
+  heatEl.style.left  = e.clientX + 'px';
+  heatEl.style.top   = e.clientY + 'px';
+  const spd = Math.abs(mouse.x - mouse.px) + Math.abs(mouse.y - mouse.py);
+  const s = 60 + spd * 300;
+  heatEl.style.width  = s + 'px';
+  heatEl.style.height = s + 'px';
+});
+
+// ════════════════════════════════════════════
+// LAVA SURFACE (displaced plane)
+// ════════════════════════════════════════════
+const SEG = 180;
+const lavaGeo = new THREE.PlaneGeometry(28, 28, SEG, SEG);
+lavaGeo.rotateX(-Math.PI / 2);
+
+// Color buffer — lava spectrum: black → deep red → orange → bright orange → yellow-white
+const lavaColors = new Float32Array(lavaGeo.attributes.position.count * 3);
+lavaGeo.setAttribute('color', new THREE.BufferAttribute(lavaColors, 3));
+
+const lavaMat = new THREE.MeshStandardMaterial({
+  vertexColors: true,
+  metalness: 0.55,
+  roughness: 0.35,
+  side: THREE.DoubleSide,
+});
+const lavaMesh = new THREE.Mesh(lavaGeo, lavaMat);
+lavaMesh.receiveShadow = true;
+scene.add(lavaMesh);
+
+// Wire overlay — faint orange grid
+const wireGeo = new THREE.PlaneGeometry(28, 28, SEG / 3, SEG / 3);
+wireGeo.rotateX(-Math.PI / 2);
+const wireMat = new THREE.MeshBasicMaterial({
+  color: 0xff2200, wireframe: true, transparent: true, opacity: 0.04,
+});
+const wireMesh = new THREE.Mesh(wireGeo, wireMat);
+wireMesh.position.y = 0.02;
+scene.add(wireMesh);
+
+// ════════════════════════════════════════════
+// LAVA BLOBS — rising molten spheres
+// ════════════════════════════════════════════
+const blobs = [];
+const blobColors = [0xff1100, 0xff3300, 0xff6600, 0xff9900, 0xffcc00, 0xffffff];
+
+for (let i = 0; i < 18; i++) {
+  const r = 0.15 + Math.random() * 0.55;
+  const geo = new THREE.SphereGeometry(r, 24, 24);
+  const col = blobColors[Math.floor(Math.random() * blobColors.length)];
+  const mat = new THREE.MeshStandardMaterial({
+    color: col,
+    emissive: col,
+    emissiveIntensity: 0.6 + Math.random() * 0.8,
+    metalness: 0.8,
+    roughness: 0.1,
+    transparent: true,
+    opacity: 0.85 + Math.random() * 0.15,
+  });
+  const mesh = new THREE.Mesh(geo, mat);
+  mesh.castShadow = true;
+  const angle = Math.random() * Math.PI * 2;
+  const rad   = Math.random() * 10;
+  mesh.position.set(
+    Math.cos(angle) * rad,
+    -r,
+    Math.sin(angle) * rad
+  );
+  mesh.userData = {
+    baseX: mesh.position.x,
+    baseZ: mesh.position.z,
+    phase:  Math.random() * Math.PI * 2,
+    speed:  0.3 + Math.random() * 0.8,
+    amp:    0.4 + Math.random() * 1.2,
+    r,
+    driftX: (Math.random() - 0.5) * 0.006,
+    driftZ: (Math.random() - 0.5) * 0.006,
+    col,
+  };
+  scene.add(mesh);
+  blobs.push(mesh);
+}
+
+// ════════════════════════════════════════════
+// ERUPTION PARTICLES
+// ════════════════════════════════════════════
+const SPARKS = 2400;
+const spkPos = new Float32Array(SPARKS * 3);
+const spkCol = new Float32Array(SPARKS * 3);
+const spkVel = [];
+const spkLife= new Float32Array(SPARKS);
+
+function resetSpark(i) {
+  const angle = Math.random() * Math.PI * 2;
+  const rad   = Math.random() * 8;
+  spkPos[i*3]   = Math.cos(angle) * rad;
+  spkPos[i*3+1] = Math.random() * 0.3;
+  spkPos[i*3+2] = Math.sin(angle) * rad;
+  const spd = 0.02 + Math.random() * 0.09;
+  spkVel[i] = {
+    x: (Math.random() - 0.5) * 0.04,
+    y: spd,
+    z: (Math.random() - 0.5) * 0.04,
+    gravity: -0.0008 - Math.random() * 0.001,
+  };
+  spkLife[i] = 0.6 + Math.random() * 0.4;
+  // Color: hot = white/yellow, cool = red/dark
+  const heat = Math.random();
+  spkCol[i*3]   = 1.0;
+  spkCol[i*3+1] = heat * 0.7;
+  spkCol[i*3+2] = heat * 0.1;
+}
+
+for (let i = 0; i < SPARKS; i++) {
+  resetSpark(i);
+  spkPos[i*3+1] = Math.random() * 5; // stagger initial heights
+}
+
+const spkGeo = new THREE.BufferGeometry();
+spkGeo.setAttribute('position', new THREE.BufferAttribute(spkPos, 3));
+spkGeo.setAttribute('color',    new THREE.BufferAttribute(spkCol, 3));
+const spkMat = new THREE.PointsMaterial({
+  size: 0.07, vertexColors: true,
+  transparent: true, opacity: 0.85,
+  blending: THREE.AdditiveBlending, depthWrite: false,
+  sizeAttenuation: true,
+});
+scene.add(new THREE.Points(spkGeo, spkMat));
+
+// ════════════════════════════════════════════
+// SMOKE / ASH PARTICLES
+// ════════════════════════════════════════════
+const SMOKE = 500;
+const smkPos = new Float32Array(SMOKE * 3);
+const smkVel = [];
+
+for (let i = 0; i < SMOKE; i++) {
+  const a = Math.random() * Math.PI * 2;
+  const r = Math.random() * 7;
+  smkPos[i*3]   = Math.cos(a) * r;
+  smkPos[i*3+1] = 2 + Math.random() * 8;
+  smkPos[i*3+2] = Math.sin(a) * r;
+  smkVel.push({
+    x: (Math.random() - 0.5) * 0.012,
+    y: 0.005 + Math.random() * 0.01,
+    z: (Math.random() - 0.5) * 0.012,
+  });
+}
+
+const smkGeo = new THREE.BufferGeometry();
+smkGeo.setAttribute('position', new THREE.BufferAttribute(smkPos, 3));
+const smkMat = new THREE.PointsMaterial({
+  size: 0.35, color: 0x220800,
+  transparent: true, opacity: 0.25,
+  blending: THREE.NormalBlending, depthWrite: false,
+});
+scene.add(new THREE.Points(smkGeo, smkMat));
+
+// ════════════════════════════════════════════
+// LAVA STREAMS — glowing tubes
+// ════════════════════════════════════════════
+const streams = [];
+for (let s = 0; s < 6; s++) {
+  const pts = [];
+  const startAngle = (s / 6) * Math.PI * 2;
+  const sx = Math.cos(startAngle) * (2 + Math.random() * 3);
+  const sz = Math.sin(startAngle) * (2 + Math.random() * 3);
+  for (let p = 0; p < 8; p++) {
+    pts.push(new THREE.Vector3(
+      sx + (Math.random() - 0.5) * 4,
+      p * 0.08,
+      sz + (Math.random() - 0.5) * 4
+    ));
+  }
+  const curve  = new THREE.CatmullRomCurve3(pts);
+  const tGeo   = new THREE.TubeGeometry(curve, 40, 0.04 + Math.random() * 0.08, 6, false);
+  const tCol   = [0xff1100, 0xff4400, 0xff6600][Math.floor(Math.random() * 3)];
+  const tMat   = new THREE.MeshBasicMaterial({
+    color: tCol, transparent: true,
+    opacity: 0.4 + Math.random() * 0.3,
+    blending: THREE.AdditiveBlending,
+  });
+  const tube = new THREE.Mesh(tGeo, tMat);
+  scene.add(tube);
+  streams.push({ tube, phase: Math.random() * Math.PI * 2, speed: 0.4 + Math.random() * 0.6 });
+}
+
+// ════════════════════════════════════════════
+// FLOATING MOLTEN RINGS
+// ════════════════════════════════════════════
+const rings = [];
+for (let r = 0; r < 5; r++) {
+  const innerR = 1.5 + r * 1.2;
+  const rGeo   = new THREE.TorusGeometry(innerR, 0.04 + Math.random() * 0.06, 8, 80);
+  const rCol   = [0xff2200, 0xff4400, 0xff8800, 0xffaa00, 0xffdd00][r];
+  const rMat   = new THREE.MeshBasicMaterial({
+    color: rCol, transparent: true,
+    opacity: 0.3 + Math.random() * 0.3,
+    blending: THREE.AdditiveBlending,
+  });
+  const ring = new THREE.Mesh(rGeo, rMat);
+  ring.rotation.x = Math.PI / 2 + (Math.random() - 0.5) * 0.5;
+  ring.position.y = 0.5 + Math.random() * 1.5;
+  scene.add(ring);
+  rings.push({ mesh: ring, phase: Math.random() * Math.PI * 2, rotSpd: (Math.random() - 0.5) * 0.01 });
+}
+
+// ════════════════════════════════════════════
+// CENTRAL MAGMA CORE
+// ════════════════════════════════════════════
+const coreGeo = new THREE.IcosahedronGeometry(1.2, 4);
+const coreMat = new THREE.MeshStandardMaterial({
+  color: 0xff2200,
+  emissive: 0xff6600,
+  emissiveIntensity: 1.2,
+  metalness: 0.7,
+  roughness: 0.2,
+  wireframe: false,
+});
+const core = new THREE.Mesh(coreGeo, coreMat);
+core.position.y = 1.5;
+core.castShadow = true;
+scene.add(core);
+
+// Core wireframe
+const coreWireGeo = new THREE.IcosahedronGeometry(1.25, 2);
+const coreWireMat = new THREE.MeshBasicMaterial({
+  color: 0xff8800, wireframe: true, transparent: true, opacity: 0.15,
+});
+scene.add(new THREE.Mesh(coreWireGeo, coreWireMat));
+const coreWire = scene.children[scene.children.length - 1];
+coreWire.position.y = 1.5;
+
+// ════════════════════════════════════════════
+// LIGHTS
+// ════════════════════════════════════════════
+scene.add(new THREE.AmbientLight(0x1a0500, 4));
+
+const coreLight = new THREE.PointLight(0xff4400, 8, 20);
+coreLight.position.set(0, 2, 0);
+scene.add(coreLight);
+
+const lava1 = new THREE.PointLight(0xff2200, 5, 18);
+lava1.position.set(-6, 0.5, -4);
+scene.add(lava1);
+
+const lava2 = new THREE.PointLight(0xff6600, 4, 15);
+lava2.position.set(6, 0.5, 4);
+scene.add(lava2);
+
+const topLight = new THREE.SpotLight(0xff8800, 3, 30, Math.PI / 4, 0.5, 1.5);
+topLight.position.set(0, 15, 0);
+topLight.castShadow = true;
+scene.add(topLight);
+
+const mouseLight = new THREE.PointLight(0xff3300, 3, 10);
+scene.add(mouseLight);
+
+// ════════════════════════════════════════════
+// HEIGHT → COLOR mapping
+// ════════════════════════════════════════════
+const cBlack  = new THREE.Color(0x050000);
+const cDeep   = new THREE.Color(0x3a0000);
+const cRed    = new THREE.Color(0xcc1100);
+const cOrange = new THREE.Color(0xff5500);
+const cYellow = new THREE.Color(0xffcc00);
+const cWhite  = new THREE.Color(0xffffff);
+
+function heightColor(h, peak) {
+  const t = Math.max(0, Math.min(1, (h + 0.5) / (peak + 0.5)));
+  const c = new THREE.Color();
+  if (t < 0.2)       c.lerpColors(cBlack,  cDeep,   t / 0.2);
+  else if (t < 0.45) c.lerpColors(cDeep,   cRed,    (t - 0.2) / 0.25);
+  else if (t < 0.7)  c.lerpColors(cRed,    cOrange, (t - 0.45) / 0.25);
+  else if (t < 0.88) c.lerpColors(cOrange, cYellow, (t - 0.7) / 0.18);
+  else               c.lerpColors(cYellow, cWhite,  (t - 0.88) / 0.12);
+  return c;
+}
+
+// ════════════════════════════════════════════
+// SCROLL
+// ════════════════════════════════════════════
+let zoomT = 18;
+window.addEventListener('wheel', e => {
+  zoomT = Math.max(8, Math.min(35, zoomT + e.deltaY * 0.015));
+});
+
+// Click — eruption burst
+document.addEventListener('click', () => {
+  core.material.emissiveIntensity = 4;
+  coreLight.intensity = 20;
+  setTimeout(() => {
+    core.material.emissiveIntensity = 1.2;
+    coreLight.intensity = 8;
+  }, 400);
+  // Reset some sparks to burst upward
+  for (let i = 0; i < 300; i++) {
+    const ii = Math.floor(Math.random() * SPARKS);
+    spkPos[ii*3]   = (Math.random() - 0.5) * 2;
+    spkPos[ii*3+1] = 1;
+    spkPos[ii*3+2] = (Math.random() - 0.5) * 2;
+    spkVel[ii].y = 0.1 + Math.random() * 0.15;
+    spkVel[ii].x = (Math.random() - 0.5) * 0.12;
+    spkVel[ii].z = (Math.random() - 0.5) * 0.12;
+    spkLife[ii] = 1;
+  }
+});
+
+// ════════════════════════════════════════════
+// ANIMATE
+// ════════════════════════════════════════════
+let t = 0;
+
+function animate() {
+  requestAnimationFrame(animate);
+  t += 0.012;
+
+  // Camera
+  const cx = mouse.x * 4;
+  const cy = 6 + mouse.y * 3;
+  camera.position.x += (cx  - camera.position.x) * 0.032;
+  camera.position.y += (cy  - camera.position.y) * 0.032;
+  camera.position.z += (zoomT - camera.position.z) * 0.05;
+  camera.lookAt(0, 1, 0);
+
+  // Mouse heat light
+  mouseLight.position.set(mouse.x * 12, 3 + mouse.y * 4, 5);
+
+  // ── LAVA SURFACE displacement ──
+  const pos = lavaGeo.attributes.position;
+  const col = lavaGeo.attributes.color;
+  let peakH = 0;
+
+  for (let i = 0; i < pos.count; i++) {
+    const x = pos.getX(i);
+    const z = pos.getZ(i);
+    const dist = Math.sqrt(x * x + z * z);
+
+    // Multi-frequency noise
+    const h =
+      Math.sin(x * 0.6 + t * 1.4) * 0.7
+      + Math.sin(z * 0.5 + t * 1.1) * 0.6
+      + Math.sin((x + z) * 0.4 + t * 2.0) * 0.45
+      + Math.sin(dist * 0.7 - t * 2.5) * 0.5
+      + Math.sin(x * 1.2 - t * 0.8 + z * 0.9) * 0.3
+      + Math.cos(dist * 1.1 + t * 1.8) * 0.25
+      // Mouse influence — creates heat well
+      + Math.exp(-((x - mouse.x * 10) ** 2 + (z + mouse.y * 10) ** 2) / 12) * 1.4;
+
+    pos.setY(i, h);
+    if (h > peakH) peakH = h;
+    const c = heightColor(h, 2.2);
+    col.setXYZ(i, c.r, c.g, c.b);
+  }
+  pos.needsUpdate = true;
+  col.needsUpdate = true;
+  lavaGeo.computeVertexNormals();
+
+  // Wire follows
+  const wPos = wireGeo.attributes.position;
+  for (let i = 0; i < wPos.count; i++) {
+    const x = wPos.getX(i), z = wPos.getZ(i);
+    const dist = Math.sqrt(x*x + z*z);
+    const h = Math.sin(x*.6+t*1.4)*.7 + Math.sin(z*.5+t*1.1)*.6 + Math.sin(dist*.7-t*2.5)*.5;
+    wPos.setY(i, h + 0.05);
+  }
+  wPos.needsUpdate = true;
+
+  // ── BLOBS ──
+  blobs.forEach(b => {
+    const { baseX, baseZ, phase, speed, amp, r, driftX, driftZ } = b.userData;
+    b.userData.baseX += driftX;
+    b.userData.baseZ += driftZ;
+    if (Math.abs(b.userData.baseX) > 11) b.userData.driftX *= -1;
+    if (Math.abs(b.userData.baseZ) > 11) b.userData.driftZ *= -1;
+
+    const bx = b.userData.baseX, bz = b.userData.baseZ;
+    const dist = Math.sqrt(bx*bx + bz*bz);
+    const surfH = Math.sin(bx*.6+t*1.4)*.7 + Math.sin(bz*.5+t*1.1)*.6 + Math.sin(dist*.7-t*2.5)*.5;
+    b.position.x = bx;
+    b.position.z = bz;
+    b.position.y = surfH + r + Math.sin(t * speed + phase) * 0.3;
+
+    const pulse = 1 + Math.sin(t * speed * 2 + phase) * 0.12;
+    b.scale.setScalar(pulse);
+    b.material.emissiveIntensity = 0.5 + Math.sin(t * speed + phase) * 0.5;
+    b.rotation.x += 0.02;
+    b.rotation.y += 0.015;
+  });
+
+  // ── CORE ──
+  const coreScale = 1 + Math.sin(t * 2.1) * 0.06 + Math.sin(t * 3.7) * 0.03;
+  core.scale.setScalar(coreScale);
+  coreWire.scale.setScalar(coreScale);
+  core.rotation.x = t * 0.3;
+  core.rotation.y = t * 0.45;
+  coreWire.rotation.x = t * 0.3;
+  coreWire.rotation.y = t * 0.45;
+  // Deform core vertices
+  const cPos = coreGeo.attributes.position;
+  for (let i = 0; i < cPos.count; i++) {
+    const ox = cPos.getX(i), oy = cPos.getY(i), oz = cPos.getZ(i);
+    const len = Math.sqrt(ox*ox + oy*oy + oz*oz);
+    const n   = 1 + 0.12 * Math.sin(ox * 3 + t * 4) * Math.sin(oy * 3 + t * 3.2) * Math.sin(oz * 3 + t * 2.8);
+    cPos.setXYZ(i, ox / len * 1.2 * n, oy / len * 1.2 * n, oz / len * 1.2 * n);
+  }
+  cPos.needsUpdate = true;
+  coreGeo.computeVertexNormals();
+
+  // ── SPARKS ──
+  for (let i = 0; i < SPARKS; i++) {
+    spkVel[i].y += spkVel[i].gravity;
+    spkPos[i*3]   += spkVel[i].x;
+    spkPos[i*3+1] += spkVel[i].y;
+    spkPos[i*3+2] += spkVel[i].z;
+    spkLife[i]    -= 0.005;
+    // Cool down: shift color from yellow→red→dark
+    const life = Math.max(0, spkLife[i]);
+    spkCol[i*3]   = life;
+    spkCol[i*3+1] = life * 0.4;
+    spkCol[i*3+2] = 0;
+    if (spkLife[i] <= 0 || spkPos[i*3+1] < -0.5) resetSpark(i);
+  }
+  spkGeo.attributes.position.needsUpdate = true;
+  spkGeo.attributes.color.needsUpdate    = true;
+
+  // ── SMOKE ──
+  const sm = smkGeo.attributes.position.array;
+  for (let i = 0; i < SMOKE; i++) {
+    sm[i*3]   += smkVel[i].x;
+    sm[i*3+1] += smkVel[i].y;
+    sm[i*3+2] += smkVel[i].z;
+    if (sm[i*3+1] > 14) {
+      const a = Math.random() * Math.PI * 2;
+      const r = Math.random() * 6;
+      sm[i*3]   = Math.cos(a) * r;
+      sm[i*3+1] = 0;
+      sm[i*3+2] = Math.sin(a) * r;
+    }
+  }
+  smkGeo.attributes.position.needsUpdate = true;
+
+  // ── RINGS ──
+  rings.forEach(rObj => {
+    rObj.mesh.rotation.z += rObj.rotSpd;
+    rObj.mesh.position.y = 0.5 + Math.sin(t * 0.6 + rObj.phase) * 0.4;
+    rObj.mesh.material.opacity = 0.15 + Math.sin(t * 1.2 + rObj.phase) * 0.15;
+  });
+
+  // ── STREAMS ──
+  streams.forEach(s => {
+    s.tube.material.opacity = 0.2 + Math.sin(t * s.speed + s.phase) * 0.2;
+  });
+
+  // ── LIGHTS ──
+  coreLight.intensity  = 7 + Math.sin(t * 2.8) * 2;
+  coreLight.position.y = 2 + Math.sin(t * 1.5) * 0.5;
+  lava1.position.x = -6 + Math.sin(t * 0.5) * 3;
+  lava1.position.z = -4 + Math.cos(t * 0.4) * 3;
+  lava2.position.x =  6 + Math.cos(t * 0.45) * 3;
+  lava2.position.z =  4 + Math.sin(t * 0.35) * 3;
+  lava1.intensity  = 4 + Math.sin(t * 1.9) * 1.5;
+  lava2.intensity  = 3.5 + Math.cos(t * 2.3) * 1;
+
+  renderer.render(scene, camera);
+}
+
+animate();
+
+window.addEventListener('resize', () => {
+  const w = innerWidth, h = innerHeight;
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+  renderer.setSize(w, h);
+});
+</script>
+</body>
+</html>
