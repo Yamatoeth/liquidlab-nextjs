@@ -28,62 +28,53 @@ const SignIn = () => {
       await auth.signInWithGoogle();
     } catch (err) {
       console.error(err);
-      alert('Google sign-in failed');
+      alert("Google sign-in failed");
     }
   };
 
   const onMagicLink = async () => {
-    if (!email) return alert('Enter your email to receive a sign-in link');
+    if (!email) return alert("Enter your email to receive a sign-in link");
     try {
       await auth.sendMagicLink(email);
-      alert('Magic link sent — check your email');
+      alert("Magic link sent — check your email");
     } catch (err) {
       console.error(err);
-      alert('Failed to send magic link');
+      alert("Failed to send magic link");
     }
   };
 
   return (
-    <div className="max-w-md mx-auto mt-24 p-6 bg-white/80 rounded-lg shadow">
-      <div className="mb-4">
-        <button type="button" onClick={() => navigate(-1)} className="text-sm text-muted-foreground hover:underline">
-          ← Back
-        </button>
+    <div className="container py-16 md:py-24">
+      <div className="panel mx-auto max-w-md p-7 md:p-8">
+        <div className="mb-4">
+          <button type="button" onClick={() => navigate("/")} className="text-sm text-muted-foreground hover:text-foreground">
+            ← Back
+          </button>
+        </div>
+        <h2 className="mb-1 text-4xl font-semibold">Sign in</h2>
+        <p className="mb-6 text-sm text-muted-foreground">Access your premium animation library.</p>
+        <form onSubmit={submit} className="space-y-4">
+          <div>
+            <label className="mb-1 block text-sm text-muted-foreground">Email</label>
+            <input className="input-premium" value={email} onChange={(e) => setEmail(e.target.value)} type="email" required />
+          </div>
+          <div>
+            <label className="mb-1 block text-sm text-muted-foreground">Password</label>
+            <input className="input-premium" value={password} onChange={(e) => setPassword(e.target.value)} type="password" required />
+          </div>
+          <button type="submit" className="btn-primary h-11 w-full text-sm" disabled={loading}>
+            {loading ? "Signing in..." : "Sign in"}
+          </button>
+          <div className="mt-3 space-y-2">
+            <button type="button" onClick={onGoogle} className="btn-secondary h-11 w-full text-sm">
+              Continue with Google
+            </button>
+            <button type="button" onClick={onMagicLink} className="btn-secondary h-11 w-full text-sm">
+              Send sign-in link
+            </button>
+          </div>
+        </form>
       </div>
-      <h2 className="text-2xl font-semibold mb-4">Sign in</h2>
-      <form onSubmit={submit} className="space-y-4">
-        <div>
-          <label className="block text-sm">Email</label>
-          <input
-            className="w-full border rounded px-3 py-2"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            type="email"
-            required
-          />
-        </div>
-        <div>
-          <label className="block text-sm">Password</label>
-          <input
-            className="w-full border rounded px-3 py-2"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            type="password"
-            required
-          />
-        </div>
-        <button
-          type="submit"
-          className="w-full bg-primary text-white px-4 py-2 rounded"
-          disabled={loading}
-        >
-          {loading ? "Signing in..." : "Sign in"}
-        </button>
-        <div className="mt-3">
-          <button type="button" onClick={onGoogle} className="w-full border px-4 py-2 rounded mb-2">Continue with Google</button>
-          <button type="button" onClick={onMagicLink} className="w-full border px-4 py-2 rounded">Send sign-in link</button>
-        </div>
-      </form>
     </div>
   );
 };

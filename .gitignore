@@ -25,6 +25,6 @@ dist-ssr
 
 .env
 /.agent
-/scriptsnoxtable/
 /.next
-
+animations
+migrations

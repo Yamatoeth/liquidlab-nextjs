@@ -13,66 +13,70 @@ interface HeroProps {
 
 const Hero = ({ searchQuery, onSearchChange, onSelectSuggestion }: HeroProps) => {
   return (
-    <section className="relative overflow-hidden border-b bg-gradient-to-b from-secondary/40 via-background to-background">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.15),transparent_45%)]" />
+    <section className="hero-section relative overflow-hidden border-b border-[rgba(216,178,110,0.22)]">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(216,178,110,0.2),transparent_45%),radial-gradient(circle_at_85%_10%,rgba(122,150,194,0.2),transparent_38%)]" />
 
-      <div className="container relative z-10 py-20 md:py-28">
-        <div className="mx-auto max-w-4xl text-center">
-          <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
-            <Sparkles className="h-3.5 w-3.5" />
+      <div className="container relative z-10 py-24 md:py-32">
+        <div className="mx-auto max-w-5xl text-center">
+          <p className="premium-chip mb-5 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.22em]">
             Premium Marketplace
           </p>
 
-          <h1 className="mb-6 text-4xl font-bold leading-tight md:text-6xl">
-            Animations 3D haut de gamme
-            <span className="block bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent">
-              pour des interfaces modernes
-            </span>
-          </h1>
+          <h1 className="mb-6 text-5xl leading-[0.98] text-foreground md:text-7xl">High-End 3D Animations</h1>
 
           <p className="mx-auto mb-10 max-w-2xl text-base text-muted-foreground md:text-lg">
-            Explorez des effets 3D prêts à intégrer, pensés pour la performance et le design premium.
-            Filtrez, prévisualisez, et trouvez l&apos;animation parfaite en quelques secondes.
+            Explore production-ready 3D effects built for performance and premium design. Filter, preview, and find
+            the perfect animation in seconds.
           </p>
 
-          <div className="relative mx-auto mb-8 max-w-2xl">
-            <SearchAutocomplete
-              value={searchQuery}
-              onChange={onSearchChange}
-              onSelect={(id) => onSelectSuggestion?.(id)}
-            />
+          <div className="panel relative mx-auto mb-9 max-w-2xl p-2">
+            <SearchAutocomplete value={searchQuery} onChange={onSearchChange} onSelect={(id) => onSelectSuggestion?.(id)} />
           </div>
 
-          <div className="mx-auto grid max-w-2xl grid-cols-1 gap-3 text-left sm:grid-cols-3">
-            <div className="rounded-xl border bg-card/70 px-4 py-3 backdrop-blur">
-              <div className="mb-1 inline-flex items-center gap-2 text-xs font-medium text-muted-foreground">
-                <BadgeCheck className="h-3.5 w-3.5" />
+          <div className="mx-auto grid max-w-3xl grid-cols-1 gap-4 text-left sm:grid-cols-3">
+            <div className="surface-soft px-4 py-3 backdrop-blur">
+              <div className="mb-1 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.08em] text-muted-foreground">
+                <BadgeCheck className="h-3.5 w-3.5 text-primary" />
                 Curated quality
               </div>
-              <p className="text-sm font-medium">Rendus testés sur desktop et mobile</p>
+              <p className="text-sm font-semibold">Renderings tested on desktop and mobile</p>
             </div>
-            <div className="rounded-xl border bg-card/70 px-4 py-3 backdrop-blur">
-              <div className="mb-1 inline-flex items-center gap-2 text-xs font-medium text-muted-foreground">
-                <Zap className="h-3.5 w-3.5" />
+            <div className="surface-soft px-4 py-3 backdrop-blur">
+              <div className="mb-1 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.08em] text-muted-foreground">
+                <Zap className="h-3.5 w-3.5 text-primary" />
                 Fast integration
               </div>
-              <p className="text-sm font-medium">Copiez, adaptez et déployez rapidement</p>
+              <p className="text-sm font-semibold">Copy, adapt, and ship quickly</p>
             </div>
-            <div className="rounded-xl border bg-card/70 px-4 py-3 backdrop-blur">
-              <div className="mb-1 inline-flex items-center gap-2 text-xs font-medium text-muted-foreground">
-                <Sparkles className="h-3.5 w-3.5" />
+            <div className="surface-soft px-4 py-3 backdrop-blur">
+              <div className="mb-1 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.08em] text-muted-foreground">
+                <Sparkles className="h-3.5 w-3.5 text-primary" />
                 Premium visuals
               </div>
-              <p className="text-sm font-medium">Interactions fluides et impact visuel</p>
+              <p className="text-sm font-semibold">Fluid interactions with strong visual impact</p>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="pointer-events-none absolute inset-0 z-0 opacity-70">
+      <div className="pointer-events-none absolute inset-0 z-0 opacity-60 hero-canvas-wrapper">
         <div style={{ width: "100vw", height: "100%", position: "absolute", top: 0, left: 0 }}>
           <Hero3D />
         </div>
+      </div>
+      <div className="absolute bottom-10 left-1/2 z-20 -translate-x-1/2">
+        <button
+          aria-label="Jump to catalogue"
+          onClick={() => {
+            const el = document.getElementById("catalog");
+            if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+          }}
+          className="btn-primary h-14 w-14 p-2"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="h-6 w-6">
+            <path fill="currentColor" d="M12 16l-6-6h12l-6 6z" />
+          </svg>
+        </button>
       </div>
     </section>
   );

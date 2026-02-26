@@ -4,9 +4,9 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev",
     "generate:snippet": "node scripts/screenshot-generator.js",
-    "build": "next build --turbopack",
+    "build": "next build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",

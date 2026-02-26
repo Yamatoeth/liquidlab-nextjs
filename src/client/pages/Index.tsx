@@ -2,6 +2,8 @@
 import { useState, useMemo } from "react";
 import { animations3D } from "../../data/animations";
 import Hero from "@/components/Hero";
+import Onboarding from "@/components/Onboarding";
+import dynamic from "next/dynamic";
 import CategoryFilter from "@/components/CategoryFilter";
 import ProductCard from "@/components/ProductCard";
 import DisplayModeToggle from "@/components/DisplayModeToggle";
@@ -37,11 +39,7 @@ const Index = () => {
     tags: anim.tags || [],
     dependencies: anim.tags || [],
     difficulty:
-      anim.complexity === "complex"
-        ? "advanced"
-        : anim.complexity === "moderate"
-          ? "intermediate"
-          : "beginner",
+      anim.complexity === "complex" ? "advanced" : anim.complexity === "moderate" ? "intermediate" : "beginner",
     performanceScore: anim.performance_tier === "heavy" ? 5 : anim.performance_tier === "standard" ? 3 : 1,
     price: 0,
     features: [],
@@ -65,47 +63,51 @@ const Index = () => {
   }, [sourceAnimations, selectedCategories]);
 
   return (
-    <div className="flex min-h-screen flex-col bg-background">
+    <div className="flex min-h-screen flex-col bg-background text-foreground">
       <Navbar />
-      <Hero
-        searchQuery={searchQuery}
-        onSearchChange={setSearchQuery}
-        onSelectSuggestion={(v) => setSearchQuery(v)}
-      />
+      <Hero searchQuery={searchQuery} onSearchChange={setSearchQuery} onSelectSuggestion={(v) => setSearchQuery(v)} />
+
+      <div className="mt-8">
+        {typeof window !== "undefined"
+          ? (() => {
+              const Testimonials = dynamic(() => import("@/components/Testimonials"), { ssr: false });
+              return <Testimonials />;
+            })()
+          : null}
+      </div>
+      <Onboarding />
 
       <main className="flex-1">
-        <div className="container py-12 md:py-16">
-          <section className="mb-8 grid gap-4 rounded-2xl border bg-card/60 p-4 backdrop-blur md:grid-cols-3 md:p-6">
-            <div className="flex items-start gap-3 rounded-xl border bg-background/60 p-4">
+        <div id="catalog" className="container py-12 md:py-16">
+          <section className="panel mb-8 grid gap-4 p-4 md:grid-cols-3 md:p-6">
+            <div className="surface-soft flex items-start gap-3 p-4">
               <Layers className="mt-0.5 h-4 w-4 text-primary" />
               <div>
-                <p className="text-xs uppercase tracking-wide text-muted-foreground">Catalogue</p>
-                <p className="text-lg font-semibold">{sourceAnimations.length} animations</p>
+                <p className="text-xs uppercase tracking-[0.14em] text-muted-foreground">Catalog</p>
+                <p className="text-xl font-semibold">{sourceAnimations.length} animations</p>
               </div>
             </div>
-            <div className="flex items-start gap-3 rounded-xl border bg-background/60 p-4">
+            <div className="surface-soft flex items-start gap-3 p-4">
               <SlidersHorizontal className="mt-0.5 h-4 w-4 text-primary" />
               <div>
-                <p className="text-xs uppercase tracking-wide text-muted-foreground">Filtres actifs</p>
-                <p className="text-lg font-semibold">
-                  {selectedCategories.includes("All") ? "Tous" : selectedCategories.length}
-                </p>
+                <p className="text-xs uppercase tracking-[0.14em] text-muted-foreground">Active filters</p>
+                <p className="text-xl font-semibold">{selectedCategories.includes("All") ? "All" : selectedCategories.length}</p>
               </div>
             </div>
-            <div className="flex items-start gap-3 rounded-xl border bg-background/60 p-4">
+            <div className="surface-soft flex items-start gap-3 p-4">
               <Rocket className="mt-0.5 h-4 w-4 text-primary" />
               <div>
-                <p className="text-xs uppercase tracking-wide text-muted-foreground">Résultats</p>
-                <p className="text-lg font-semibold">{filteredAnimations.length} visibles</p>
+                <p className="text-xs uppercase tracking-[0.14em] text-muted-foreground">Results</p>
+                <p className="text-xl font-semibold">{filteredAnimations.length} visible</p>
               </div>
             </div>
           </section>
 
-          <section className="mb-8 rounded-2xl border bg-card/40 p-5">
-            <div className="mb-4 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+          <section className="panel mb-8 p-5">
+            <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
               <div>
-                <h2 className="text-xl font-semibold md:text-2xl">Explorer les animations</h2>
-                <p className="text-sm text-muted-foreground">Affinez par catégorie pour trouver plus vite.</p>
+                <h2 className="text-4xl font-semibold leading-none">Explore animations</h2>
+                <p className="text-sm text-muted-foreground">Refine by category to find the right one faster.</p>
               </div>
               <DisplayModeToggle value={displayMode} onChange={setDisplayMode} />
             </div>
@@ -113,34 +115,27 @@ const Index = () => {
           </section>
 
           {loading ? (
-            <div className="rounded-2xl border bg-card/30 py-20 text-center text-muted-foreground">
-              Chargement des animations…
-            </div>
+            <div className="panel py-20 text-center text-muted-foreground">Loading animations…</div>
           ) : (
             <div
               className={
                 displayMode === "list"
-                  ? "flex flex-col gap-4"
+                  ? "flex flex-col gap-6"
                   : displayMode === "grid6"
-                    ? "grid grid-cols-2 gap-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6"
-                    : "grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+                    ? "grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6"
+                    : "catalog-grid"
               }
             >
               {filteredAnimations.map((anim) => (
-                <ProductCard
-                  key={anim.id}
-                  snippet={anim}
-                  type="animation3d"
-                  displayMode={displayMode === "list" ? "list" : "grid"}
-                />
+                <ProductCard key={anim.id} snippet={anim} type="animation3d" displayMode={displayMode === "list" ? "list" : "grid"} />
               ))}
             </div>
           )}
 
           {!loading && filteredAnimations.length === 0 && (
-            <div className="mt-8 rounded-2xl border bg-card/30 py-14 text-center">
-              <h3 className="mb-2 text-lg font-semibold">Aucun résultat avec ces filtres</h3>
-              <p className="text-sm text-muted-foreground">Essayez une autre catégorie ou supprimez certains filtres.</p>
+            <div className="panel mt-8 py-14 text-center">
+              <h3 className="mb-2 text-2xl font-semibold">No results with these filters</h3>
+              <p className="text-sm text-muted-foreground">Try another category or clear some filters.</p>
             </div>
           )}
         </div>

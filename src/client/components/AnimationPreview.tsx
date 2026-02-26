@@ -22,8 +22,18 @@ export const AnimationPreview: React.FC<AnimationPreviewProps> = ({
       { threshold: 0.1 }
     );
     if (ref.current) observer.observe(ref.current);
+
+    // If the page is already fully loaded, show immediately
+    const onLoad = () => setVisible(true);
+    if (document.readyState === 'complete') {
+      setVisible(true);
+    } else {
+      window.addEventListener('load', onLoad);
+    }
+
     return () => {
       if (ref.current) observer.unobserve(ref.current);
+      window.removeEventListener('load', onLoad);
     };
   }, []);
 

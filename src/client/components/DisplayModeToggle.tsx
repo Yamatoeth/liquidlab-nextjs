@@ -8,11 +8,13 @@ type Props = {
 
 export default function DisplayModeToggle({ value, onChange }: Props) {
   return (
-    <div className="inline-flex items-center gap-2 rounded-lg bg-secondary/50 p-1">
+    <div className="inline-flex items-center gap-1 rounded-full border border-[rgba(216,178,110,0.3)] bg-[rgba(16,22,30,0.75)] p-1">
       <button
         aria-label="List view"
         onClick={() => onChange("list")}
-        className={`flex items-center gap-2 rounded-md px-3 py-1 text-sm ${value === "list" ? "bg-accent text-accent-foreground" : "text-muted-foreground"}`}
+        className={`flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-semibold ${
+          value === "list" ? "bg-[rgba(216,178,110,0.24)] text-primary" : "text-muted-foreground"
+        }`}
       >
         <List className="h-4 w-4" />
         List
@@ -21,7 +23,9 @@ export default function DisplayModeToggle({ value, onChange }: Props) {
       <button
         aria-label="Grid 3 columns"
         onClick={() => onChange("grid3")}
-        className={`flex items-center gap-2 rounded-md px-3 py-1 text-sm ${value === "grid3" ? "bg-accent text-accent-foreground" : "text-muted-foreground"}`}
+        className={`flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-semibold ${
+          value === "grid3" ? "bg-[rgba(216,178,110,0.24)] text-primary" : "text-muted-foreground"
+        }`}
       >
         <Grid className="h-4 w-4" />
         Grid 3
@@ -30,7 +34,9 @@ export default function DisplayModeToggle({ value, onChange }: Props) {
       <button
         aria-label="Grid 6 columns"
         onClick={() => onChange("grid6")}
-        className={`flex items-center gap-2 rounded-md px-3 py-1 text-sm ${value === "grid6" ? "bg-accent text-accent-foreground" : "text-muted-foreground"}`}
+        className={`flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-semibold ${
+          value === "grid6" ? "bg-[rgba(216,178,110,0.24)] text-primary" : "text-muted-foreground"
+        }`}
       >
         <Maximize className="h-4 w-4" />
         Grid 6

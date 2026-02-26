@@ -71,12 +71,12 @@ export const snippets: LiquidSnippet[] = [
 /* Style for profile circle */
 
 .profile-circle {
-    width: 45px; /* Taille du cercle */
+    width: 45px; /* Circle size */
     height: 45px;
     border-radius: 50%;
     background-size: cover;
     background-position: center;
-    border: 2px solid white; /* Bordure blanche pour séparer les cercles */
+    border: 2px solid white; /* White border to separate circles */
     position: relative;
     left: 0;
     z-index: 10;
@@ -614,7 +614,7 @@ document.addEventListener('submit', (e) => {
 </script>`,
   features: ["Smart recommendations", "Multi-add support", "Cart integration", "Event-driven"],
 },
-  // Ajoutez ces snippets à votre tableau existant dans snippets.ts
+  // Add these snippets to your existing snippets.ts array
 
 {
   id: "floating-cart-drawer",

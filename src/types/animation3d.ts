@@ -5,7 +5,7 @@ export interface Animation3D {
   renderer: 'threejs' | 'gsap' | 'css' | 'webgl' | 'custom';
   previewType: 'iframe' | 'video' | 'gif';
   previewSrc: string; // URL vers la preview (iframe src, video, gif)
-  htmlFile: string;   // Chemin vers le fichier HTML dans /public/animations/
+  htmlFile: string;   // Path to the HTML file in /public/animations/
   tags: string[];
   dependencies: string[]; // ['three', 'gsap', ...]
   difficulty: 'beginner' | 'intermediate' | 'advanced';

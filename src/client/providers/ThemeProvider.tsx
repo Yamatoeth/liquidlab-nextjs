@@ -34,7 +34,9 @@ export function ThemeProvider({
     try {
       const stored = localStorage.getItem(storageKey) as Theme | null;
       if (stored) setThemeState(stored);
-    } catch (e) {}
+    } catch (e) {
+      /* swallow storage errors */
+    }
   }, [storageKey]);
 
   useEffect(() => {
@@ -45,7 +47,7 @@ export function ThemeProvider({
 
     if (disableTransitionOnChange) {
       root.classList.add('notransition');
-      root.offsetHeight;
+      void root.offsetHeight;
       window.setTimeout(() => root.classList.remove('notransition'), 0);
     }
 
@@ -62,7 +64,9 @@ export function ThemeProvider({
   const setTheme = (newTheme: Theme) => {
     try {
       localStorage.setItem(storageKey, newTheme);
-    } catch (e) {}
+    } catch (e) {
+      /* ignore storage errors */
+    }
     setThemeState(newTheme);
   };
 
