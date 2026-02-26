@@ -16,7 +16,9 @@ export function useSession() {
       setLoading(true);
       try {
         const { data: urlData, error: urlErr } = await supabase.auth.getSessionFromUrl({ storeSession: true });
+        console.debug('useSession: getSessionFromUrl result', { urlErr, urlData });
         if (!urlErr && urlData?.session && mounted) {
+          console.debug('useSession: session from URL, setting session', urlData.session);
           setSession(urlData.session);
           setLoading(false);
           return;
@@ -30,6 +32,7 @@ export function useSession() {
     })();
 
     const { data: listener } = supabase.auth.onAuthStateChange((event, sessionData) => {
+      console.debug('useSession:onAuthStateChange', { event, sessionData });
       const s = sessionData?.session ?? null;
       if (mounted) setSession(s);
       if (event === 'SIGNED_IN' && s) {

@@ -13,4 +13,8 @@ export interface Animation3D {
   price: number;
   features: string[];
   images?: string[];
+  // Optional metadata to describe implementation and available formats
+  frameworks?: string[]; // e.g. ['three', 'framer-motion']
+  formats?: Array<'html' | 'react' | 'vanilla' | 'iframe'>; // available delivery formats
+  reactComponent?: string | null; // path to a React component (if provided)
 }

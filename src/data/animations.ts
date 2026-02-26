@@ -1,6 +1,6 @@
 import type { Animation3D } from '../types/animation3d';
 
-export const animations3D: Animation3D[] = [
+const rawAnimations: any[] = [
   {
     id: 'anim-01-aurora',
     title: 'Aurora',
@@ -2014,3 +2014,21 @@ export const animations3D: Animation3D[] = [
   },
 
 ];
+
+function inferFrameworks(renderer: string | undefined) {
+  if (!renderer) return [];
+  const r = renderer.toLowerCase();
+  if (r.includes('three') || r === 'threejs') return ['three'];
+  if (r.includes('gsap')) return ['gsap'];
+  if (r.includes('css')) return ['css'];
+  if (r.includes('webgl')) return [];
+  return [];
+}
+
+export const animations3D: Animation3D[] = rawAnimations.map((a) => ({
+  // keep original fields, and provide sensible defaults for new metadata
+  ...a,
+  frameworks: a.frameworks ?? inferFrameworks(a.renderer),
+  formats: a.formats ?? (a.htmlFile ? ['html'] : []),
+  reactComponent: a.reactComponent ?? null,
+})) as Animation3D[];

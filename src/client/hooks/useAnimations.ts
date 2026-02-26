@@ -33,9 +33,24 @@ export function useAnimations({ search = "", typeId = undefined }: { search?: st
     if (typeId) query = query.eq("animation_type_id", typeId);
     if (search) query = query.ilike("title", `%${search}%`);
     query
-      .then(({ data, error }) => {
-        if (error) setError(error);
-        else setAnimations(data || []);
+      .then((res: any) => {
+        const { data, error, status } = res || {};
+        if (error) {
+          // Handle unauthorized separately so UI can fallback to local data
+          if (status === 401 || (error && (error.status === 401 || /401/.test(String(error.message || error))))) {
+            setError(new Error("Unauthorized (401) when fetching remote animations"));
+            setAnimations([]);
+          } else {
+            setError(error instanceof Error ? error : new Error(String(error)));
+          }
+        } else {
+          setAnimations(data || []);
+        }
+        setLoading(false);
+      })
+      .catch((e) => {
+        setError(e instanceof Error ? e : new Error(String(e)));
+        setAnimations([]);
         setLoading(false);
       });
   }, [search, typeId]);

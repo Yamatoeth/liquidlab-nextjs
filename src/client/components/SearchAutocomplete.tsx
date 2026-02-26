@@ -1,8 +1,8 @@
 "use client";
 import { useEffect, useRef, useState } from 'react'
 import { Search } from 'lucide-react'
-import { suggestSnippets } from '@/lib/search'
-import type { Snippet } from '@/client/data/snippets'
+import { suggestSnippets } from '@/client/lib/search'
+import type { SnippetHit as Snippet } from '@/client/lib/search'
 import { useNavigate } from '@App/useRouter'
 import LoadingSpinner from './ui/LoadingSpinner'
 import ErrorAlert from './ui/ErrorAlert'

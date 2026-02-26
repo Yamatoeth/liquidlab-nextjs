@@ -14,6 +14,17 @@ const SignUp = () => {
     setLoading(true);
     try {
       await auth.signUp(email, password);
+      // Wait for session to be persisted before navigating
+      const start = Date.now();
+      const timeout = 3000;
+      while (Date.now() - start < timeout) {
+        const s = await auth.getSession?.();
+        if (s) {
+          navigate("/dashboard");
+          return;
+        }
+        await new Promise((r) => setTimeout(r, 150));
+      }
       navigate("/dashboard");
     } catch (err) {
       console.error(err);

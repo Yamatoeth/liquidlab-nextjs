@@ -7,6 +7,7 @@ export type Auth = {
   signOut: () => Promise<void>
   signInWithGoogle: () => Promise<any>
   sendMagicLink: (email: string) => Promise<any>
+  getSession?: () => Promise<any>
 }
 
 export const signUp = async (email: string, password: string) => {
@@ -36,6 +37,14 @@ export const signOut = async () => {
   }
 };
 
+export const getSession = async () => {
+  try {
+    return await supa.getSession();
+  } catch (e) {
+    return null;
+  }
+};
+
 export const signInWithGoogle = async () => {
   try {
     return await supa.signInWithGoogle();
@@ -60,6 +69,7 @@ export const auth: Auth = {
   signOut,
   signInWithGoogle,
   sendMagicLink,
+  getSession,
 }
 
 export default auth

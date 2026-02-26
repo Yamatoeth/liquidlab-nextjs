@@ -35,7 +35,7 @@ const ProductCard = ({ snippet, type, displayMode = "grid" }: ProductCardPropsWi
 
   return (
     <Link
-      to={type === "animation3d" ? `/animation/${snippet.id}` : `/snippet/${snippet.id}`}
+      to={type === "animation3d" ? `/animations/${snippet.id}` : `/snippet/${snippet.id}`}
       className={
         displayMode === "list"
           ? "group product-card panel flex w-full flex-row items-center gap-6 overflow-hidden p-4"
@@ -69,12 +69,27 @@ const ProductCard = ({ snippet, type, displayMode = "grid" }: ProductCardPropsWi
           {type === "liquid" && (
             <span className="premium-chip px-2.5 py-0.5 text-xs font-semibold text-primary">{snippet.category}</span>
           )}
-          {type === "animation3d" && snippet.tags?.[0] && (
-            <span className="premium-chip px-2.5 py-0.5 text-xs font-semibold text-primary">{snippet.tags[0]}</span>
+          {type === "animation3d" && (
+            <>
+              {Array.isArray((snippet as Animation3D).frameworks) && (snippet as Animation3D).frameworks.length > 0 ? (
+                (snippet as Animation3D).frameworks.map((f) => (
+                  <span key={f} className="premium-chip px-2.5 py-0.5 text-xs font-semibold text-primary">{f}</span>
+                ))
+              ) : snippet.tags?.[0] ? (
+                <span className="premium-chip px-2.5 py-0.5 text-xs font-semibold text-primary">{snippet.tags[0]}</span>
+              ) : null}
+            </>
           )}
         </div>
         <h3 className="mb-1 text-2xl font-semibold group-hover:text-primary">{snippet.title}</h3>
         <p className="mb-4 line-clamp-2 flex-1 text-sm text-muted-foreground md:text-base">{snippet.description}</p>
+        {type === "animation3d" && Array.isArray((snippet as Animation3D).formats) && (snippet as Animation3D).formats.length > 0 && (
+          <div className="mb-3 flex flex-wrap gap-2">
+            {(snippet as Animation3D).formats.map((fmt) => (
+              <span key={fmt} className="text-xs rounded-full border border-[rgba(216,178,110,0.12)] px-2 py-0.5 text-muted-foreground">{fmt}</span>
+            ))}
+          </div>
+        )}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <button

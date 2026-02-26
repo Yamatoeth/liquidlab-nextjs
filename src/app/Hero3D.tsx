@@ -1,67 +1,126 @@
-import React, { useRef } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { Text, OrbitControls, Environment } from '@react-three/drei';
-import * as THREE from 'three';
-
-function CandyText() {
-  return (
-    <Text
-      fontSize={2}
-      color="#ff69b4"
-      font="https://fonts.gstatic.com/s/roboto/v30/KFOmCnqEu92Fr1Mu4mxP.ttf"
-      position={[0, 0.5, 0]}
-      material={
-        new THREE.MeshPhysicalMaterial({
-          color: '#ff69b4',
-          roughness: 0.2,
-          clearcoat: 1,
-          clearcoatRoughness: 0.1,
-          reflectivity: 1,
-          transmission: 0.5,
-          thickness: 0.5,
-          metalness: 0.2,
-        })
-      }
-    >
-      LIQUID LAB
-    </Text>
-  );
-}
-
-function ArrowMesh() {
-  const ref = useRef<THREE.Group | null>(null);
-  useFrame(({ clock }) => {
-    if (!ref.current) return;
-    const t = clock.getElapsedTime();
-    ref.current.rotation.y = Math.sin(t * 0.8) * 0.25;
-    ref.current.position.y = Math.sin(t * 1.2) * 0.15 - 1.8;
-  });
-
-  return (
-    <group ref={ref} position={[0, -1.6, 0]}>
-      <mesh rotation={[Math.PI / 2, 0, 0]}>
-        <coneGeometry args={[0.42, 1.4, 32]} />
-        <meshPhysicalMaterial color="#ffb86b" metalness={0.45} clearcoat={0.9} />
-      </mesh>
-      <mesh position={[0, -0.9, 0]}>
-        <cylinderGeometry args={[0.07, 0.07, 1.4, 16]} />
-        <meshPhysicalMaterial color="#ff9b55" metalness={0.25} clearcoat={0.5} />
-      </mesh>
-    </group>
-  );
-}
+import { useEffect, useRef } from "react"
+import * as THREE from "three"
 
 export default function Hero3D() {
+
+  const mountRef = useRef(null)
+
+  useEffect(() => {
+
+    const scene = new THREE.Scene()
+
+    const camera = new THREE.PerspectiveCamera(
+      50,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      100
+    )
+
+    camera.position.set(0, 0, 6)
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
+    renderer.setSize(window.innerWidth, window.innerHeight)
+    renderer.setPixelRatio(window.devicePixelRatio)
+
+    mountRef.current.appendChild(renderer.domElement)
+
+    const ambient = new THREE.AmbientLight(0xffffff, 0.4)
+    scene.add(ambient)
+
+    const light1 = new THREE.DirectionalLight(0xffffff, 1.5)
+    light1.position.set(5, 5, 5)
+    scene.add(light1)
+
+    const light2 = new THREE.DirectionalLight(0xffffff, 1)
+    light2.position.set(-5, -3, 5)
+    scene.add(light2)
+
+    const sphereGeometry = new THREE.SphereGeometry(1.2, 64, 64)
+
+    const sphereMaterial = new THREE.MeshPhysicalMaterial({
+      transmission: 1,
+      roughness: 0,
+      metalness: 0,
+      thickness: 1.5,
+      transparent: true
+    })
+
+    const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial)
+    scene.add(sphere)
+
+    const ringMaterial = new THREE.MeshStandardMaterial({
+      metalness: 1,
+      roughness: 0.2
+    })
+
+    const rings = []
+
+    function createRing(radius, tube) {
+      const geo = new THREE.TorusGeometry(radius, tube, 32, 200)
+      const mesh = new THREE.Mesh(geo, ringMaterial)
+      scene.add(mesh)
+      rings.push(mesh)
+    }
+
+    createRing(2, 0.03)
+    createRing(2.4, 0.03)
+    createRing(2.8, 0.03)
+
+    rings[0].rotation.x = Math.PI / 4
+    rings[1].rotation.y = Math.PI / 3
+    rings[2].rotation.z = Math.PI / 6
+
+    let frameId
+
+    const animate = () => {
+
+      frameId = requestAnimationFrame(animate)
+
+      sphere.rotation.y += 0.001
+
+      rings[0].rotation.x += 0.002
+      rings[1].rotation.y += 0.0015
+      rings[2].rotation.z += 0.001
+
+      renderer.render(scene, camera)
+    }
+
+    animate()
+
+    const handleResize = () => {
+
+      camera.aspect = window.innerWidth / window.innerHeight
+      camera.updateProjectionMatrix()
+
+      renderer.setSize(window.innerWidth, window.innerHeight)
+    }
+
+    window.addEventListener("resize", handleResize)
+
+    return () => {
+
+  cancelAnimationFrame(frameId)
+  window.removeEventListener("resize", handleResize)
+
+  renderer.dispose()
+
+  const canvas = renderer.domElement
+  if (canvas && canvas.parentNode) {
+    canvas.parentNode.removeChild(canvas)
+  }
+
+  }
+
+  }, [])
+
   return (
-    <div style={{ width: '100vw', height: '75vh', background: 'linear-gradient(135deg, #07060a 0%, #0b0810 60%)' }}>
-      <Canvas camera={{ position: [0, 0, 10], fov: 50 }}>
-        <ambientLight intensity={0.8} />
-        <pointLight position={[10, 10, 10]} intensity={1} />
-        <CandyText />
-        <ArrowMesh />
-        <OrbitControls enableZoom={false} enablePan={false} />
-        <Environment preset="sunset" />
-      </Canvas>
-    </div>
-  );
+    <div
+      ref={mountRef}
+      style={{
+        width: "100%",
+        height: "100vh",
+        background: "black"
+      }}
+    />
+  )
 }
