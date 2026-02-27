@@ -4,6 +4,7 @@ import { useParams } from "@App/useRouter";
 import AnimationViewer from "../components/AnimationViewer";
 import AnimationViewer3D from "../components/AnimationViewer3D";
 import ParameterControls from "../components/ParameterControls";
+import CatalogPreview from "../components/CatalogPreview";
 import { applyDefaults } from "@/lib/params/validate";
 import { useAnimations } from "@/hooks/useAnimations";
 import { animations3D } from "@/data/animations";
@@ -12,9 +13,16 @@ import Footer from "@/components/Footer";
 import SyntaxHighlighter from "@/components/SyntaxHighlighter";
 import { toPreviewAnimationPath } from "@/lib/protectedAnimation";
 import { useSubscriptionAccess } from "@/hooks/useSubscriptionAccess";
+import 'react-horizontal-scrolling-menu/dist/styles.css';
 
 const tabList = ["Preview", "Code", "ReadMe", "React"] as const;
 type Tab = (typeof tabList)[number];
+
+const animationData = [
+  { id: 'anim-01', title: 'Animation 1', path: '/animations-source/001-aurora.html' },
+  { id: 'anim-02', title: 'Animation 2', path: '/animations/anim-02' },
+  // Ajoutez d'autres animations ici
+];
 
 const AnimationDetail: React.FC = () => {
   const { id } = useParams();
@@ -73,7 +81,7 @@ const AnimationDetail: React.FC = () => {
             <button
               onClick={() => window.history.back()}
               aria-label="Back"
-              className="inline-flex items-center gap-2 rounded px-3 py-1.5 text-sm font-semibold transition-all border border-[rgba(216,178,110,0.12)] bg-[rgba(216,178,110,0.02)] hover:bg-[rgba(216,178,110,0.06)]"
+              className="fixed left-4 top-6 z-50 inline-flex items-center gap-2 rounded px-3 py-1.5 text-sm font-semibold transition-all border border-[rgba(216,178,110,0.12)] bg-[rgba(216,178,110,0.02)] hover:bg-[rgba(216,178,110,0.06)]"
             >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4 w-4">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 18l-6-6 6-6" />
@@ -82,12 +90,7 @@ const AnimationDetail: React.FC = () => {
             </button>
             <h1 className="text-5xl font-semibold">{animation.title}</h1>
           </div>
-          {loading && (
-            <div className="mb-4 text-sm text-muted-foreground">Loading remote animations…</div>
-          )}
-          {error && (
-            <div className="mb-4 rounded-md border border-yellow-600/20 bg-yellow-900/5 p-3 text-sm text-yellow-300">Remote animations unavailable — using local data.</div>
-          )}
+         
           <div className="mb-6 flex flex-wrap gap-2">
         {tabList.map((t) => (
           <button
@@ -103,9 +106,10 @@ const AnimationDetail: React.FC = () => {
           </button>
         ))}
       </div>
-      <div className="panel p-6">
+          <div className="panel p-6">
         {tab === "Preview" && (
-          <div className="grid grid-cols-10 gap-6">
+          <div>
+            <div className="grid grid-cols-10 gap-6">
             <div className="col-span-7">
               {animation.renderer === "threejs" ? (
                 <AnimationViewer3D
@@ -120,12 +124,18 @@ const AnimationDetail: React.FC = () => {
                   title={animation.title}
                        className="w-full h-[68vh]"
                   params={currentParams}
+                  animationId={animation.id}
                 />
               )}
             </div>
             <aside className="col-span-3 space-y-6">
-              <ParameterControls schema={animation.paramsSchema || []} params={currentParams} onChange={(p) => setCurrentParams(p)} />
+              <ParameterControls schema={animation.paramsSchema || []} params={currentParams} onChange={(p) => setCurrentParams(p)} targetId={animation.id} />
             </aside>
+            </div>
+
+            <div className="mt-6">
+              <CatalogPreview />
+            </div>
           </div>
         )}
         {tab === "ReadMe" && (

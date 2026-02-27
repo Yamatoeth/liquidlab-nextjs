@@ -9,9 +9,10 @@ interface AnimationViewerProps {
   title: string;
   className?: string;
   params?: Params;
+  animationId?: string;
 }
 
-const AnimationViewer: React.FC<AnimationViewerProps> = ({ previewType, previewSrc, title, className = "", params = {} }) => {
+const AnimationViewer: React.FC<AnimationViewerProps> = ({ previewType, previewSrc, title, className = "", params = {}, animationId }) => {
   const ref = useRef<HTMLDivElement | null>(null);
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const [nearViewport, setNearViewport] = useState(false);
@@ -28,10 +29,11 @@ const AnimationViewer: React.FC<AnimationViewerProps> = ({ previewType, previewS
   }, [iframeSrc]);
 
   const postToIframe = useCallback((message: Record<string, unknown>) => {
+    if (animationId) (message as any).animationId = animationId;
     const target = iframeRef.current;
     if (!target) return;
     target.contentWindow?.postMessage(message, "*");
-  }, []);
+  }, [animationId]);
 
   useEffect(() => {
     const prewarmObserver = new IntersectionObserver(

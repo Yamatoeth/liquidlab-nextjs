@@ -6,9 +6,10 @@ type Props = {
   schema: ParamsSchema;
   params?: Params;
   onChange?: (params: Params) => void;
+  targetId?: string;
 };
 
-const ParameterControls: React.FC<Props> = ({ schema, params = {}, onChange }) => {
+const ParameterControls: React.FC<Props> = ({ schema, params = {}, onChange, targetId }) => {
   const [local, setLocal] = useState<Params>(() => {
     const out: Params = {};
     for (const e of schema) out[e.key] = params[e.key] ?? e.default ?? (e.type === "boolean" ? false : "");
@@ -91,7 +92,12 @@ const ParameterControls: React.FC<Props> = ({ schema, params = {}, onChange }) =
       }
       try {
         // broadcast params so embedded animations can react immediately
-        window.postMessage({ type: "params:update", params: local }, "*");
+        const message: Record<string, unknown> = { type: "params:update", params: local };
+        // include explicit targetId prop when provided by parent
+        if (targetId) message.animationId = targetId;
+        // fallback: some callers may attach a __animationId on params
+        if (!message.animationId && (params as any).__animationId) message.animationId = (params as any).__animationId;
+        window.postMessage(message, "*");
       } catch (e) {
         if (process.env.NODE_ENV !== "production") console.warn("ParameterControls: postMessage failed", e);
       }
@@ -177,22 +183,65 @@ const ParameterControls: React.FC<Props> = ({ schema, params = {}, onChange }) =
               </div>
             )}
 
-            {s.type === "select" && (
-              <select
-                value={String(local[s.key] ?? "")}
-                onChange={(e) => {
-                  const v = e.target.value;
-                  const next = { ...local, [s.key]: v };
-                  setLocal(next);
-                }}
-              >
-                {s.options?.map((o) => (
-                  <option key={String(o)} value={String(o)}>
-                    {o}
-                  </option>
-                ))}
-              </select>
-            )}
+            {s.type === "select" && (() => {
+              // Normalize options into { value, label }
+              const normalized = (s.options || []).map((o: any, i: number) => {
+                if (o && typeof o === "object") return { value: String(o.value), label: String(o.label ?? o.value) };
+                return { value: String(o), label: String(o) };
+              });
+
+              // Special UI for palette selection: show swatch preview buttons
+              if (s.key === "palette") {
+                const paletteMap: Record<string, string[]> = {
+                  neon: ['#7df9ff','#ff64ff','#ffdc32','#50ff78'],
+                  cool: ['#7df9ff','#66d9ff','#3cc8ff','#7fffd4'],
+                  warm: ['#ff7a7a','#ffb86b','#ffd36b','#fff08a'],
+                  monochrome: ['#ffffff','#dddddd','#aaaaaa','#777777'],
+                };
+
+                return (
+                  <div className="flex gap-2">
+                    {normalized.map((opt, i) => {
+                      const cols = paletteMap[opt.value] || paletteMap[opt.label.toLowerCase()] || ['#000','#333','#666','#999'];
+                      const selected = String(local[s.key]) === opt.value;
+                      return (
+                        <button
+                          key={`${s.key}-pal-${opt.value}-${i}`}
+                          type="button"
+                          aria-pressed={selected}
+                          onClick={() => setLocal({ ...local, [s.key]: opt.value })}
+                          className={`flex items-center gap-2 px-2 py-1 rounded border ${selected ? 'ring-2 ring-offset-1 ring-primary' : 'border-[rgba(255,255,255,0.04)]'}`}>
+                          <div className="flex -space-x-1">
+                            {cols.slice(0,4).map((c, j) => (
+                              <span key={j} className="w-5 h-5 rounded-sm border" style={{ background: c, display: 'inline-block', marginLeft: j === 0 ? 0 : -6 }} />
+                            ))}
+                          </div>
+                          <div className="text-sm ml-2">{opt.label}</div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                );
+              }
+
+              // Fallback: simple select for other keys
+              return (
+                <select
+                  value={String(local[s.key] ?? "")}
+                  onChange={(e) => {
+                    const v = e.target.value;
+                    const next = { ...local, [s.key]: v };
+                    setLocal(next);
+                  }}
+                >
+                  {normalized.map((opt, i) => (
+                    <option key={`${s.key}-opt-${opt.value}-${i}`} value={opt.value}>
+                      {opt.label}
+                    </option>
+                  ))}
+                </select>
+              );
+            })()}
 
             {s.type === "text" && (
               <input
