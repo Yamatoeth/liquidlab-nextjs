@@ -28,9 +28,18 @@ export async function getSession() {
 
 export default { signUp, signIn, signOut, getSession };
 
-export async function signInWithGoogle() {
-  const { data, error } = await supabase.auth.signInWithOAuth({ provider: 'google' });
-  console.debug('auth.supabase.signInWithGoogle', { data, error });
+export async function signInWithGoogle(next: string = "/dashboard") {
+  const origin = typeof window !== "undefined" ? window.location.origin : process.env.NEXT_PUBLIC_SITE_URL;
+  const redirectTo = origin
+    ? `${origin}/auth/callback?next=${encodeURIComponent(next)}`
+    : undefined;
+
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: "google",
+    options: redirectTo ? { redirectTo } : undefined,
+  });
+
+  console.debug("auth.supabase.signInWithGoogle", { data, error, redirectTo });
   if (error) throw error;
   return data;
 }

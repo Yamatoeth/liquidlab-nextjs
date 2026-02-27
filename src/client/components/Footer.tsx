@@ -9,17 +9,26 @@ const Footer = () => {
         <div className="panel p-8 md:p-10">
           <div className="grid gap-8 md:grid-cols-4">
             <div className="space-y-4">
-              <Link to="/" className="flex items-center gap-2">
-                <Code2 className="h-5 w-5 text-primary" />
-                <span className="font-display text-xl font-semibold">LiquidMarketplace</span>
-              </Link>
+                <Link to="/" className="flex items-center gap-2">
+                  <Code2 className="h-6 w-6 text-primary" strokeWidth={1.6} />
+                  <span
+                    className="font-display text-2xl bg-clip-text text-transparent bg-gradient-to-r from-[#f8e6b3] via-[#d8b26e] to-[#b8860b]"
+                    style={{
+                      fontFamily: "'Baloo 2', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial",
+                      fontWeight: 800,
+                      letterSpacing: "0.4px",
+                    }}
+                  >
+                    LiquidLab
+                  </span>
+                </Link>
               <p className="text-sm text-muted-foreground">
                 A premium library of ready-to-integrate 3D animations and visual interactions.
               </p>
             </div>
 
             <div className="space-y-3">
-              <h4 className="font-display text-lg font-semibold">Product</h4>
+              <h4 className="font-display text-lg font-semibold">Products</h4>
               <div className="flex flex-col gap-2">
                 <Link to="/" className="text-sm text-muted-foreground hover:text-foreground">
                   Catalog
@@ -28,7 +37,7 @@ const Footer = () => {
                   Subscriptions
                 </Link>
                 <Link to="/dashboard" className="text-sm text-muted-foreground hover:text-foreground">
-                  My library
+                  Dashboard
                 </Link>
               </div>
             </div>
@@ -66,7 +75,7 @@ const Footer = () => {
 
           <div className="mt-10 border-t border-[rgba(216,178,110,0.2)] pt-6">
             <p className="text-center text-xs tracking-wide text-muted-foreground">
-              © {new Date().getFullYear()} LiquidMarketplace. All rights reserved.
+              © {new Date().getFullYear()} LiquidLab. All rights reserved.
             </p>
           </div>
         </div>

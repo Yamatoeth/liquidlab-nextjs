@@ -1,21 +1,6 @@
-export type ParamType = "number" | "color" | "select" | "boolean";
+import type { ParamDescriptor } from "@/types/animation3d";
 
-export type ParamOption = {
-  value: string | number | boolean;
-  label: string;
-};
-
-export type ParamSchemaEntry = {
-  key: string;
-  type: ParamType;
-  label?: string;
-  default?: any;
-  min?: number;
-  max?: number;
-  step?: number;
-  options?: ParamOption[];
-};
-
+export type ParamType = ParamDescriptor["type"];
+export type ParamSchemaEntry = ParamDescriptor;
 export type ParamsSchema = ParamSchemaEntry[];
-
-export type Params = Record<string, any>;
+export type Params = Record<string, string | number | boolean>;

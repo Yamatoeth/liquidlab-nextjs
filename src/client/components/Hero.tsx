@@ -13,10 +13,10 @@ interface HeroProps {
 
 const Hero = ({ searchQuery, onSearchChange, onSelectSuggestion }: HeroProps) => {
   return (
-    <section className="hero-section relative overflow-hidden border-b border-[rgba(216,178,110,0.22)]">
+    <section className="hero-section relative overflow-hidden border-b border-[rgba(216,178,110,0.22)] min-h-screen">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(216,178,110,0.2),transparent_45%),radial-gradient(circle_at_85%_10%,rgba(122,150,194,0.2),transparent_38%)]" />
 
-      <div className="container relative z-10 py-24 md:py-32">
+      <div className="container relative z-10 min-h-screen flex items-center py-24 md:py-32">
         <div className="mx-auto max-w-5xl text-center">
           <p className="premium-chip mb-5 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.22em]">
             Premium Marketplace
@@ -60,7 +60,7 @@ const Hero = ({ searchQuery, onSearchChange, onSelectSuggestion }: HeroProps) =>
       </div>
 
       <div className="pointer-events-none absolute inset-0 z-0 opacity-60 hero-canvas-wrapper">
-        <div style={{ width: "100vw", height: "100%", position: "absolute", top: 0, left: 0 }}>
+        <div style={{ width: "100vw", height: "100vh", position: "absolute", top: 0, left: 0 }}>
           <Hero3D />
         </div>
       </div>

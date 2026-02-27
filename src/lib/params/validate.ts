@@ -25,9 +25,11 @@ function defaultForType(entry: ParamSchemaEntry) {
     case "color":
       return entry.default ?? "#ffffff";
     case "select":
-      return entry.default ?? (entry.options && entry.options[0] ? entry.options[0].value : null);
+      return entry.default ?? (entry.options && entry.options[0] ? entry.options[0] : null);
     case "boolean":
       return entry.default ?? false;
+    case "text":
+      return entry.default ?? "";
     default:
       return null;
   }

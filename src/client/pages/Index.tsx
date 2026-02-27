@@ -12,6 +12,7 @@ import Footer from "@/components/Footer";
 import { Layers, Rocket, SlidersHorizontal } from "lucide-react";
 import { useAnimations } from "@/hooks/useAnimations";
 import type { Animation3D } from "@/types/animation3d";
+import { toPreviewAnimationPath } from "@/lib/protectedAnimation";
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -20,35 +21,16 @@ const Index = () => {
   const { animations, loading, error } = useAnimations({ search: searchQuery });
   const [displayMode, setDisplayMode] = useState<"list" | "grid3" | "grid6">("grid3");
 
-  const mapSupabaseToAnimation3D = (anim): Animation3D => ({
-    id: anim.id,
-    title: anim.title,
-    description: anim.description || anim.short_description || "",
-    renderer: (() => {
-      if (Array.isArray(anim.tags)) {
-        if (anim.tags.includes("three") || anim.tags.includes("threejs")) return "threejs";
-        if (anim.tags.includes("gsap")) return "gsap";
-        if (anim.tags.includes("css")) return "css";
-        if (anim.tags.includes("webgl")) return "webgl";
-      }
-      return "custom";
-    })(),
-    previewType: anim.preview_video_url ? "video" : anim.preview_image_url ? "gif" : "iframe",
-    previewSrc: anim.preview_video_url || anim.preview_image_url || `/animations/${anim.slug || anim.id}.html`,
-    htmlFile: `/animations/${anim.slug || anim.id}.html`,
-    tags: anim.tags || [],
-    dependencies: anim.tags || [],
-    difficulty:
-      anim.complexity === "complex" ? "advanced" : anim.complexity === "moderate" ? "intermediate" : "beginner",
-    performanceScore: anim.performance_tier === "heavy" ? 5 : anim.performance_tier === "standard" ? 3 : 1,
-    price: 0,
-    features: [],
-    images: anim.screenshots || [],
-  });
-
   const sourceAnimations = useMemo(() => {
     if (!loading && !error && Array.isArray(animations) && animations.length > 0) {
-      return animations.map((anim) => mapSupabaseToAnimation3D(anim));
+      return animations.map((anim) => ({
+        ...anim,
+        previewSrc:
+          anim.previewSrc ||
+          anim.previewVideoUrl ||
+          anim.previewImageUrl ||
+          toPreviewAnimationPath(`/animations-source/${anim.slug || anim.id}.html`),
+      })) as Animation3D[];
     }
     return animations3D;
   }, [animations, loading, error]);
@@ -57,7 +39,7 @@ const Index = () => {
     if (selectedCategories.includes("All")) return sourceAnimations;
 
     return sourceAnimations.filter((animation) => {
-      const haystack = `${animation.title} ${animation.description} ${animation.tags.join(" ")}`.toLowerCase();
+      const haystack = `${animation.title} ${animation.description || ""} ${animation.tags.join(" ")}`.toLowerCase();
       return selectedCategories.some((category) => haystack.includes(category.toLowerCase()));
     });
   }, [sourceAnimations, selectedCategories]);
@@ -67,14 +49,7 @@ const Index = () => {
       <Navbar />
       <Hero searchQuery={searchQuery} onSearchChange={setSearchQuery} onSelectSuggestion={(v) => setSearchQuery(v)} />
 
-      <div className="mt-8">
-        {typeof window !== "undefined"
-          ? (() => {
-              const Testimonials = dynamic(() => import("@/components/Testimonials"), { ssr: false });
-              return <Testimonials />;
-            })()
-          : null}
-      </div>
+      {/* Testimonials removed per request */}
       <Onboarding />
 
       <main className="flex-1">

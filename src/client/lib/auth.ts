@@ -5,7 +5,7 @@ export type Auth = {
   signIn: (email: string, password: string) => Promise<any>
   signUp: (email: string, password: string) => Promise<any>
   signOut: () => Promise<void>
-  signInWithGoogle: () => Promise<any>
+  signInWithGoogle: (next?: string) => Promise<any>
   sendMagicLink: (email: string) => Promise<any>
   getSession?: () => Promise<any>
 }
@@ -45,12 +45,12 @@ export const getSession = async () => {
   }
 };
 
-export const signInWithGoogle = async () => {
+export const signInWithGoogle = async (next?: string) => {
   try {
-    return await supa.signInWithGoogle();
+    return await supa.signInWithGoogle(next);
   } catch (e) {
-    await new Promise((r) => setTimeout(r, 200));
-    return null;
+    console.error("auth.signInWithGoogle failed", e);
+    throw e;
   }
 };
 

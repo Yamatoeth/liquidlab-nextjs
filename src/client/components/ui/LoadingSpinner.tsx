@@ -3,13 +3,14 @@ import React from 'react'
 
 type LoadingSpinnerProps = {
   size?: number
+  className?: string
 }
 
-export default function LoadingSpinner({ size = 20 }: LoadingSpinnerProps) {
+export default function LoadingSpinner({ size = 20, className }: LoadingSpinnerProps) {
   const s = size
   return (
     <svg
-      className="animate-spin text-muted-foreground"
+      className={`animate-spin text-muted-foreground ${className ?? ""}`}
       width={s}
       height={s}
       viewBox="0 0 24 24"

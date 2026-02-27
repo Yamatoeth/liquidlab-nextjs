@@ -2,9 +2,10 @@
 import React, { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { Params } from "@/lib/params/types";
+import type { Animation } from "@/types/animation3d";
 
 type Props = {
-  animation?: any;
+  animation?: Animation;
   params?: Params;
   className?: string;
   style?: React.CSSProperties;
@@ -36,7 +37,8 @@ const AnimationViewer3D: React.FC<Props> = ({ animation, params = {}, className,
     cameraRef.current = camera;
 
     const geometry = new THREE.BoxGeometry(1, 1, 1);
-    const material = new THREE.MeshStandardMaterial({ color: params.color ?? 0x00bcd4 });
+    const materialColor = typeof params.color === "string" || typeof params.color === "number" ? params.color : 0x00bcd4;
+    const material = new THREE.MeshStandardMaterial({ color: materialColor });
     const mesh = new THREE.Mesh(geometry, material);
     scene.add(mesh);
 

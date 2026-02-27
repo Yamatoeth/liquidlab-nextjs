@@ -76,6 +76,9 @@ const ParameterControls: React.FC<Props> = ({ schema, params = {}, onChange }) =
     onChangeRef.current = onChange;
   }, [onChange]);
 
+  // refs for hidden color inputs keyed by param key
+  const colorInputsRef = useRef<Record<string, HTMLInputElement | null>>({});
+
   // notify parent and broadcast to iframe/children on every local change
   useEffect(() => {
     // avoid echoing identical values back to the parent which can
@@ -114,6 +117,9 @@ const ParameterControls: React.FC<Props> = ({ schema, params = {}, onChange }) =
           max: s.max ?? (fallback[s.key]?.max ?? 1),
           step: s.step ?? (fallback[s.key]?.step ?? 0.01),
         };
+        const currentValue = local[s.key];
+        const numberValue = typeof currentValue === "number" ? currentValue : Number(range.min);
+        const colorValue = typeof currentValue === "string" ? currentValue : "#ffffff";
 
         return (
           <div key={s.key} className="flex flex-col">
@@ -127,7 +133,7 @@ const ParameterControls: React.FC<Props> = ({ schema, params = {}, onChange }) =
                   min={range.min}
                   max={range.max}
                   step={range.step}
-                  value={typeof local[s.key] === "number" ? local[s.key] : Number(range.min)}
+                  value={numberValue}
                   onChange={(e) => {
                     const v = Number((e.target as HTMLInputElement).value);
                     const next = { ...local, [s.key]: v };
@@ -140,20 +146,40 @@ const ParameterControls: React.FC<Props> = ({ schema, params = {}, onChange }) =
             )}
 
             {s.type === "color" && (
-              <input
-                type="color"
-                value={local[s.key] ?? "#ffffff"}
-                onChange={(e) => {
-                  const v = (e.target as HTMLInputElement).value;
-                  const next = { ...local, [s.key]: v };
-                  setLocal(next);
-                }}
-              />
+              <div className="flex items-center gap-3">
+                <input
+                  aria-hidden
+                  style={{ position: "absolute", left: -9999 }}
+                  type="color"
+                  value={colorValue}
+                  onChange={(e) => {
+                    const v = (e.target as HTMLInputElement).value;
+                    const next = { ...local, [s.key]: v };
+                    setLocal(next);
+                  }}
+                  ref={(el) => {
+                    // store ref for the key so the swatch can trigger it
+                    (colorInputsRef.current as any)[s.key] = el;
+                  }}
+                />
+                <button
+                  type="button"
+                  onClick={() => (colorInputsRef.current as any)[s.key]?.click?.()}
+                  aria-label={s.label || s.key}
+                  className="inline-flex items-center gap-3"
+                >
+                  <div
+                    className="w-8 h-8 rounded-md border border-[rgba(255,255,255,0.06)] shadow-inner"
+                    style={{ background: colorValue }}
+                  />
+                </button>
+                <div className="text-sm font-mono">{String(local[s.key] ?? "#ffffff").toUpperCase()}</div>
+              </div>
             )}
 
             {s.type === "select" && (
               <select
-                value={local[s.key]}
+                value={String(local[s.key] ?? "")}
                 onChange={(e) => {
                   const v = e.target.value;
                   const next = { ...local, [s.key]: v };
@@ -161,11 +187,24 @@ const ParameterControls: React.FC<Props> = ({ schema, params = {}, onChange }) =
                 }}
               >
                 {s.options?.map((o) => (
-                  <option key={String(o.value)} value={String(o.value)}>
-                    {o.label}
+                  <option key={String(o)} value={String(o)}>
+                    {o}
                   </option>
                 ))}
               </select>
+            )}
+
+            {s.type === "text" && (
+              <input
+                type="text"
+                value={String(local[s.key] ?? "")}
+                onChange={(e) => {
+                  const v = e.target.value;
+                  const next = { ...local, [s.key]: v };
+                  setLocal(next);
+                }}
+                className="rounded border border-[rgba(216,178,110,0.2)] bg-[rgba(16,22,30,0.75)] px-3 py-2 text-sm"
+              />
             )}
 
             {s.type === "boolean" && (

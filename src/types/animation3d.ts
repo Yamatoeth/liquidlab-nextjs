@@ -1,20 +1,50 @@
-export interface Animation3D {
-  id: string;
-  title: string;
-  description: string;
-  renderer: 'threejs' | 'gsap' | 'css' | 'webgl' | 'custom';
-  previewType: 'iframe' | 'video' | 'gif';
-  previewSrc: string; // URL vers la preview (iframe src, video, gif)
-  htmlFile: string;   // Path to the HTML file in /public/animations/
-  tags: string[];
-  dependencies: string[]; // ['three', 'gsap', ...]
-  difficulty: 'beginner' | 'intermediate' | 'advanced';
-  performanceScore: number; // 1-5
-  price: number;
-  features: string[];
-  images?: string[];
-  // Optional metadata to describe implementation and available formats
-  frameworks?: string[]; // e.g. ['three', 'framer-motion']
-  formats?: Array<'html' | 'react' | 'vanilla' | 'iframe'>; // available delivery formats
-  reactComponent?: string | null; // path to a React component (if provided)
+export interface ParamDescriptor {
+  key: string;
+  type: "number" | "color" | "boolean" | "select" | "text";
+  label: string;
+  default: number | string | boolean;
+  min?: number;
+  max?: number;
+  step?: number;
+  options?: string[];
 }
+
+export interface Animation {
+  id: string;
+  slug: string;
+  title: string;
+  description?: string;
+  shortDescription?: string;
+
+  renderer: "threejs" | "gsap" | "css" | "webgl" | "custom";
+  previewType: "iframe" | "video" | "gif";
+  previewSrc?: string;
+  htmlFile?: string;
+
+  animationTypeId?: string;
+  tags: string[];
+  performanceTier?: "lightweight" | "moderate" | "heavy";
+  colorPalette: string[];
+  compatibleBackgrounds: Array<"dark" | "light" | "transparent">;
+
+  dependencies: string[];
+  paramsSchema: ParamDescriptor[];
+  durationMs?: number;
+
+  price: number;
+  isFree: boolean;
+  features: string[];
+
+  previewImageUrl?: string;
+  previewVideoUrl?: string;
+  screenshots: string[];
+
+  isPublished: boolean;
+  isFeatured: boolean;
+  sortOrder: number;
+
+  createdAt: string;
+  updatedAt: string;
+}
+
+export type Animation3D = Animation;

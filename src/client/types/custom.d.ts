@@ -14,14 +14,24 @@ declare module "@/lib/auth" {
   export function signUp(email: string, password: string): Promise<any>;
   export function signIn(email: string, password: string): Promise<any>;
   export function signOut(): Promise<any>;
-  export function signInWithGoogle(): Promise<any>;
+  export function signInWithGoogle(next?: string): Promise<any>;
   export function sendMagicLink(email: string): Promise<any>;
+  export function getSession(): Promise<any>;
   const _default: {
     signUp: typeof signUp;
     signIn: typeof signIn;
     signOut: typeof signOut;
     signInWithGoogle: typeof signInWithGoogle;
     sendMagicLink: typeof sendMagicLink;
+    getSession: typeof getSession;
   };
   export default _default;
+}
+
+declare module "react-day-picker" {
+  export const DayPicker: any;
+}
+
+declare module "vaul" {
+  export const Drawer: any;
 }

@@ -1,6 +1,7 @@
 "use client";
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useCallback } from "react";
 import { Params } from "@/lib/params/types";
+import { toPreviewAnimationPath } from "@/lib/protectedAnimation";
 
 interface AnimationViewerProps {
   previewType: "iframe" | "video" | "gif" | "image";
@@ -13,60 +14,108 @@ interface AnimationViewerProps {
 const AnimationViewer: React.FC<AnimationViewerProps> = ({ previewType, previewSrc, title, className = "", params = {} }) => {
   const ref = useRef<HTMLDivElement | null>(null);
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
-  const [visible, setVisible] = useState(false);
+  const [nearViewport, setNearViewport] = useState(false);
+  const [inViewport, setInViewport] = useState(false);
+  const [iframeLoaded, setIframeLoaded] = useState(false);
+  const iframeSrc =
+    previewType === "iframe" &&
+    (previewSrc.startsWith("/animations/") || previewSrc.startsWith("/animations-source/"))
+    ? toPreviewAnimationPath(previewSrc)
+    : previewSrc;
 
   useEffect(() => {
-    const obs = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting), { threshold: 0.1 });
-    if (ref.current) obs.observe(ref.current);
+    setIframeLoaded(false);
+  }, [iframeSrc]);
 
-    const onLoad = () => setVisible(true);
-    if (document.readyState === 'complete') {
-      setVisible(true);
-    } else {
-      window.addEventListener('load', onLoad);
+  const postToIframe = useCallback((message: Record<string, unknown>) => {
+    const target = iframeRef.current;
+    if (!target) return;
+    target.contentWindow?.postMessage(message, "*");
+  }, []);
+
+  useEffect(() => {
+    const prewarmObserver = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setNearViewport(true);
+        if (previewType === "iframe" && iframeSrc.startsWith("/")) {
+          const preloadHref = new URL(iframeSrc, window.location.origin).href;
+          if (!document.head.querySelector(`link[data-iframe-prefetch="${preloadHref}"]`)) {
+            const link = document.createElement("link");
+            link.rel = "prefetch";
+            link.as = "document";
+            link.href = preloadHref;
+            link.setAttribute("data-iframe-prefetch", preloadHref);
+            document.head.appendChild(link);
+          }
+        }
+      },
+      { rootMargin: "600px 0px", threshold: 0.01 }
+    );
+
+    const visibilityObserver = new IntersectionObserver(([entry]) => setInViewport(entry.isIntersecting), { threshold: 0.15 });
+
+    if (ref.current) {
+      prewarmObserver.observe(ref.current);
+      visibilityObserver.observe(ref.current);
     }
 
     return () => {
-      obs.disconnect();
-      window.removeEventListener('load', onLoad);
+      prewarmObserver.disconnect();
+      visibilityObserver.disconnect();
     };
-  }, []);
+  }, [previewType, iframeSrc]);
 
-  // Send params to iframe when visible and params change
   useEffect(() => {
-    if (!visible) return;
+    if (!nearViewport) return;
     if (!iframeRef.current) return;
-    try {
-      iframeRef.current.contentWindow?.postMessage({ type: 'params:update', params }, '*');
-    } catch (e) {
-      // ignore
-    }
-  }, [visible, params]);
+    postToIframe({ type: "params:update", params });
+  }, [nearViewport, params, postToIframe]);
+
+  useEffect(() => {
+    if (previewType !== "iframe" || !nearViewport) return;
+    const onVisibility = () => {
+      const action = document.hidden || !inViewport ? "pause" : "resume";
+      postToIframe({ type: "animation:lifecycle", action });
+      postToIframe({ type: "animation:visibility", state: action });
+    };
+    onVisibility();
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => document.removeEventListener("visibilitychange", onVisibility);
+  }, [previewType, nearViewport, inViewport, postToIframe]);
 
   return (
     <div ref={ref} className={`${className} w-full h-full rounded-xl overflow-hidden bg-black`}>
-      {visible && previewType === "iframe" && (
+      {nearViewport && previewType === "iframe" && (
         <iframe
           ref={iframeRef}
-          src={previewSrc}
+          src={iframeSrc}
           title={title}
           loading="lazy"
-          className="w-full h-full"
+          className={`h-full w-full ${iframeLoaded ? "opacity-100" : "opacity-0"} transition-opacity duration-300`}
+          sandbox="allow-scripts"
+          referrerPolicy="origin"
+          {...(!inViewport ? ({ importance: "low" } as Record<string, string>) : {})}
           onLoad={() => {
-            try {
-              iframeRef.current?.contentWindow?.postMessage({ type: 'params:update', params }, '*');
-            } catch (e) {}
+            setIframeLoaded(true);
+            postToIframe({ type: "params:update", params });
+            postToIframe({ type: "animation:lifecycle", action: inViewport ? "resume" : "pause" });
+            postToIframe({ type: "animation:visibility", state: inViewport ? "resume" : "pause" });
           }}
           allow="autoplay; fullscreen"
         />
       )}
-      {visible && previewType === "video" && (
+      {nearViewport && previewType === "video" && (
         <video src={previewSrc} autoPlay loop muted playsInline className="w-full h-full object-cover" />
       )}
-      {visible && (previewType === "gif" || previewType === "image") && (
+      {nearViewport && (previewType === "gif" || previewType === "image") && (
         <img src={previewSrc} alt={title} className="w-full h-full object-cover" />
       )}
-      {!visible && <div className="flex h-full w-full items-center justify-center text-sm text-muted-foreground">Loading preview…</div>}
+      {(!nearViewport || (previewType === "iframe" && !iframeLoaded)) && (
+        <div className="flex h-full w-full items-center justify-center bg-[url('/placeholder.svg')] bg-cover bg-center text-sm text-muted-foreground">
+          Loading preview...
+        </div>
+      )}
     </div>
   );
 };

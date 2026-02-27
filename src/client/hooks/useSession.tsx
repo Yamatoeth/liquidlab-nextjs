@@ -14,26 +14,18 @@ export function useSession() {
     let mounted = true;
     (async () => {
       setLoading(true);
-      try {
-        const { data: urlData, error: urlErr } = await supabase.auth.getSessionFromUrl({ storeSession: true });
-        console.debug('useSession: getSessionFromUrl result', { urlErr, urlData });
-        if (!urlErr && urlData?.session && mounted) {
-          console.debug('useSession: session from URL, setting session', urlData.session);
-          setSession(urlData.session);
-          setLoading(false);
-          return;
-        }
-      } catch (e) {
-        console.debug('getSessionFromUrl:', e);
+      const { data, error } = await supabase.auth.getSession();
+      console.debug("useSession:getSession", { hasSession: Boolean(data?.session), error });
+      if (error) {
+        console.error("useSession:getSession failed", error);
       }
-      const { data } = await supabase.auth.getSession();
-      if (mounted) setSession(data.session ?? null);
+      if (mounted) setSession(data?.session ?? null);
       setLoading(false);
     })();
 
     const { data: listener } = supabase.auth.onAuthStateChange((event, sessionData) => {
-      console.debug('useSession:onAuthStateChange', { event, sessionData });
-      const s = sessionData?.session ?? null;
+      console.debug("useSession:onAuthStateChange", { event, hasSession: Boolean(sessionData) });
+      const s = sessionData ?? null;
       if (mounted) setSession(s);
       if (event === 'SIGNED_IN' && s) {
         (async () => {
@@ -57,7 +49,16 @@ export function useSession() {
       mounted = false;
       listener.subscription.unsubscribe();
     };
-  }, []);
+  }, [toast]);
+
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    if (session?.access_token) {
+      document.cookie = `sb-access-token=${encodeURIComponent(session.access_token)}; Path=/; SameSite=Lax`;
+      return;
+    }
+    document.cookie = "sb-access-token=; Path=/; Max-Age=0; SameSite=Lax";
+  }, [session?.access_token]);
 
   return { session, loading };
 }
