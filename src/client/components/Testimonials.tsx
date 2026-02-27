@@ -14,10 +14,12 @@ const Testimonials: React.FC = () => {
 
       <div className="grid gap-6 sm:grid-cols-3">
         {testimonials.map((t) => (
-          <blockquote key={t.id} className="panel p-6">
-            <p className="mb-4 text-sm text-muted-foreground">“{t.quote}”</p>
-            <div className="text-sm font-semibold">{t.author}</div>
-            <div className="text-xs text-muted-foreground">{t.role}</div>
+          <blockquote key={t.id} className="panel p-6 flex flex-col h-full">
+            <div>
+              <p className="mb-4 text-sm text-muted-foreground">“{t.quote}”</p>
+              <div className="text-sm font-semibold">{t.author}</div>
+            </div>
+            <div className="mb-auto text-xs text-muted-foreground">{t.role}</div>
           </blockquote>
         ))}
       </div>

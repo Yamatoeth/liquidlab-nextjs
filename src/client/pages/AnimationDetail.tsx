@@ -105,24 +105,25 @@ const AnimationDetail: React.FC = () => {
       </div>
       <div className="panel p-6">
         {tab === "Preview" && (
-          <div className="grid grid-cols-3 gap-6">
-            <div className="col-span-2">
+          <div className="grid grid-cols-10 gap-6">
+            <div className="col-span-7">
               {animation.renderer === "threejs" ? (
                 <AnimationViewer3D
                   animation={animation}
                   params={currentParams}
-                  className="w-full h-[66vh] rounded border border-[rgba(216,178,110,0.12)] bg-black"
+                  className="w-full h-[60vh] rounded border border-[rgba(216,178,110,0.12)] bg-black"
                 />
               ) : (
                 <AnimationViewer
                   previewType={animation.preview_video_url ? "video" : animation.preview_image_url ? "gif" : animation.previewType || "iframe"}
                   previewSrc={animation.preview_video_url || animation.preview_image_url || animation.previewSrc || animation.htmlFile || ("/animations/" + (animation.slug || animation.id) + ".html")}
                   title={animation.title}
-                  className="w-full h-[66vh]"
+                  className="w-full h-[60vh]"
+                  params={currentParams}
                 />
               )}
             </div>
-            <aside className="col-span-1 space-y-6">
+            <aside className="col-span-3 space-y-6">
               <ParameterControls schema={animation.params_schema || []} params={currentParams} onChange={(p) => setCurrentParams(p)} />
               <PresetSelector
                 presets={animation.presets || []}

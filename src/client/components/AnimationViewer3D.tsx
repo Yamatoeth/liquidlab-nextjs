@@ -15,6 +15,8 @@ const AnimationViewer3D: React.FC<Props> = ({ animation, params = {}, className,
   const frameRef = useRef<number | null>(null);
   const meshRef = useRef<THREE.Mesh | null>(null);
   const materialRef = useRef<THREE.Material | null>(null);
+  const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
+  const lightRef = useRef<THREE.DirectionalLight | null>(null);
   const speedRef = useRef<number>(Number(params.speed ?? 1));
 
   useEffect(() => {
@@ -31,6 +33,7 @@ const AnimationViewer3D: React.FC<Props> = ({ animation, params = {}, className,
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(50, width / height, 0.1, 1000);
     camera.position.z = 3;
+    cameraRef.current = camera;
 
     const geometry = new THREE.BoxGeometry(1, 1, 1);
     const material = new THREE.MeshStandardMaterial({ color: params.color ?? 0x00bcd4 });
@@ -43,6 +46,7 @@ const AnimationViewer3D: React.FC<Props> = ({ animation, params = {}, className,
     const light = new THREE.DirectionalLight(0xffffff, 1);
     light.position.set(5, 5, 5);
     scene.add(light);
+    lightRef.current = light;
 
     const ambient = new THREE.AmbientLight(0x222222);
     scene.add(ambient);
@@ -90,11 +94,29 @@ const AnimationViewer3D: React.FC<Props> = ({ animation, params = {}, className,
   useEffect(() => {
     // update speed
     speedRef.current = Number(params.speed ?? speedRef.current ?? 1);
-    // update color
-    if (materialRef.current && typeof (params.color) === "string") {
-      try {
-        (materialRef.current as THREE.MeshStandardMaterial).color.set(params.color);
-      } catch (e) {}
+    // update material colors
+    try {
+      if (materialRef.current) {
+        const mat = materialRef.current as THREE.MeshStandardMaterial;
+        if (typeof params.colorA === "string") mat.color.set(params.colorA);
+        if (typeof params.colorB === "string") mat.emissive?.set && mat.emissive.set(params.colorB);
+        if (typeof params.particleSize === "number" && meshRef.current) meshRef.current.scale.setScalar(Number(params.particleSize));
+      }
+    } catch (e) {}
+
+    // update light intensity
+    if (lightRef.current && params.intensity != null) {
+      lightRef.current.intensity = Number(params.intensity);
+    }
+
+    // update camera
+    if (cameraRef.current) {
+      if (params.cameraAngle != null) {
+        const a = Number(params.cameraAngle);
+        // map angle to z distance for simple effect
+        cameraRef.current.position.z = 3 + (a - 25) / 15;
+      }
+      if (params.offsetY != null) cameraRef.current.position.y = Number(params.offsetY);
     }
   }, [params]);
 

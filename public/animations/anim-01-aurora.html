@@ -50,6 +50,38 @@ const orbs = [
   { x: 0.7, y: 0.2, r: 0.38, color: [255, 140, 80], speed: 0.0007, phase: 3 },
 ];
 
+// Keep a copy of base values so params can reset relative to original
+const baseOrbs = JSON.parse(JSON.stringify(orbs));
+let glowIntensity = 1;
+
+function hexToRgb(hex) {
+  if (!hex) return null;
+  const m = hex.replace('#','');
+  const bigint = parseInt(m, 16);
+  return [(bigint >> 16) & 255, (bigint >> 8) & 255, bigint & 255];
+}
+
+function rgbToHsl(r,g,b){
+  r/=255; g/=255; b/=255;
+  const max=Math.max(r,g,b), min=Math.min(r,g,b);
+  let h,s,l=(max+min)/2;
+  if(max===min){h=s=0;} else {const d=max-min; s=l>0.5?d/(2-max-min):d/(max+min); switch(max){case r:h=(g-b)/d+(g<b?6:0);break;case g:h=(b-r)/d+2;break;case b:h=(r-g)/d+4;break;} h/=6;} return [h*360,s,l];
+}
+
+function hslToRgb(h,s,l){
+  h/=360;
+  let r,g,b;
+  if(s===0){r=g=b=l;} else {
+    const hue2rgb=(p,q,t)=>{if(t<0)t+=1; if(t>1)t-=1; if(t<1/6)return p+(q-p)*6*t; if(t<1/2)return q; if(t<2/3)return p+(q-p)*(2/3-t)*6; return p};
+    const q = l<0.5 ? l*(1+s) : l+s-l*s;
+    const p = 2*l-q;
+    r = hue2rgb(p,q,h+1/3);
+    g = hue2rgb(p,q,h);
+    b = hue2rgb(p,q,h-1/3);
+  }
+  return [Math.round(r*255),Math.round(g*255),Math.round(b*255)];
+}
+
 let time = 0;
 
 function lerp(a, b, t) { return a + (b - a) * t; }
@@ -76,7 +108,7 @@ function draw() {
 
     const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
     const [r, g, b] = orb.color;
-    const alpha = 0.13 + Math.sin(time * 0.02 + orb.phase) * 0.04;
+    const alpha = (0.13 + Math.sin(time * 0.02 + orb.phase) * 0.04) * glowIntensity;
     grad.addColorStop(0, `rgba(${r},${g},${b},${alpha})`);
     grad.addColorStop(0.5, `rgba(${r},${g},${b},${alpha * 0.4})`);
     grad.addColorStop(1, `rgba(${r},${g},${b},0)`);
@@ -94,6 +126,73 @@ function draw() {
   requestAnimationFrame(draw);
 }
 draw();
+
+// Listen for params from parent frame and apply them
+window.addEventListener('message', (ev) => {
+  try {
+    const msg = ev.data;
+    if (!msg || msg.type !== 'params:update') return;
+    const p = msg.params || {};
+
+    // speed: scale orb base speeds
+    if (p.speed != null) {
+      for (let i=0;i<orbs.length;i++) orbs[i].speed = (baseOrbs[i % baseOrbs.length].speed || 0.001) * Number(p.speed);
+    }
+
+    // intensity: glow multiplier
+    if (p.intensity != null) glowIntensity = Number(p.intensity);
+
+    // particleSize: scale radius
+    if (p.particleSize != null) {
+      for (let i=0;i<orbs.length;i++) orbs[i].r = baseOrbs[i % baseOrbs.length].r * Number(p.particleSize);
+    }
+
+    // offsetY: shift vertical base positions
+    if (p.offsetY != null) {
+      for (let i=0;i<orbs.length;i++) orbs[i].y = baseOrbs[i % baseOrbs.length].y + Number(p.offsetY);
+    }
+
+    // particleCount: regenerate orbs length by repeating base pattern
+    if (p.particleCount != null) {
+      const count = Math.max(1, Math.min(2000, Number(p.particleCount)));
+      const next = [];
+      for (let i=0;i<count;i++) {
+        const b = baseOrbs[i % baseOrbs.length];
+        // slight variation per instance
+        next.push({ x: b.x + (Math.random()-0.5)*0.08, y: b.y + (Math.random()-0.5)*0.08, r: b.r, color: b.color.slice(), speed: b.speed, phase: Math.random()*6.28 });
+      }
+      // replace arrays
+      orbs.length = 0;
+      Array.prototype.push.apply(orbs, next);
+    }
+
+    // Colors: map colorA to first orb, colorB to second orb; also support hueShift
+    if (p.colorA) {
+      const c = hexToRgb(String(p.colorA)); if (c) { orbs[0] && (orbs[0].color = c); baseOrbs[0] && (baseOrbs[0].color = c); }
+    }
+    if (p.colorB) {
+      const c = hexToRgb(String(p.colorB)); if (c) { orbs[1] && (orbs[1].color = c); baseOrbs[1] && (baseOrbs[1].color = c); }
+    }
+
+    if (p.hueShift != null) {
+      const shift = Number(p.hueShift);
+      for (let i=0;i<orbs.length;i++){
+        const c = orbs[i].color || baseOrbs[i % baseOrbs.length].color;
+        const [h,s,l] = rgbToHsl(c[0],c[1],c[2]);
+        const nc = hslToRgb((h+shift+360)%360, s, l);
+        orbs[i].color = nc;
+      }
+    }
+
+    // enableGlow: toggle intensity
+    if (p.enableGlow != null) {
+      glowIntensity = p.enableGlow ? (p.intensity != null ? Number(p.intensity) : 1) : 0.0001;
+    }
+
+  } catch (e) {
+    // ignore malformed messages
+  }
+}, false);
 </script>
 </body>
 </html>

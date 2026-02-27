@@ -17,17 +17,22 @@ const ParameterControls: React.FC<Props> = ({ schema, params = {}, onChange }) =
 
   useEffect(() => {
     setLocal((prev) => {
+      let changed = false;
       const next = { ...prev };
       for (const e of schema) {
-        next[e.key] = params[e.key] ?? e.default ?? next[e.key];
+        const resolved = params[e.key] ?? e.default ?? next[e.key];
+        if (next[e.key] !== resolved) {
+          next[e.key] = resolved;
+          changed = true;
+        }
       }
-      return next;
+      return changed ? next : prev;
     });
   }, [schema, params]);
 
   useEffect(() => {
     onChange?.(local);
-  }, [local]);
+  }, [local, onChange]);
 
   return (
     <div className="space-y-4">

@@ -1,15 +1,18 @@
 "use client";
 import React, { useRef, useEffect, useState } from "react";
+import { Params } from "@/lib/params/types";
 
 interface AnimationViewerProps {
   previewType: "iframe" | "video" | "gif" | "image";
   previewSrc: string;
   title: string;
   className?: string;
+  params?: Params;
 }
 
-const AnimationViewer: React.FC<AnimationViewerProps> = ({ previewType, previewSrc, title, className = "" }) => {
+const AnimationViewer: React.FC<AnimationViewerProps> = ({ previewType, previewSrc, title, className = "", params = {} }) => {
   const ref = useRef<HTMLDivElement | null>(null);
+  const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -29,14 +32,31 @@ const AnimationViewer: React.FC<AnimationViewerProps> = ({ previewType, previewS
     };
   }, []);
 
+  // Send params to iframe when visible and params change
+  useEffect(() => {
+    if (!visible) return;
+    if (!iframeRef.current) return;
+    try {
+      iframeRef.current.contentWindow?.postMessage({ type: 'params:update', params }, '*');
+    } catch (e) {
+      // ignore
+    }
+  }, [visible, params]);
+
   return (
     <div ref={ref} className={`${className} w-full h-full rounded-xl overflow-hidden bg-black`}>
       {visible && previewType === "iframe" && (
         <iframe
+          ref={iframeRef}
           src={previewSrc}
           title={title}
           loading="lazy"
           className="w-full h-full"
+          onLoad={() => {
+            try {
+              iframeRef.current?.contentWindow?.postMessage({ type: 'params:update', params }, '*');
+            } catch (e) {}
+          }}
           allow="autoplay; fullscreen"
         />
       )}
