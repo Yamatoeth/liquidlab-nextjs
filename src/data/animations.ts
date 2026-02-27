@@ -16,18 +16,14 @@ const rawAnimations: any[] = [
     price: 19,
     features: ['Responsive', 'Customizable'],
     params_schema: [
-      { key: 'speed', type: 'number', label: 'Animation Speed', default: 1.0, min: 0.1, max: 5, step: 0.01 },
-      { key: 'intensity', type: 'number', label: 'Glow Intensity', default: 0.8, min: 0, max: 2, step: 0.01 },
-      { key: 'colorA', type: 'color', label: 'Primary Color', default: '#4dd0e1' },
-      { key: 'colorB', type: 'color', label: 'Secondary Color', default: '#2a2d6b' },
-      { key: 'hueShift', type: 'number', label: 'Hue Shift', default: 0, min: -180, max: 180, step: 1 },
-      { key: 'noiseScale', type: 'number', label: 'Noise Scale', default: 2, min: 0.1, max: 10, step: 0.1 },
-      { key: 'particleCount', type: 'number', label: 'Particle Count', default: 120, min: 10, max: 1000, step: 1 },
-      { key: 'particleSize', type: 'number', label: 'Particle Size', default: 1.6, min: 0.1, max: 10, step: 0.1 },
-      { key: 'cameraAngle', type: 'number', label: 'Camera Angle', default: 25, min: 0, max: 90, step: 1 },
-      { key: 'offsetY', type: 'number', label: 'Vertical Offset', default: 0, min: -5, max: 5, step: 0.01 },
-      { key: 'enableGlow', type: 'boolean', label: 'Enable Glow', default: true }
-    ],
+    { key: 'speed',          type: 'number',  label: 'Speed',           default: 1,    min: 0.1, max: 3,   step: 0.01 },
+    { key: 'trail',          type: 'number',  label: 'Trail Length',    default: 0.18, min: 0.03, max: 0.8, step: 0.01 },
+    { key: 'intensity',      type: 'number',  label: 'Glow Intensity',  default: 1,    min: 0.2, max: 3,   step: 0.01 },
+    { key: 'mouseInfluence', type: 'number',  label: 'Mouse Reactivity',default: 0.18, min: 0,   max: 0.4, step: 0.01 },
+    { key: 'colorA',         type: 'color',   label: 'Orb Color 1',     default: '#7850ff' },
+    { key: 'colorB',         type: 'color',   label: 'Orb Color 2',     default: '#f03cc8' },
+    { key: 'colorC',         type: 'color',   label: 'Orb Color 3',     default: '#3cc8ff' },
+  ]
   },
   {
     id: 'anim-02-constellation',
