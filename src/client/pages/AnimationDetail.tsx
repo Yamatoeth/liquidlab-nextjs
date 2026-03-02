@@ -17,12 +17,6 @@ import { useSubscriptionAccess } from "@/hooks/useSubscriptionAccess";
 const tabList = ["Preview", "Code", "ReadMe", "React"] as const;
 type Tab = (typeof tabList)[number];
 
-const animationData = [
-  { id: 'anim-01', title: 'Animation 1', path: '/animations-source/001-aurora.html' },
-  { id: 'anim-02', title: 'Animation 2', path: '/animations/anim-02' },
-  // Ajoutez d'autres animations ici
-];
-
 const AnimationDetail: React.FC = () => {
   const { id } = useParams();
   const [tab, setTab] = useState<Tab>("Preview");
@@ -133,7 +127,7 @@ const AnimationDetail: React.FC = () => {
             </div>
 
             <div className="mt-6">
-              <CatalogPreview />
+              <CatalogPreview currentAnimation={animation} animations={sourceAnimations as any[]} />
             </div>
           </div>
         )}

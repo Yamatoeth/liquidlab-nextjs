@@ -77,27 +77,30 @@ export const AnimationPreview: React.FC<AnimationPreviewProps> = ({
   useEffect(() => {
     if (previewType !== "iframe" || !nearViewport) return;
     const onVisibility = () => {
-      const action = document.hidden || !inViewport ? "pause" : "resume";
+      // Pause if document hidden, not in viewport, or not active (not hovering)
+      const action = document.hidden || !inViewport || !active ? "pause" : "resume";
       postToIframe({ type: "animation:lifecycle", action });
       postToIframe({ type: "animation:visibility", state: action });
     };
     onVisibility();
     document.addEventListener("visibilitychange", onVisibility);
     return () => document.removeEventListener("visibilitychange", onVisibility);
-  }, [previewType, nearViewport, inViewport, postToIframe]);
+  }, [previewType, nearViewport, inViewport, active, postToIframe]);
 
-  // Decide whether to mount the interactive iframe/video.
-  const shouldMountInteractive = previewType === "iframe" && nearViewport && (active || inViewport);
+  // Pre-mount iframe when near viewport but hide it until hover
+  // This ensures instant display on hover with no loading delay
+  const shouldPreloadInteractive = previewType === "iframe" && nearViewport;
+  const shouldShowInteractive = shouldPreloadInteractive && active && iframeLoaded;
 
   return (
-    <div ref={ref} className={className} style={{ width: "100%", height: "100%" }}>
-      {shouldMountInteractive && (
+    <div ref={ref} className={className} style={{ width: "100%", height: "100%", position: "relative" }}>
+      {shouldPreloadInteractive && (
         <iframe
           ref={iframeRef}
           src={iframeSrc}
           title={title}
           loading="lazy"
-          className={`h-full w-full rounded border border-neutral-200 bg-black ${iframeLoaded ? "opacity-100" : "opacity-0"} transition-opacity duration-300`}
+          className={`absolute inset-0 h-full w-full rounded border border-neutral-200 bg-black ${shouldShowInteractive ? "opacity-100 z-10" : "opacity-0 pointer-events-none -z-10"}`}
           style={{ width: "100%", height: "100%", objectFit: "cover" }}
           sandbox="allow-scripts"
           referrerPolicy="origin"
@@ -105,8 +108,10 @@ export const AnimationPreview: React.FC<AnimationPreviewProps> = ({
           allow="autoplay; fullscreen"
           onLoad={() => {
             setIframeLoaded(true);
-            postToIframe({ type: "animation:lifecycle", action: inViewport ? "resume" : "pause" });
-            postToIframe({ type: "animation:visibility", state: inViewport ? "resume" : "pause" });
+            // Start paused since iframe is preloaded but not visible yet
+            const initialAction = active ? "resume" : "pause";
+            postToIframe({ type: "animation:lifecycle", action: initialAction });
+            postToIframe({ type: "animation:visibility", state: initialAction });
           }}
         />
       )}
@@ -130,12 +135,13 @@ export const AnimationPreview: React.FC<AnimationPreviewProps> = ({
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
       )}
-      {(!nearViewport || (previewType === "iframe" && !iframeLoaded)) && (
+      {/* Show thumbnail when not hovering or iframe hasn't loaded yet */}
+      {(!shouldShowInteractive || previewType !== "iframe") && (
         thumbnail ? (
           <img
             src={thumbnail}
             alt={title}
-            className="w-full h-full rounded border border-neutral-200 bg-black object-cover"
+            className={`absolute inset-0 w-full h-full rounded border border-neutral-200 bg-black object-cover ${shouldShowInteractive ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             onError={(e) => {
               // fall back to placeholder if thumbnail missing
@@ -144,7 +150,7 @@ export const AnimationPreview: React.FC<AnimationPreviewProps> = ({
             }}
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center rounded border border-neutral-200 bg-[url('/placeholder.svg')] bg-cover bg-center text-xs text-muted-foreground">
+          <div className="absolute inset-0 flex h-full w-full items-center justify-center rounded border border-neutral-200 bg-[url('/placeholder.svg')] bg-cover bg-center text-xs text-muted-foreground">
             Loading preview...
           </div>
         )
