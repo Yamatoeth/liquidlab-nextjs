@@ -87,7 +87,9 @@ const AnimationViewer3D: React.FC<Props> = ({ animation, params = {}, className,
       renderer.dispose();
       try {
         el.removeChild(renderer.domElement);
-      } catch (e) {}
+      } catch (_e) {
+        // Ignore error if element was already removed
+      }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mountRef.current]);
@@ -101,10 +103,12 @@ const AnimationViewer3D: React.FC<Props> = ({ animation, params = {}, className,
       if (materialRef.current) {
         const mat = materialRef.current as THREE.MeshStandardMaterial;
         if (typeof params.colorA === "string") mat.color.set(params.colorA);
-        if (typeof params.colorB === "string") mat.emissive?.set && mat.emissive.set(params.colorB);
+        if (typeof params.colorB === "string") mat.emissive?.set(params.colorB);
         if (typeof params.particleSize === "number" && meshRef.current) meshRef.current.scale.setScalar(Number(params.particleSize));
       }
-    } catch (e) {}
+    } catch (_e) {
+      // Ignore errors from invalid parameter updates
+    }
 
     // update light intensity
     if (lightRef.current && params.intensity != null) {
