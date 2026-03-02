@@ -12,7 +12,6 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/000-matrix.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
     paramsSchema: [
     { key: 'speed',        type: 'number', label: 'Fall Speed',      default: 1,    min: 0.1, max: 5,   step: 0.01 },
@@ -1088,7 +1087,6 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/51-constellations.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
   },
   // ── 052 ──────────────────────────────────────────────────────────────────
@@ -1155,7 +1153,6 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/55-lorenz-attractor.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
      paramsSchema: [
     { key: 'speed',         type: 'number', label: 'Speed',            default: 1,     min: 0.1, max: 5,    step: 0.01  },
@@ -1178,7 +1175,6 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/56-holographic-scan.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
     paramsSchema: [
     { key: 'speed',         type: 'number', label: 'Speed',          default: 1,    min: 0.1, max: 5,  step: 0.01 },
@@ -1200,7 +1196,6 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/57-cloth-simulation.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
      paramsSchema: [
     { key: 'speed',        type: 'number', label: 'Speed',        default: 1,    min: 0.1, max: 5,     step: 0.01  },
@@ -1223,7 +1218,6 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/58-mandelbrot-zoom.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
     paramsSchema: [
       { key: 'zoomSpeed', type: 'number', label: 'Zoom Speed',    default: 1.015,   min: 1.001, max: 1.1,  step: 0.001 },
@@ -1245,7 +1239,6 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/59-ferrofluid.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
   },
   // ── 060 ──────────────────────────────────────────────────────────────────
@@ -1259,7 +1252,6 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/60-glowing-mandala.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
      paramsSchema: [
     { key: 'speed',        type: 'number', label: 'Speed',        default: 1,   min: 0.1, max: 5,   step: 0.01 },
@@ -1281,7 +1273,6 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/61-solar-wind.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
     paramsSchema: [
     { key: 'speed',         type: 'number', label: 'Speed',           default: 1,    min: 0.1, max: 5,    step: 0.01  },
@@ -1304,7 +1295,6 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/62-origami-fold.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
      paramsSchema: [
     { key: 'speed',       type: 'number',  label: 'Speed',       default: 1,    min: 0.1, max: 5,   step: 0.01 },
@@ -1327,7 +1317,6 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/63-ink-drop.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
      paramsSchema: [
     { key: 'spawnRate',    type: 'number', label: 'Spawn Rate',    default: 120,  min: 10,  max: 600, step: 10   },
@@ -1350,9 +1339,8 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/64-neon-city.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
-    
+
   },
   // ── 065 ──────────────────────────────────────────────────────────────────
   {
@@ -1365,7 +1353,6 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/65-sierpinski-chaos.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
   },
   // ── 066 ──────────────────────────────────────────────────────────────────
@@ -1379,7 +1366,6 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/66-galaxy-spiral.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
   },
   // ── 067 ──────────────────────────────────────────────────────────────────
@@ -1393,7 +1379,6 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/67-code-rain.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
   },
   // ── 068 ──────────────────────────────────────────────────────────────────
@@ -1407,7 +1392,6 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/68-hypnotic-spiral.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
   },
   // ── 069 ──────────────────────────────────────────────────────────────────
@@ -1421,7 +1405,6 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/69-neon-jellyfish.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
   },
   // ── 070 ──────────────────────────────────────────────────────────────────
@@ -1435,7 +1418,6 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/70-wormhole.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
   },
   // ── 071 ──────────────────────────────────────────────────────────────────
@@ -1449,7 +1431,6 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/71-neuron-pulse.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
   },
   // ── 072 ──────────────────────────────────────────────────────────────────
@@ -1463,7 +1444,6 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/72-sand-mandala.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
   },
   // ── 073 ──────────────────────────────────────────────────────────────────
@@ -1477,7 +1457,6 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/73-quantum-foam.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
   },
   // ── 074 ──────────────────────────────────────────────────────────────────
@@ -1491,7 +1470,6 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/74-spring-network.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
   },
   // ── 075 ──────────────────────────────────────────────────────────────────
@@ -1505,7 +1483,6 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/75-lava-lamp.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
   },
   // ── 077 ──────────────────────────────────────────────────────────────────
@@ -1519,8 +1496,18 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/77-compass-rose.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'speed',           type: 'number',  label: 'Rotation Speed',      default: 1,    min: 0.1,  max: 3,    step: 0.01 },
+      { key: 'trailDecay',      type: 'number',  label: 'Trail Decay',         default: 0.25, min: 0,    max: 1,    step: 0.01 },
+      { key: 'needleLength',    type: 'number',  label: 'Needle Length',       default: 110,  min: 50,   max: 150,  step: 1 },
+      { key: 'needleWidth',     type: 'number',  label: 'Needle Width',        default: 6,    min: 1,    max: 12,   step: 0.5 },
+      { key: 'needleColor1',    type: 'color',   label: 'Primary Needle',      default: '#ff3333' },
+      { key: 'needleColor2',    type: 'color',   label: 'Secondary Needle',    default: '#888888' },
+      { key: 'glowIntensity',   type: 'number',  label: 'Glow Intensity',      default: 15,   min: 0,    max: 50,   step: 1 },
+      { key: 'wobbleAmount',    type: 'number',  label: 'Needle Wobble',       default: 0.04, min: 0,    max: 0.5,  step: 0.01 },
+      { key: 'ringOpacity',     type: 'number',  label: 'Ring Opacity',        default: 0.3,  min: 0,    max: 1,    step: 0.05 },
+    ],
   },
   // ── 078 ──────────────────────────────────────────────────────────────────
   {
@@ -1533,8 +1520,18 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/78-fiber-optics.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'fiberCount',      type: 'number',  label: 'Fiber Count',       default: 60,   min: 10,   max: 150,  step: 1 },
+      { key: 'speed',           type: 'number',  label: 'Pulse Speed',       default: 0.65, min: 0.1,  max: 3,    step: 0.01 },
+      { key: 'trailDecay',      type: 'number',  label: 'Trail Decay',       default: 0.15, min: 0,    max: 0.5,  step: 0.01 },
+      { key: 'fiberWidth',      type: 'number',  label: 'Fiber Width',       default: 1.5,  min: 0.5,  max: 5,    step: 0.1 },
+      { key: 'glowIntensity',   type: 'number',  label: 'Glow Intensity',    default: 10,   min: 0,    max: 30,   step: 1 },
+      { key: 'pulseLength',     type: 'number',  label: 'Pulse Length',      default: 0.18, min: 0.05, max: 0.4,  step: 0.01 },
+      { key: 'baseOpacity',     type: 'number',  label: 'Base Opacity',      default: 0.12, min: 0,    max: 0.5,  step: 0.01 },
+      { key: 'colorHueShift',   type: 'number',  label: 'Hue Shift',         default: 0,    min: 0,    max: 360,  step: 1 },
+      { key: 'randomizeColors', type: 'boolean', label: 'Randomize Colors',  default: true },
+    ],
   },
   // ── 079 ──────────────────────────────────────────────────────────────────
   {
@@ -1547,7 +1544,6 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/79-particle-text.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
   },
   // ── 080 ──────────────────────────────────────────────────────────────────
@@ -1561,8 +1557,18 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/80-black-hole.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'particleCount',    type: 'number',  label: 'Particle Count',      default: 500,  min: 100,  max: 1000, step: 50 },
+      { key: 'eventHorizonSize', type: 'number',  label: 'Event Horizon Size', default: 45,   min: 20,   max: 100,  step: 1 },
+      { key: 'trailDecay',       type: 'number',  label: 'Trail Decay',        default: 0.18, min: 0,    max: 0.5,  step: 0.01 },
+      { key: 'orbitalSpeed',     type: 'number',  label: 'Orbital Speed',      default: 0.8,  min: 0.1,  max: 2,    step: 0.01 },
+      { key: 'infallRate',       type: 'number',  label: 'Infall Rate',        default: 0.04, min: 0.01, max: 0.1,  step: 0.01 },
+      { key: 'diskSquash',       type: 'number',  label: 'Disk Squash',        default: 0.18, min: 0.05, max: 0.4,  step: 0.01 },
+      { key: 'dopplerIntensity', type: 'number',  label: 'Doppler Shift',      default: 40,   min: 0,    max: 100,  step: 1 },
+      { key: 'brightness',       type: 'number',  label: 'Brightness',         default: 50,   min: 20,   max: 100,  step: 1 },
+      { key: 'jetIntensity',     type: 'number',  label: 'Jet Intensity',      default: 1,    min: 0,    max: 2,    step: 0.1 },
+    ],
   },
   // ── 081 ──────────────────────────────────────────────────────────────────
   {
@@ -1575,8 +1581,18 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/81-neon-rain.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'dropCount',       type: 'number',  label: 'Drop Count',         default: 120,  min: 20,   max: 300,  step: 10 },
+      { key: 'dropLength',      type: 'number',  label: 'Drop Length',        default: 25,   min: 10,   max: 80,   step: 1 },
+      { key: 'dropSpeed',       type: 'number',  label: 'Fall Speed',         default: 9,    min: 2,    max: 20,   step: 0.5 },
+      { key: 'dropWidth',       type: 'number',  label: 'Drop Width',         default: 1,    min: 0.3,  max: 3,    step: 0.1 },
+      { key: 'dropOpacity',     type: 'number',  label: 'Drop Opacity',       default: 0.45, min: 0.1,  max: 1,    step: 0.05 },
+      { key: 'colorHue',        type: 'number',  label: 'Hue',               default: 180,  min: 0,    max: 360,  step: 1 },
+      { key: 'trailDecay',      type: 'number',  label: 'Trail Decay',        default: 0.35, min: 0,    max: 0.7,  step: 0.01 },
+      { key: 'glowIntensity',   type: 'number',  label: 'Glow Intensity',     default: 4,    min: 0,    max: 15,   step: 0.5 },
+      { key: 'puddleShimmer',   type: 'number',  label: 'Puddle Shimmer',     default: 1,    min: 0,    max: 2,    step: 0.1 },
+    ],
   },
   // ── 082 ──────────────────────────────────────────────────────────────────
   {
@@ -1589,8 +1605,18 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/82-seismograph.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'channelCount',    type: 'number',  label: 'Channel Count',      default: 5,    min: 1,    max: 8,    step: 1 },
+      { key: 'scrollSpeed',     type: 'number',  label: 'Scroll Speed',       default: 0.2,  min: 0.01, max: 1,    step: 0.01 },
+      { key: 'baselineWave',    type: 'number',  label: 'Baseline Wave Amp',  default: 3,    min: 0,    max: 10,   step: 0.5 },
+      { key: 'quakeIntensity',  type: 'number',  label: 'Quake Intensity',    default: 18,   min: 5,    max: 50,   step: 1 },
+      { key: 'quakeFreq',       type: 'number',  label: 'Quake Frequency',    default: 1,    min: 0.1,  max: 3,    step: 0.1 },
+      { key: 'waveFreq1',       type: 'number',  label: 'Wave Frequency 1',   default: 0.08, min: 0.01, max: 0.3,  step: 0.01 },
+      { key: 'waveFreq2',       type: 'number',  label: 'Wave Frequency 2',   default: 0.03, min: 0.01, max: 0.3,  step: 0.01 },
+      { key: 'trailDecay',      type: 'number',  label: 'Trail Decay',        default: 0.35, min: 0,    max: 0.7,  step: 0.01 },
+      { key: 'gridOpacity',     type: 'number',  label: 'Grid Opacity',       default: 0.4,  min: 0,    max: 1,    step: 0.05 },
+    ],
   },
   // ── 083 ──────────────────────────────────────────────────────────────────
   {
@@ -1603,8 +1629,18 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/83-silk-weave.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'wave1Freq1',      type: 'number',  label: 'Wave 1 Freq X',       default: 8,    min: 1,    max: 20,   step: 0.5 },
+      { key: 'wave1Freq2',      type: 'number',  label: 'Wave 1 Freq Y',       default: 6,    min: 1,    max: 20,   step: 0.5 },
+      { key: 'wave1Speed',      type: 'number',  label: 'Wave 1 Speed',        default: 1.2,  min: 0.1,  max: 3,    step: 0.1 },
+      { key: 'wave2Freq',       type: 'number',  label: 'Wave 2 Freq',         default: 12,   min: 5,    max: 30,   step: 1 },
+      { key: 'waveAmp',         type: 'number',  label: 'Wave Amplitude',      default: 1,    min: 0.2,  max: 3,    step: 0.1 },
+      { key: 'colorShift',      type: 'number',  label: 'Color Shift Speed',   default: 20,   min: 0,    max: 100,  step: 5 },
+      { key: 'saturation',      type: 'number',  label: 'Saturation',          default: 60,   min: 20,   max: 100,  step: 5 },
+      { key: 'brightness',      type: 'number',  label: 'Brightness',          default: 40,   min: 20,   max: 80,   step: 5 },
+      { key: 'sheen',           type: 'number',  label: 'Sheen Intensity',     default: 0.08, min: 0,    max: 0.3,  step: 0.02 },
+    ],
   },
   // ── 084 ──────────────────────────────────────────────────────────────────
   {
@@ -1617,8 +1653,16 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/84-domino-chain.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'dominoCount',     type: 'number',  label: 'Domino Count',        default: 22,   min: 5,    max: 50,   step: 1 },
+      { key: 'dominoWidth',     type: 'number',  label: 'Domino Width',        default: 10,   min: 4,    max: 20,   step: 1 },
+      { key: 'dominoHeight',    type: 'number',  label: 'Domino Height',       default: 30,   min: 15,   max: 60,   step: 1 },
+      { key: 'waveSpeed',       type: 'number',  label: 'Wave Speed',          default: 60,   min: 20,   max: 150,  step: 5 },
+      { key: 'fallSpeed',       type: 'number',  label: 'Fall Speed',          default: 0.08, min: 0.01, max: 0.3,  step: 0.01 },
+      { key: 'glowIntensity',   type: 'number',  label: 'Glow Intensity',      default: 15,   min: 0,    max: 30,   step: 1 },
+      { key: 'trailDecay',      type: 'number',  label: 'Trail Decay',         default: 0.35, min: 0,    max: 0.7,  step: 0.01 },
+    ],
   },
   // ── 085 ──────────────────────────────────────────────────────────────────
   {
@@ -1631,8 +1675,17 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/85-hologram-grid.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'gridSize',        type: 'number',  label: 'Grid Size',           default: 8,    min: 3,    max: 16,   step: 1 },
+      { key: 'heightScale',     type: 'number',  label: 'Height Scale',        default: 1.5,  min: 0.5,  max: 4,    step: 0.1 },
+      { key: 'waveSpeed',       type: 'number',  label: 'Wave Speed',          default: 1.5,  min: 0.1,  max: 3,    step: 0.1 },
+      { key: 'freq1',           type: 'number',  label: 'Frequency 1',         default: 0.6,  min: 0.1,  max: 2,    step: 0.1 },
+      { key: 'freq2',           type: 'number',  label: 'Frequency 2',         default: 0.5,  min: 0.1,  max: 2,    step: 0.1 },
+      { key: 'cellSize',        type: 'number',  label: 'Cell Size',           default: 20,   min: 5,    max: 50,   step: 1 },
+      { key: 'glowIntensity',   type: 'number',  label: 'Glow Intensity',      default: 1,    min: 0,    max: 3,    step: 0.1 },
+      { key: 'trailDecay',      type: 'number',  label: 'Trail Decay',         default: 0.3,  min: 0,    max: 0.7,  step: 0.01 },
+    ],
   },
   // ── 086 ──────────────────────────────────────────────────────────────────
   {
@@ -1645,8 +1698,16 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/86-ant-colony.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'antCount',        type: 'number',  label: 'Ant Count',           default: 120,  min: 20,   max: 300,  step: 10 },
+      { key: 'moveSpeed',       type: 'number',  label: 'Movement Speed',      default: 1.5,  min: 0.5,  max: 4,    step: 0.1 },
+      { key: 'senseRange',      type: 'number',  label: 'Sense Range',         default: 12,   min: 5,    max: 30,   step: 1 },
+      { key: 'turnRate',        type: 'number',  label: 'Turn Rate',           default: 0.6,  min: 0.1,  max: 2,    step: 0.1 },
+      { key: 'pheromoneDecay',  type: 'number',  label: 'Pheromone Decay',     default: 0.99, min: 0.8,  max: 1,    step: 0.01 },
+      { key: 'depositRate',     type: 'number',  label: 'Deposit Rate',        default: 0.08, min: 0.01, max: 0.3,  step: 0.01 },
+      { key: 'gridScale',       type: 'number',  label: 'Grid Opacity',        default: 0.5,  min: 0,    max: 1,    step: 0.05 },
+    ],
   },
   // ── 087 ──────────────────────────────────────────────────────────────────
   {
@@ -1659,8 +1720,16 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/87-spectral-analyzer.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'barCount',        type: 'number',  label: 'Bar Count',           default: 64,   min: 16,   max: 128,  step: 4 },
+      { key: 'smoothing',       type: 'number',  label: 'Smoothing',           default: 0.25, min: 0.01, max: 0.9,  step: 0.05 },
+      { key: 'bassBoost',       type: 'number',  label: 'Bass Boost',          default: 0.9,  min: 0.1,  max: 2,    step: 0.1 },
+      { key: 'midBoost',        type: 'number',  label: 'Mid Boost',           default: 0.3,  min: 0,    max: 1,    step: 0.05 },
+      { key: 'trebleBoost',     type: 'number',  label: 'Treble Boost',        default: 0.15, min: 0,    max: 0.5,  step: 0.05 },
+      { key: 'peakFallSpeed',   type: 'number',  label: 'Peak Fall Speed',     default: 0.002,min: 0.0001, max: 0.01, step: 0.001 },
+      { key: 'glowIntensity',   type: 'number',  label: 'Glow Intensity',      default: 8,    min: 0,    max: 20,   step: 1 },
+    ],
   },
   // ── 088 ──────────────────────────────────────────────────────────────────
   {
@@ -1673,8 +1742,16 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/88-supernova.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'starCount',       type: 'number',  label: 'Star Count',          default: 200,  min: 50,   max: 500,  step: 50 },
+      { key: 'debrisCount',     type: 'number',  label: 'Debris Count',        default: 120,  min: 20,   max: 300,  step: 10 },
+      { key: 'filamentCount',   type: 'number',  label: 'Filament Count',      default: 24,   min: 4,    max: 48,   step: 4 },
+      { key: 'expansionSpeed',  type: 'number',  label: 'Expansion Speed',     default: 60,   min: 20,   max: 200,  step: 10 },
+      { key: 'cycleDuration',   type: 'number',  label: 'Cycle Duration',      default: 3,    min: 1,    max: 8,    step: 0.5 },
+      { key: 'flashIntensity',  type: 'number',  label: 'Flash Intensity',     default: 0.7,  min: 0,    max: 1,    step: 0.1 },
+      { key: 'glowIntensity',   type: 'number',  label: 'Glow Intensity',      default: 10,   min: 0,    max: 30,   step: 1 },
+    ],
   },
   // ── 089 ──────────────────────────────────────────────────────────────────
   {
@@ -1687,8 +1764,16 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/89-bioluminescence.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'organisimCount',  type: 'number',  label: 'Organism Count',      default: 40,   min: 10,   max: 100,  step: 5 },
+      { key: 'jellyCount',      type: 'number',  label: 'Jellyfish Count',     default: 5,    min: 1,    max: 15,   step: 1 },
+      { key: 'sporeCount',      type: 'number',  label: 'Spore Count',         default: 80,   min: 20,   max: 200,  step: 10 },
+      { key: 'glowIntensity',   type: 'number',  label: 'Glow Intensity',      default: 10,   min: 2,    max: 30,   step: 1 },
+      { key: 'pulseSpeed',      type: 'number',  label: 'Pulse Speed',         default: 0.4,  min: 0.1,  max: 1,    step: 0.05 },
+      { key: 'movementSpeed',   type: 'number',  label: 'Movement Speed',      default: 0.3,  min: 0.05, max: 1,    step: 0.05 },
+      { key: 'causticIntensity',type: 'number',  label: 'Caustic Intensity',   default: 0.02, min: 0,    max: 0.1,  step: 0.01 },
+    ],
   },
   // ── 091 ──────────────────────────────────────────────────────────────────
   {
@@ -1701,8 +1786,16 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/91-quantum-tunneling.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'particleCount',   type: 'number',  label: 'Particle Count',      default: 8,    min: 1,    max: 20,   step: 1 },
+      { key: 'particleSpeed',   type: 'number',  label: 'Particle Speed',      default: 1.8,  min: 0.5,  max: 4,    step: 0.1 },
+      { key: 'barrierCount',    type: 'number',  label: 'Barrier Count',       default: 3,    min: 1,    max: 6,    step: 1 },
+      { key: 'barrierHeight',   type: 'number',  label: 'Barrier Height',      default: 140,  min: 50,   max: 300,  step: 10 },
+      { key: 'tunnelingProb',   type: 'number',  label: 'Tunneling Prob',      default: 0.008,min: 0.001, max: 0.05, step: 0.001 },
+      { key: 'trailLength',     type: 'number',  label: 'Trail Length',        default: 50,   min: 10,   max: 200,  step: 10 },
+      { key: 'glowIntensity',   type: 'number',  label: 'Glow Intensity',      default: 12,   min: 2,    max: 30,   step: 1 },
+    ],
   },
   // ── 092 ──────────────────────────────────────────────────────────────────
   {
@@ -1715,8 +1808,16 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/92-volcanic-eruption.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'particleCount',   type: 'number',  label: 'Particle Count',      default: 300,  min: 100,  max: 800,  step: 50 },
+      { key: 'lavaRatio',       type: 'number',  label: 'Lava Ratio',          default: 0.6,  min: 0,    max: 1,    step: 0.05 },
+      { key: 'ashRatio',        type: 'number',  label: 'Ash Ratio',           default: 0.25, min: 0,    max: 1,    step: 0.05 },
+      { key: 'eruptionVelocity',type: 'number',  label: 'Eruption Velocity',   default: 6,    min: 2,    max: 15,   step: 0.5 },
+      { key: 'gravity',         type: 'number',  label: 'Gravity',             default: 0.12, min: 0.01, max: 0.5,  step: 0.01 },
+      { key: 'glowIntensity',   type: 'number',  label: 'Glow Intensity',      default: 8,    min: 2,    max: 20,   step: 1 },
+      { key: 'smokeIntensity',  type: 'number',  label: 'Smoke Intensity',     default: 0.15, min: 0,    max: 0.5,  step: 0.05 },
+    ],
   },
   // ── 093 ──────────────────────────────────────────────────────────────────
   {
@@ -1729,8 +1830,16 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/93-neon-typewriter.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'typingSpeed',     type: 'number',  label: 'Typing Speed',        default: 0.07, min: 0.01, max: 0.3,  step: 0.01 },
+      { key: 'holdDuration',    type: 'number',  label: 'Hold Duration',       default: 2.5,  min: 1,    max: 5,    step: 0.1 },
+      { key: 'eraseSpeed',      type: 'number',  label: 'Erase Speed',         default: 0.02, min: 0.01, max: 0.2,  step: 0.01 },
+      { key: 'sparkleCount',    type: 'number',  label: 'Sparkles Per Key',   default: 6,    min: 1,    max: 15,   step: 1 },
+      { key: 'sparkleSpread',   type: 'number',  label: 'Sparkle Spread',      default: 4,    min: 1,    max: 10,   step: 1 },
+      { key: 'glowIntensity',   type: 'number',  label: 'Glow Intensity',      default: 12,   min: 2,    max: 30,   step: 1 },
+      { key: 'paletteIndex',    type: 'number',  label: 'Palette Index',       default: 0,    min: 0,    max: 4,    step: 1 },
+    ],
   },
   // ── 094 ──────────────────────────────────────────────────────────────────
   {
@@ -1743,8 +1852,16 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/94-celtic-knot.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'strandWidth1',    type: 'number',  label: 'Strand Width 1',      default: 7,    min: 2,    max: 15,   step: 1 },
+      { key: 'strandWidth2',    type: 'number',  label: 'Strand Width 2',      default: 4,    min: 1,    max: 10,   step: 1 },
+      { key: 'warpAmplitude',   type: 'number',  label: 'Warp Amplitude',      default: 12,   min: 2,    max: 30,   step: 1 },
+      { key: 'alphaStrand1',    type: 'number',  label: 'Strand 1 Opacity',    default: 0.85, min: 0.2,  max: 1,    step: 0.05 },
+      { key: 'alphaStrand2',    type: 'number',  label: 'Strand 2 Opacity',    default: 0.65, min: 0.2,  max: 1,    step: 0.05 },
+      { key: 'centerGemSize',   type: 'number',  label: 'Center Gem Size',     default: 22,   min: 5,    max: 50,   step: 1 },
+      { key: 'rotationSpeed',   type: 'number',  label: 'Rotation Speed',      default: 10,   min: 1,    max: 30,   step: 1 },
+    ],
   },
   // ── 095 ──────────────────────────────────────────────────────────────────
   {
@@ -1757,8 +1874,17 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/95-wax-seal.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'dropDuration',    type: 'number',  label: 'Drop Duration',       default: 2,    min: 0.5,  max: 5,    step: 0.1 },
+      { key: 'stampDuration',   type: 'number',  label: 'Stamp Duration',      default: 1,    min: 0.2,  max: 3,    step: 0.1 },
+      { key: 'holdDuration',    type: 'number',  label: 'Hold Duration',       default: 2,    min: 0.5,  max: 5,    step: 0.1 },
+      { key: 'fadeDuration',    type: 'number',  label: 'Fade Duration',       default: 0.8,  min: 0.2,  max: 2,    step: 0.1 },
+      { key: 'sealRadius',      type: 'number',  label: 'Seal Radius',         default: 80,   min: 30,   max: 150,  step: 10 },
+      { key: 'starCount',       type: 'number',  label: 'Star Points',         default: 8,    min: 4,    max: 12,   step: 1 },
+      { key: 'glowIntensity',   type: 'number',  label: 'Glow Intensity',      default: 20,   min: 5,    max: 40,   step: 1 },
+      { key: 'paletteIndex',    type: 'number',  label: 'Palette Index',       default: 0,    min: 0,    max: 4,    step: 1 },
+    ],
   },
   // ── 096 ──────────────────────────────────────────────────────────────────
   {
@@ -1771,8 +1897,16 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/96-synth-waves.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'layerCount',      type: 'number',  label: 'Wave Layer Count',    default: 5,    min: 1,    max: 8,    step: 1 },
+      { key: 'waveAmplitude',   type: 'number',  label: 'Wave Amplitude',      default: 0.25, min: 0.05, max: 0.5,  step: 0.05 },
+      { key: 'waveSmoothing',   type: 'number',  label: 'Wave Smoothing',      default: 0.25, min: 0,    max: 0.5,  step: 0.05 },
+      { key: 'gridOpacity',     type: 'number',  label: 'Grid Opacity',        default: 0.15, min: 0,    max: 0.5,  step: 0.05 },
+      { key: 'waveWidth',       type: 'number',  label: 'Wave Width',          default: 1.5,  min: 0.5,  max: 3,    step: 0.1 },
+      { key: 'glowIntensity',   type: 'number',  label: 'Glow Intensity',      default: 8,    min: 2,    max: 20,   step: 1 },
+      { key: 'cursorSpeed',     type: 'number',  label: 'Cursor Speed',        default: 0.5,  min: 0.1,  max: 2,    step: 0.1 },
+    ],
   },
   // ── 097 ──────────────────────────────────────────────────────────────────
   {
@@ -1785,8 +1919,17 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/97-polyp-bloom.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'colonySize',      type: 'number',  label: 'Colony Size',         default: 7,    min: 1,    max: 15,   step: 1 },
+      { key: 'polypBaseSize',   type: 'number',  label: 'Polyp Size',          default: 22,   min: 8,    max: 40,   step: 2 },
+      { key: 'tentacleCount',   type: 'number',  label: 'Tentacle Count',      default: 9,    min: 4,    max: 16,   step: 1 },
+      { key: 'maxDepth',        type: 'number',  label: 'Max Depth',           default: 3,    min: 1,    max: 5,    step: 1 },
+      { key: 'childProbability',type: 'number',  label: 'Child Probability',   default: 0.7,  min: 0.1,  max: 0.95, step: 0.05 },
+      { key: 'pulseSpeed',      type: 'number',  label: 'Pulse Speed',         default: 1.2,  min: 0.2,  max: 3,    step: 0.1 },
+      { key: 'glowIntensity',   type: 'number',  label: 'Glow Intensity',      default: 10,   min: 2,    max: 25,   step: 1 },
+      { key: 'tentacleWave',    type: 'number',  label: 'Tentacle Wave',       default: 0.8,  min: 0.1,  max: 2,    step: 0.1 },
+    ],
   },
   // ── 098 ──────────────────────────────────────────────────────────────────
   {
@@ -1799,8 +1942,17 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/98-tesseract.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'rotationSpeed1',  type: 'number',  label: 'Rotation Speed XY',   default: 0.4,  min: 0.05, max: 1,    step: 0.05 },
+      { key: 'rotationSpeed2',  type: 'number',  label: 'Rotation Speed ZW',   default: 0.3,  min: 0.05, max: 1,    step: 0.05 },
+      { key: 'rotationSpeed3',  type: 'number',  label: 'Rotation Speed XZ',   default: 0.25, min: 0.05, max: 1,    step: 0.05 },
+      { key: 'projectionScale', type: 'number',  label: 'Projection Scale',    default: 55,   min: 20,   max: 100,  step: 5 },
+      { key: 'FOV',             type: 'number',  label: 'Field of View',       default: 280,  min: 100,  max: 400,  step: 20 },
+      { key: 'edgeWidth',       type: 'number',  label: 'Edge Width',          default: 1.25, min: 0.5,  max: 3,    step: 0.1 },
+      { key: 'innerCubeHue',    type: 'number',  label: 'Inner Cube Hue',      default: 260,  min: 0,    max: 360,  step: 10 },
+      { key: 'outerCubeHue',    type: 'number',  label: 'Outer Cube Hue',      default: 200,  min: 0,    max: 360,  step: 10 },
+    ],
   },
   // ── 099 ──────────────────────────────────────────────────────────────────
   {
@@ -1813,8 +1965,18 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/99-stardust-nebula.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'starCount',       type: 'number',  label: 'Star Count',          default: 300,  min: 50,   max: 600,  step: 50 },
+      { key: 'brightStarCount', type: 'number',  label: 'Bright Stars',        default: 12,   min: 3,    max: 30,   step: 1 },
+      { key: 'nebulaBlobCount', type: 'number',  label: 'Nebula Blobs',        default: 8,    min: 2,    max: 16,   step: 1 },
+      { key: 'pillarCount',     type: 'number',  label: 'Gas Pillars',         default: 3,    min: 1,    max: 6,    step: 1 },
+      { key: 'nebulaRadius',    type: 'number',  label: 'Nebula Radius',       default: 100,  min: 40,   max: 200,  step: 10 },
+      { key: 'twinklSpeed',     type: 'number',  label: 'Twinkle Speed',       default: 1.5,  min: 0.3,  max: 3,    step: 0.1 },
+      { key: 'gasSwaySpeed',    type: 'number',  label: 'Gas Sway Speed',      default: 0.1,  min: 0.01, max: 0.5,  step: 0.05 },
+      { key: 'blobWobble',      type: 'number',  label: 'Blob Wobble Amount',  default: 0.05, min: 0.01, max: 0.2,  step: 0.01 },
+      { key: 'glowIntensity',   type: 'number',  label: 'Glow Intensity',      default: 15,   min: 3,    max: 35,   step: 1 },
+    ],
   },
   // ── 100 ──────────────────────────────────────────────────────────────────
   {
@@ -1827,8 +1989,17 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/100-grand-finale.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'particleCount',   type: 'number',  label: 'Particle Count',      default: 200,  min: 50,   max: 500,  step: 50 },
+      { key: 'trailLength',     type: 'number',  label: 'Trail Length',        default: 20,   min: 2,    max: 50,   step: 2 },
+      { key: 'fractalDepth',    type: 'number',  label: 'Fractal Depth',       default: 7,    min: 2,    max: 12,   step: 1 },
+      { key: 'fractalBranches', type: 'number',  label: 'Fractal Branches',    default: 2,    min: 1,    max: 4,    step: 1 },
+      { key: 'ringCount',       type: 'number',  label: 'Ring Count',          default: 3,    min: 1,    max: 6,    step: 1 },
+      { key: 'orbitSpeed',      type: 'number',  label: 'Orbit Speed',         default: 0.009,min: 0.001, max: 0.02, step: 0.001 },
+      { key: 'masterPulseSpeed',type: 'number',  label: 'Master Pulse Speed',  default: 0.8,  min: 0.1,  max: 2,    step: 0.1 },
+      { key: 'glowIntensity',   type: 'number',  label: 'Glow Intensity',      default: 10,   min: 2,    max: 25,   step: 1 },
+    ],
   },
   // ── 101 ──────────────────────────────────────────────────────────────────
   {
@@ -1841,8 +2012,17 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/101-rope-physics.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'ropeCount',       type: 'number',  label: 'Rope Count',          default: 3,    min: 1,    max: 8,    step: 1 },
+      { key: 'segmentCount',    type: 'number',  label: 'Segments Per Rope',   default: 30,   min: 10,   max: 80,   step: 5 },
+      { key: 'segmentLength',   type: 'number',  label: 'Segment Length',      default: 10,   min: 2,    max: 20,   step: 1 },
+      { key: 'gravity',         type: 'number',  label: 'Gravity',             default: 0.4,  min: 0.01, max: 1,    step: 0.05 },
+      { key: 'damping',         type: 'number',  label: 'Damping',             default: 0.98, min: 0.9,  max: 0.99, step: 0.005 },
+      { key: 'iterations',      type: 'number',  label: 'Constraint Iters',    default: 10,   min: 1,    max: 20,   step: 1 },
+      { key: 'anchorSpeed',     type: 'number',  label: 'Anchor Speed',        default: 0.8,  min: 0.1,  max: 2,    step: 0.1 },
+      { key: 'glowIntensity',   type: 'number',  label: 'Glow Intensity',      default: 10,   min: 2,    max: 25,   step: 1 },
+    ],
   },
   // ── 102 ──────────────────────────────────────────────────────────────────
   {
@@ -1855,8 +2035,18 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/102-snow-globe.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'snowflakeCount',  type: 'number',  label: 'Snowflake Count',     default: 120,  min: 20,   max: 300,  step: 20 },
+      { key: 'globeRadius',     type: 'number',  label: 'Globe Radius',        default: 155,  min: 80,   max: 250,  step: 10 },
+      { key: 'snowSpeed',       type: 'number',  label: 'Snow Speed',          default: 0.35, min: 0.1,  max: 1,    step: 0.05 },
+      { key: 'driftRate',       type: 'number',  label: 'Drift Amount',        default: 0.01, min: 0,    max: 0.05, step: 0.005 },
+      { key: 'snowSize',        type: 'number',  label: 'Snowflake Size',      default: 1.75, min: 0.5,  max: 4,    step: 0.25 },
+      { key: 'treeCount',       type: 'number',  label: 'Tree Count',          default: 3,    min: 1,    max: 8,    step: 1 },
+      { key: 'starCount',       type: 'number',  label: 'Star Count',          default: 3,    min: 0,    max: 10,   step: 1 },
+      { key: 'glowIntensity',   type: 'number',  label: 'Glow Intensity',      default: 12,   min: 2,    max: 30,   step: 1 },
+      { key: 'glassOpacity',    type: 'number',  label: 'Glass Opacity',       default: 0.25, min: 0.05, max: 0.5,  step: 0.05 },
+    ],
   },
   // ── 103 ──────────────────────────────────────────────────────────────────
   {
@@ -1869,8 +2059,17 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/103-rubiks-cube.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'cubeSize',        type: 'number',  label: 'Cube Size (N×N×N)',   default: 3,    min: 2,    max: 6,    step: 1 },
+      { key: 'cellSize',        type: 'number',  label: 'Cell Size',           default: 28,   min: 10,   max: 50,   step: 2 },
+      { key: 'rotationSpeedY',  type: 'number',  label: 'Rotation Speed Y',    default: 0.3,  min: 0.05, max: 1,    step: 0.05 },
+      { key: 'rotationSpeedX',  type: 'number',  label: 'Rotation Speed X',    default: -0.4, min: -1,   max: 0.5,  step: 0.05 },
+      { key: 'rotationWave',    type: 'number',  label: 'Rotation Wave Amt',   default: 0.2,  min: 0,    max: 0.5,  step: 0.05 },
+      { key: 'FOV',             type: 'number',  label: 'Field of View',       default: 320,  min: 160,  max: 480,  step: 20 },
+      { key: 'depthPlane',      type: 'number',  label: 'Depth Plane',         default: 500,  min: 200,  max: 1000, step: 50 },
+      { key: 'glowIntensity',   type: 'number',  label: 'Glow Intensity',      default: 8,    min: 1,    max: 20,   step: 1 },
+    ],
   },
   // ── 104 ──────────────────────────────────────────────────────────────────
   {
@@ -1883,8 +2082,17 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/104-aurora-curtains.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'starCount',       type: 'number',  label: 'Star Count',          default: 150,  min: 20,   max: 400,  step: 20 },
+      { key: 'bandCount',       type: 'number',  label: 'Aurora Band Count',   default: 6,    min: 2,    max: 12,   step: 1 },
+      { key: 'bandAmplitude',   type: 'number',  label: 'Band Amplitude',      default: 50,   min: 10,   max: 150,  step: 10 },
+      { key: 'bandFrequency',   type: 'number',  label: 'Band Frequency',      default: 1.2,  min: 0.3,  max: 3,    step: 0.1 },
+      { key: 'bandSpeed',       type: 'number',  label: 'Band Speed',          default: 0.3,  min: 0.05, max: 1,    step: 0.05 },
+      { key: 'bandAlpha',       type: 'number',  label: 'Band Opacity',        default: 0.25, min: 0.05, max: 0.6,  step: 0.05 },
+      { key: 'waveSpeed',       type: 'number',  label: 'Wave Modulation Spd',default: 0.4,  min: 0.05, max: 1,    step: 0.05 },
+      { key: 'glowIntensity',   type: 'number',  label: 'Glow Intensity',      default: 12,   min: 2,    max: 30,   step: 1 },
+    ],
   },
   // ── 105 ──────────────────────────────────────────────────────────────────
   {
@@ -1897,8 +2105,17 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/105-sand-dunes.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'duneLayerCount',  type: 'number',  label: 'Dune Layer Count',    default: 5,    min: 1,    max: 10,   step: 1 },
+      { key: 'motesCount',      type: 'number',  label: 'Sand Motes Count',    default: 200,  min: 50,   max: 500,  step: 50 },
+      { key: 'windSpeed',       type: 'number',  label: 'Wind Speed',          default: 2.25, min: 0.5,  max: 5,    step: 0.25 },
+      { key: 'dustSize',        type: 'number',  label: 'Dust Particle Size',  default: 0.7,  min: 0.2,  max: 1.5,  step: 0.1 },
+      { key: 'brightnessVar',   type: 'number',  label: 'Brightness Variation',default: 60,   min: 20,   max: 120,  step: 10 },
+      { key: 'ridgeHighlight',  type: 'number',  label: 'Ridge Highlight',     default: 2,    min: 0.5,  max: 5,    step: 0.5 },
+      { key: 'sunSize',         type: 'number',  label: 'Sun Size',            default: 60,   min: 20,   max: 150,  step: 10 },
+      { key: 'sunIntensity',    type: 'number',  label: 'Sun Intensity',       default: 0.9,  min: 0.2,  max: 1.5,  step: 0.1 },
+    ],
   },
   // ── 106 ──────────────────────────────────────────────────────────────────
   {
@@ -1911,8 +2128,18 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/106-dna-strand.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'pairCount',        type: 'number',  label: 'Base Pair Count',     default: 20,   min: 5,    max: 40,   step: 1 },
+      { key: 'helixRadius',      type: 'number',  label: 'Helix Radius',        default: 60,   min: 30,   max: 120,  step: 5 },
+      { key: 'rotationSpeed',    type: 'number',  label: 'Rotation Speed',      default: 0.5,  min: 0.1,  max: 2,    step: 0.1 },
+      { key: 'scrollSpeed',      type: 'number',  label: 'Scroll Speed',        default: 30,   min: 10,   max: 80,   step: 5 },
+      { key: 'baseSize',         type: 'number',  label: 'Base Pair Size',      default: 5,    min: 2,    max: 10,   step: 1 },
+      { key: 'strandWidth',      type: 'number',  label: 'Strand Width',        default: 4,    min: 1,    max: 8,    step: 1 },
+      { key: 'glowIntensity',    type: 'number',  label: 'Glow Intensity',      default: 8,    min: 2,    max: 20,   step: 1 },
+      { key: 'colorA',           type: 'color',   label: 'Strand A Color',      default: '#6496ff' },
+      { key: 'colorB',           type: 'color',   label: 'Strand B Color',      default: '#ff6496' },
+    ],
   },
   // ── 107 ──────────────────────────────────────────────────────────────────
   {
@@ -1925,8 +2152,16 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/107-magnetosphere.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'windParticles',    type: 'number',  label: 'Solar Wind Particles',default: 80,   min: 20,   max: 200,  step: 10 },
+      { key: 'magnetopauseRadius',type: 'number', label: 'Magnetopause Radius', default: 140,  min: 80,   max: 200,  step: 10 },
+      { key: 'fieldLineCount',   type: 'number',  label: 'Field Line Count',    default: 12,   min: 4,    max: 24,   step: 1 },
+      { key: 'deflectionStrength',type: 'number', label: 'Deflection Strength', default: 0.15, min: 0.05, max: 0.4,  step: 0.05 },
+      { key: 'earthRadius',      type: 'number',  label: 'Earth Radius',        default: 25,   min: 10,   max: 50,   step: 5 },
+      { key: 'starCount',        type: 'number',  label: 'Star Count',          default: 80,   min: 20,   max: 200,  step: 20 },
+      { key: 'windSpeedMult',    type: 'number',  label: 'Wind Speed',          default: 1,    min: 0.5,  max: 2,    step: 0.1 },
+    ],
   },
   // ── 108 ──────────────────────────────────────────────────────────────────
   {
@@ -1939,8 +2174,15 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/108-bubble-wrap.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'gridCols',         type: 'number',  label: 'Grid Columns',        default: 12,   min: 4,    max: 20,   step: 1 },
+      { key: 'gridRows',         type: 'number',  label: 'Grid Rows',           default: 12,   min: 4,    max: 20,   step: 1 },
+      { key: 'autoPopInterval',  type: 'number',  label: 'Auto-Pop Interval',   default: 400,  min: 100,  max: 1000, step: 100 },
+      { key: 'bubbleRadius',     type: 'number',  label: 'Bubble Radius',       default: 0.38, min: 0.2,  max: 0.5,  step: 0.02 },
+      { key: 'popRingCount',     type: 'number',  label: 'Pop Ring Count',      default: 3,    min: 1,    max: 5,    step: 1 },
+      { key: 'breatheAmount',    type: 'number',  label: 'Bubble Breathing',    default: 0.02, min: 0.01, max: 0.1,  step: 0.01 },
+    ],
   },
   // ── 109 ──────────────────────────────────────────────────────────────────
   {
@@ -1953,8 +2195,14 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/109-constellation-map.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'bgStarCount',      type: 'number',  label: 'Background Stars',    default: 300,  min: 100,  max: 500,  step: 50 },
+      { key: 'lineDrawSpeed',    type: 'number',  label: 'Line Drawing Speed',  default: 0.008,min: 0.002,max: 0.05,  step: 0.002},
+      { key: 'starTwinkleSpeed', type: 'number',  label: 'Star Twinkle Speed',  default: 1.5,  min: 0.5,  max: 3,    step: 0.2 },
+      { key: 'starGlow',         type: 'number',  label: 'Star Glow Amount',    default: 4,    min: 0,    max: 10,   step: 1 },
+      { key: 'labelSize',        type: 'number',  label: 'Label Font Size',     default: 9,    min: 6,    max: 14,   step: 1 },
+    ],
   },
   // ── 110 ──────────────────────────────────────────────────────────────────
   {
@@ -1967,8 +2215,14 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/110-oil-slick.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'centerCount',      type: 'number',  label: 'Interference Centers', default: 5,    min: 2,    max: 10,   step: 1 },
+      { key: 'waveFrequency',    type: 'number',  label: 'Wave Frequency',      default: 0.12, min: 0.05, max: 0.3,  step: 0.02 },
+      { key: 'saturation',       type: 'number',  label: 'Color Saturation',    default: 70,   min: 30,   max: 100,  step: 5 },
+      { key: 'brightness',       type: 'number',  label: 'Brightness Range',    default: 30,   min: 10,   max: 60,   step: 5 },
+      { key: 'hueShift',         type: 'number',  label: 'Hue Rotation Speed',  default: 30,   min: 5,    max: 120,  step: 5 },
+    ],
   },
   // ── 111 ──────────────────────────────────────────────────────────────────
   {
@@ -1981,8 +2235,14 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/111-tornado.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'debrisCount',      type: 'number',  label: 'Debris Particles',    default: 300,  min: 100,  max: 600,  step: 50 },
+      { key: 'cloudCount',       type: 'number',  label: 'Storm Clouds',        default: 4,    min: 1,    max: 8,    step: 1 },
+      { key: 'tornadoTwist',     type: 'number',  label: 'Tornado Twist',       default: 1,    min: 0.3,  max: 2,    step: 0.1 },
+      { key: 'debrisSize',       type: 'number',  label: 'Debris Size',         default: 1,    min: 0.5,  max: 3,    step: 0.2 },
+      { key: 'windStrength',     type: 'number',  label: 'Wind Strength',       default: 1,    min: 0.3,  max: 2,    step: 0.1 },
+    ],
   },
   // ── 112 ──────────────────────────────────────────────────────────────────
   {
@@ -1995,8 +2255,15 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/112-neon-clock.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'glowBlur',         type: 'number',  label: 'Glow Blur Amount',    default: 8,    min: 2,    max: 20,   step: 1 },
+      { key: 'hourHandLength',   type: 'number',  label: 'Hour Hand Length',    default: 95,   min: 50,   max: 150,  step: 5 },
+      { key: 'minHandLength',    type: 'number',  label: 'Minute Hand Length',  default: 130,  min: 80,   max: 180,  step: 5 },
+      { key: 'secHandLength',    type: 'number',  label: 'Second Hand Length',  default: 155,  min: 100,  max: 200,  step: 5 },
+      { key: 'centerCapSize',    type: 'number',  label: 'Center Cap Size',     default: 8,    min: 3,    max: 15,   step: 1 },
+      { key: 'glowColor',        type: 'color',   label: 'Glow Color',          default: '#5effc0' },
+    ],
   },
   // ── 113 ──────────────────────────────────────────────────────────────────
   {
@@ -2009,8 +2276,14 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/113-water-ripple-grid.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'gridSize',         type: 'number',  label: 'Grid Size (cells)',   default: 22,   min: 10,   max: 40,   step: 2 },
+      { key: 'waveAmplitude',    type: 'number',  label: 'Wave Amplitude',      default: 22,   min: 5,    max: 50,   step: 5 },
+      { key: 'hueBase',          type: 'number',  label: 'Base Hue',            default: 180,  min: 0,    max: 360,  step: 10 },
+      { key: 'animationSpeed',   type: 'number',  label: 'Animation Speed',     default: 0.02, min: 0.01, max: 0.05, step: 0.005},
+      { key: 'gridOpacity',      type: 'number',  label: 'Grid Line Opacity',   default: 0.12, min: 0.02, max: 0.5,  step: 0.05 },
+    ],
   },
   // ── 114 ──────────────────────────────────────────────────────────────────
   {
@@ -2023,8 +2296,15 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/114-gravity-slingshot.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'projectileCount',  type: 'number',  label: 'Projectile Count',    default: 8,    min: 3,    max: 20,   step: 1 },
+      { key: 'gravityStrength',  type: 'number',  label: 'Gravity Strength',    default: 1,    min: 0.3,  max: 2,    step: 0.1 },
+      { key: 'orbitRadius1',     type: 'number',  label: 'Orbit 1 Radius',      default: 90,   min: 40,   max: 150,  step: 10 },
+      { key: 'orbitRadius2',     type: 'number',  label: 'Orbit 2 Radius',      default: 150,  min: 80,   max: 220,  step: 10 },
+      { key: 'planetCount',      type: 'number',  label: 'Planet Count',        default: 3,    min: 2,    max: 5,    step: 1 },
+      { key: 'trailLength',      type: 'number',  label: 'Particle Trail',      default: 60,   min: 20,   max: 150,  step: 10 },
+    ],
   },
   // ── 115 ──────────────────────────────────────────────────────────────────
   {
@@ -2037,8 +2317,15 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/115-frost-crystal.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'maxFrostLines',    type: 'number',  label: 'Max Frost Lines',     default: 2000, min: 500,  max: 5000, step: 500 },
+      { key: 'growthSpeed',      type: 'number',  label: 'Growth Speed',        default: 0.016,min: 0.008,max: 0.05,  step: 0.004},
+      { key: 'branchCount',      type: 'number',  label: 'Branches Per Node',   default: 3,    min: 2,    max: 5,    step: 1 },
+      { key: 'maxDepth',         type: 'number',  label: 'Max Depth',           default: 3,    min: 1,    max: 5,    step: 1 },
+      { key: 'sparkle',          type: 'number',  label: 'Central Sparkle',     default: 3,    min: 0,    max: 10,   step: 1 },
+      { key: 'glowColor',        type: 'color',   label: 'Frost Color',         default: '#c8e6ff' },
+    ],
   },
   // ── 116 ──────────────────────────────────────────────────────────────────
   {
@@ -2051,8 +2338,15 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/116-smoke-rings.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'spawnInterval',    type: 'number',  label: 'Spawn Interval',      default: 1.5,  min: 0.5,  max: 3,    step: 0.2 },
+      { key: 'ringCount',        type: 'number',  label: 'Ring Count',         default: 8,    min: 3,    max: 16,   step: 1 },
+      { key: 'expandRate',       type: 'number',  label: 'Expand Rate',        default: 0.35, min: 0.1,  max: 0.8,  step: 0.05 },
+      { key: 'damping',          type: 'number',  label: 'Velocity Damping',   default: 0.998,min: 0.96, max: 0.999,step: 0.002},
+      { key: 'wobbleAmount',     type: 'number',  label: 'Wobble Amount',      default: 0.08, min: 0.01, max: 0.2,  step: 0.02 },
+      { key: 'hueRange',         type: 'number',  label: 'Hue Variance',       default: 60,   min: 20,   max: 120,  step: 10 },
+    ],
   },
   // ── 117 ──────────────────────────────────────────────────────────────────
   {
@@ -2065,8 +2359,15 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/117-circuit-board.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'gridSpacing',      type: 'number',  label: 'Grid Spacing',       default: 20,   min: 10,   max: 40,   step: 5 },
+      { key: 'nodeChance',       type: 'number',  label: 'Node Density',       default: 0.4,  min: 0.1,  max: 0.8,  step: 0.1 },
+      { key: 'componentChance',  type: 'number',  label: 'Component Chance',   default: 0.08, min: 0.02, max: 0.2,  step: 0.02 },
+      { key: 'traceChance',      type: 'number',  label: 'Trace Connectivity', default: 0.6,  min: 0.2,  max: 1,    step: 0.1 },
+      { key: 'pulseSpeed',       type: 'number',  label: 'Pulse Speed',        default: 0.5,  min: 0.1,  max: 2,    step: 0.1 },
+      { key: 'glowIntensity',    type: 'number',  label: 'Glow Intensity',     default: 1,    min: 0.3,  max: 2,    step: 0.2 },
+    ],
   },
   // ── 118 ──────────────────────────────────────────────────────────────────
   {
@@ -2079,8 +2380,13 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/118-cellular-life.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'cellSize',         type: 'number',  label: 'Cell Size (px)',     default: 7,    min: 3,    max: 15,   step: 1 },
+      { key: 'seedDensity',      type: 'number',  label: 'Initial Density',    default: 0.3,  min: 0.05, max: 0.6,  step: 0.05 },
+      { key: 'resetGen',         type: 'number',  label: 'Generations/Reset',  default: 400,  min: 100,  max: 800,  step: 50 },
+      { key: 'resetThreshold',   type: 'number',  label: 'Population Reset',   default: 0.01, min: 0.001,max: 0.1,  step: 0.01 },
+    ],
   },
   // ── 119 ──────────────────────────────────────────────────────────────────
   {
@@ -2093,8 +2399,14 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/119-liquid-mercury.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'blobCount',        type: 'number',  label: 'Blob Count',         default: 6,    min: 2,    max: 12,   step: 1 },
+      { key: 'metaThreshold',    type: 'number',  label: 'Metaball Threshold', default: 0.85, min: 0.5,  max: 1.2,  step: 0.1 },
+      { key: 'vxDamping',        type: 'number',  label: 'X Velocity Damping', default: 0.97, min: 0.9,  max: 0.99, step: 0.01 },
+      { key: 'vyDamping',        type: 'number',  label: 'Y Velocity Damping', default: 0.97, min: 0.9,  max: 0.99, step: 0.01 },
+      { key: 'randomness',       type: 'number',  label: 'Blob Randomness',   default: 0.06, min: 0.01, max: 0.2,  step: 0.02 },
+    ],
   },
   // ── 120 ──────────────────────────────────────────────────────────────────
   {
@@ -2107,8 +2419,14 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/120-butterfly-effect.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'lorenzSigma',      type: 'number',  label: 'Lorenz Sigma',       default: 10,   min: 5,    max: 20,   step: 1 },
+      { key: 'lorenzRho',        type: 'number',  label: 'Lorenz Rho',         default: 28,   min: 15,   max: 40,   step: 1 },
+      { key: 'lorenzBeta',       type: 'number',  label: 'Lorenz Beta',        default: 2.667,min: 1,    max: 5,    step: 0.1 },
+      { key: 'trailLength',      type: 'number',  label: 'Trail Length',       default: 800,  min: 200,  max: 1500, step: 100 },
+      { key: 'particleCount',    type: 'number',  label: 'Wing Particles',     default: 200,  min: 50,   max: 400,  step: 50 },
+    ],
   },
   // ── 121 ──────────────────────────────────────────────────────────────────
   {
@@ -2121,8 +2439,14 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/121-neon-pinball.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'bumperCount',      type: 'number',  label: 'Bumper Count',       default: 6,    min: 3,    max: 12,   step: 1 },
+      { key: 'ballRadius',       type: 'number',  label: 'Ball Radius',        default: 8,    min: 4,    max: 16,   step: 1 },
+      { key: 'gravity',          type: 'number',  label: 'Gravity Strength',   default: 0.08, min: 0.02, max: 0.2,  step: 0.02 },
+      { key: 'friction',         type: 'number',  label: 'Air Friction',       default: 0.9998,min: 0.99, max: 0.9999,step: 0.0001},
+      { key: 'maxSpeed',         type: 'number',  label: 'Max Speed',          default: 6,    min: 2,    max: 10,   step: 1 },
+    ],
   },
   // ── 122 ──────────────────────────────────────────────────────────────────
   {
@@ -2135,8 +2459,14 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/122-sonar-depth.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'creatureCount',    type: 'number',  label: 'Creature Count',     default: 8,    min: 3,    max: 16,   step: 1 },
+      { key: 'pingInterval',     type: 'number',  label: 'Ping Interval',      default: 2,    min: 0.5,  max: 4,    step: 0.5 },
+      { key: 'pingSpreadRate',   type: 'number',  label: 'Spread Rate',        default: 2,    min: 0.5,  max: 4,    step: 0.5 },
+      { key: 'ringCount',        type: 'number',  label: 'Grid Rings',         default: 4,    min: 2,    max: 8,    step: 1 },
+      { key: 'sweepSpeed',       type: 'number',  label: 'Sweep Speed',        default: 1.5,  min: 0.5,  max: 3,    step: 0.5 },
+    ],
   },
   // ── 123 ──────────────────────────────────────────────────────────────────
   {
@@ -2149,8 +2479,14 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/123-glass-prism.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'prismSize',        type: 'number',  label: 'Prism Size',         default: 90,   min: 40,   max: 150,  step: 10 },
+      { key: 'rayCount',         type: 'number',  label: 'Rainbow Rays',       default: 7,    min: 3,    max: 15,   step: 1 },
+      { key: 'raySpread',        type: 'number',  label: 'Ray Spread',         default: 22,   min: 10,   max: 50,   step: 5 },
+      { key: 'diffraction',      type: 'number',  label: 'Diffraction Amount', default: 0.06, min: 0.01, max: 0.2,  step: 0.02 },
+      { key: 'lightIntensity',   type: 'number',  label: 'Light Intensity',    default: 0.5,  min: 0.2,  max: 1,    step: 0.1 },
+    ],
   },
   // ── 124 ──────────────────────────────────────────────────────────────────
   {
@@ -2163,8 +2499,14 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/124-sandfall.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'gridScale',        type: 'number',  label: 'Grid Scale',         default: 2,    min: 1,    max: 4,    step: 1 },
+      { key: 'spawnRate',        type: 'number',  label: 'Spawn Rate',         default: 3,    min: 1,    max: 8,    step: 1 },
+      { key: 'hueVariance',      type: 'number',  label: 'Hue Variance',       default: 20,   min: 5,    max: 50,   step: 5 },
+      { key: 'satVariance',      type: 'number',  label: 'Saturation Var',     default: 30,   min: 10,   max: 60,   step: 5 },
+      { key: 'brightVariance',   type: 'number',  label: 'Brightness Var',     default: 25,   min: 10,   max: 50,   step: 5 },
+    ],
   },
   // ── 125 ──────────────────────────────────────────────────────────────────
   {
@@ -2177,8 +2519,14 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/125-vortex-ring.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'majorRadius',      type: 'number',  label: 'Major Radius',       default: 90,   min: 50,   max: 150,  step: 10 },
+      { key: 'minorRadius',      type: 'number',  label: 'Minor Radius',       default: 28,   min: 10,   max: 50,   step: 5 },
+      { key: 'nuSegments',       type: 'number',  label: 'U Segments',         default: 80,   min: 20,   max: 150,  step: 10 },
+      { key: 'nvSegments',       type: 'number',  label: 'V Segments',         default: 40,   min: 10,   max: 80,   step: 5 },
+      { key: 'particleCount',    type: 'number',  label: 'Particle Count',     default: 300,  min: 50,   max: 600,  step: 50 },
+    ],
   },
   // ── 126 ──────────────────────────────────────────────────────────────────
   {
@@ -2191,8 +2539,14 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/126-pixel-rain.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'pixelSize',        type: 'number',  label: 'Pixel Size',         default: 6,    min: 2,    max: 12,   step: 1 },
+      { key: 'trailMinLen',      type: 'number',  label: 'Min Trail Length',   default: 5,    min: 1,    max: 15,   step: 1 },
+      { key: 'trailMaxLen',      type: 'number',  label: 'Max Trail Length',   default: 15,   min: 5,    max: 30,   step: 1 },
+      { key: 'fadeSpeed',        type: 'number',  label: 'Fade Speed',         default: 0.025,min: 0.01, max: 0.1,  step: 0.01 },
+      { key: 'activeChance',     type: 'number',  label: 'Activity Chance',    default: 0.7,  min: 0.3,  max: 1,    step: 0.1 },
+    ],
   },
   // ── 127 ──────────────────────────────────────────────────────────────────
   {
@@ -2205,8 +2559,14 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/127-velvet-waves.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'layerCount',       type: 'number',  label: 'Layer Count',        default: 12,   min: 5,    max: 20,   step: 1 },
+      { key: 'waveFrequency',    type: 'number',  label: 'Wave Frequency',     default: 1,    min: 0.3,  max: 2,    step: 0.2 },
+      { key: 'waveAmplitude',    type: 'number',  label: 'Wave Amplitude',     default: 0.4,  min: 0.1,  max: 1,    step: 0.1 },
+      { key: 'switchInterval',   type: 'number',  label: 'Palette Switch',     default: 8,    min: 2,    max: 15,   step: 1 },
+      { key: 'paletteIndex',     type: 'select',  label: 'Current Palette',    default: 0, options: [{label:'Velvet',value:0},{label:'Sapphire',value:1},{label:'Crimson',value:2}]},
+    ],
   },
   // ── 128 ──────────────────────────────────────────────────────────────────
   {
@@ -2219,8 +2579,14 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/128-neon-portal.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'particleCount',    type: 'number',  label: 'Particle Count',     default: 400,  min: 100,  max: 800,  step: 50 },
+      { key: 'arcCount',         type: 'number',  label: 'Portal Arcs',        default: 8,    min: 3,    max: 16,   step: 1 },
+      { key: 'startRadius',      type: 'number',  label: 'Start Radius',       default: 160,  min: 80,   max: 220,  step: 20 },
+      { key: 'endRadius',        type: 'number',  label: 'End Radius',         default: 10,   min: 5,    max: 30,   step: 5 },
+      { key: 'pulseIntensity',   type: 'number',  label: 'Center Pulse',       default: 1,    min: 0.3,  max: 2,    step: 0.2 },
+    ],
   },
   // ── 129 ──────────────────────────────────────────────────────────────────
   {
@@ -2233,8 +2599,14 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/129-wave-interference.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'sourceCount',      type: 'number',  label: 'Wave Sources',       default: 3,    min: 1,    max: 6,    step: 1 },
+      { key: 'waveFrequency',    type: 'number',  label: 'Wave Frequency',     default: 1.2,  min: 0.3,  max: 2,    step: 0.1 },
+      { key: 'sourceAmplitude',  type: 'number',  label: 'Wave Amplitude',     default: 1,    min: 0.3,  max: 2,    step: 0.1 },
+      { key: 'colorShift',       type: 'number',  label: 'Color Shift Speed',  default: 15,   min: 5,    max: 40,   step: 5 },
+      { key: 'sourceMovement',   type: 'number',  label: 'Source Movement',    default: 1,    min: 0.1,  max: 2,    step: 0.2 },
+    ],
   },
   // ── 130 ──────────────────────────────────────────────────────────────────
   {
@@ -2247,8 +2619,14 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/130-cosmic-web.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'clusterCount',     type: 'number',  label: 'Galaxy Clusters',    default: 18,   min: 8,    max: 32,   step: 1 },
+      { key: 'filamentDistance', type: 'number',  label: 'Filament Range',     default: 160,  min: 80,   max: 250,  step: 20 },
+      { key: 'particlePerStream',type: 'number',  label: 'Stream Particles',   default: 3,    min: 1,    max: 8,    step: 1 },
+      { key: 'voidStarCount',    type: 'number',  label: 'Void Stars',         default: 400,  min: 100,  max: 800,  step: 100 },
+      { key: 'clusterMassRange', type: 'number',  label: 'Cluster Mass Var',   default: 1,    min: 0.5,  max: 2,    step: 0.2 },
+    ],
   },
   // ── 131 ──────────────────────────────────────────────────────────────────
   {
@@ -2261,8 +2639,15 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/131-ferrofluid-art.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'poleCount',        type: 'number', label: 'Magnetic Poles',      default: 4,   min: 2,    max: 8,    step: 1 },
+      { key: 'magneticStrength', type: 'number', label: 'Magnetic Strength',   default: 1,   min: 0.2,  max: 3,    step: 0.1 },
+      { key: 'orbitSpeed',       type: 'number', label: 'Orbit Speed',         default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+      { key: 'spikeDetail',      type: 'number', label: 'Spike Detail',        default: 1,   min: 0.5,  max: 2,    step: 0.1 },
+      { key: 'fluidViscosity',   type: 'number', label: 'Fluid Viscosity',     default: 1,   min: 0.1,  max: 2,    step: 0.1 },
+      { key: 'colorIntensity',   type: 'number', label: 'Color Intensity',     default: 1,   min: 0.2,  max: 2,    step: 0.1 },
+    ],
   },
   // ── 132 ──────────────────────────────────────────────────────────────────
   {
@@ -2275,8 +2660,14 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/132-grid-tunnel.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'tunnelRings',     type: 'number', label: 'Tunnel Rings',        default: 20,  min: 5,    max: 50,   step: 1 },
+      { key: 'tunnelLines',     type: 'number', label: 'Radial Lines',        default: 12,  min: 4,    max: 24,   step: 1 },
+      { key: 'tunnelSpeed',     type: 'number', label: 'Tunnel Speed',        default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+      { key: 'colorShift',      type: 'number', label: 'Color Shift Speed',   default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+      { key: 'wobbleAmount',    type: 'number', label: 'Center Wobble',       default: 1,   min: 0,    max: 2,    step: 0.1 },
+    ],
   },
   // ── 133 ──────────────────────────────────────────────────────────────────
   {
@@ -2289,8 +2680,13 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/133-living-paint.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'agentCount',    type: 'number', label: 'Paint Agents',         default: 120, min: 20,   max: 300,  step: 10 },
+      { key: 'flowSpeed',     type: 'number', label: 'Flow Field Speed',     default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+      { key: 'strokeWidth',   type: 'number', label: 'Stroke Width',         default: 1,   min: 0.5,  max: 2,    step: 0.1 },
+      { key: 'fadeSpeed',     type: 'number', label: 'Canvas Fade Speed',    default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+    ],
   },
   // ── 134 ──────────────────────────────────────────────────────────────────
   {
@@ -2303,8 +2699,13 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/134-solar-flare.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'prominenceCount', type: 'number', label: 'Prominences',         default: 8,   min: 2,    max: 16,   step: 1 },
+      { key: 'coronaDensity',   type: 'number', label: 'Corona Particles',    default: 1,   min: 0.2,  max: 2,    step: 0.1 },
+      { key: 'flareFrequency',  type: 'number', label: 'Flare Frequency',     default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+      { key: 'flareIntensity',  type: 'number', label: 'Flare Intensity',     default: 1,   min: 0.2,  max: 2,    step: 0.1 },
+    ],
   },
   // ── 135 ──────────────────────────────────────────────────────────────────
   {
@@ -2317,8 +2718,13 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/135-droste-spiral.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'recursionDepth',   type: 'number', label: 'Recursion Depth',    default: 6,   min: 2,    max: 12,   step: 1 },
+      { key: 'spiralTightness',  type: 'number', label: 'Spiral Tightness',   default: 1,   min: 0.5,  max: 2,    step: 0.1 },
+      { key: 'zoomSpeed',        type: 'number', label: 'Zoom Speed',         default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+      { key: 'colorShift',       type: 'number', label: 'Color Shift',        default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+    ],
   },
   // ── 136 ──────────────────────────────────────────────────────────────────
   {
@@ -2331,8 +2737,13 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/136-neon-maze.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'columnCount',    type: 'number', label: 'Grid Columns',        default: 20,  min: 4,    max: 40,   step: 1 },
+      { key: 'rowCount',       type: 'number', label: 'Grid Rows',           default: 20,  min: 4,    max: 40,   step: 1 },
+      { key: 'mazeSpeed',      type: 'number', label: 'Generation Speed',    default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+      { key: 'glowIntensity',  type: 'number', label: 'Neon Glow',           default: 1,   min: 0.2,  max: 2,    step: 0.1 },
+    ],
   },
   // ── 137 ──────────────────────────────────────────────────────────────────
   {
@@ -2345,8 +2756,13 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/137-plasma-globe.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'globeSize',        type: 'number', label: 'Globe Size',         default: 1,   min: 0.5,  max: 2,    step: 0.1 },
+      { key: 'plasmaIntensity',  type: 'number', label: 'Plasma Intensity',   default: 1,   min: 0.2,  max: 2,    step: 0.1 },
+      { key: 'rotationSpeed',    type: 'number', label: 'Rotation Speed',     default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+      { key: 'colorShift',       type: 'number', label: 'Color Shift',        default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+    ],
   },
   // ── 138 ──────────────────────────────────────────────────────────────────
   {
@@ -2359,8 +2775,13 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/138-ink-brush.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'brushCount',     type: 'number', label: 'Brush Count',         default: 1,   min: 1,    max: 5,    step: 1 },
+      { key: 'brushSize',      type: 'number', label: 'Brush Size',          default: 1,   min: 0.5,  max: 2,    step: 0.1 },
+      { key: 'flowStrength',   type: 'number', label: 'Flow Strength',       default: 1,   min: 0.2,  max: 2,    step: 0.1 },
+      { key: 'fadeSpeed',      type: 'number', label: 'Fade Speed',          default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+    ],
   },
   // ── 139 ──────────────────────────────────────────────────────────────────
   {
@@ -2373,8 +2794,13 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/139-coral-growth.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'maxBranches',     type: 'number', label: 'Max Branches',        default: 40,  min: 10,   max: 100,  step: 10 },
+      { key: 'growthRate',      type: 'number', label: 'Growth Rate',         default: 1,   min: 0.2,  max: 2,    step: 0.1 },
+      { key: 'colorVariation',  type: 'number', label: 'Color Variation',    default: 1,   min: 0.2,  max: 2,    step: 0.1 },
+      { key: 'bloomDensity',    type: 'number', label: 'Bloom Density',       default: 1,   min: 0.2,  max: 2,    step: 0.1 },
+    ],
   },
   // ── 140 ──────────────────────────────────────────────────────────────────
   {
@@ -2387,8 +2813,13 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/140-time-dilation.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'velocityMultiplier', type: 'number', label: 'Velocity',        default: 1,   min: 0.1,  max: 2,    step: 0.1 },
+      { key: 'taxiCount',          type: 'number', label: 'Taxi Count',      default: 1,   min: 0.5,  max: 2,    step: 0.1 },
+      { key: 'trailLength',        type: 'number', label: 'Trail Length',    default: 1,   min: 0.2,  max: 2,    step: 0.1 },
+      { key: 'timeStretch',        type: 'number', label: 'Time Stretch',    default: 1,   min: 0.5,  max: 2,    step: 0.1 },
+    ],
   },
   // ── 141 ──────────────────────────────────────────────────────────────────
   {
@@ -2401,8 +2832,13 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/141-neon-weaver.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'nodeCount',       type: 'number', label: 'Loom Nodes',         default: 18,  min: 8,    max: 32,   step: 2 },
+      { key: 'weavingSpeed',    type: 'number', label: 'Weaving Speed',      default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+      { key: 'neonIntensity',   type: 'number', label: 'Neon Intensity',     default: 1,   min: 0.2,  max: 2,    step: 0.1 },
+      { key: 'patternDensity',  type: 'number', label: 'Pattern Density',    default: 1,   min: 0.5,  max: 2,    step: 0.1 },
+    ],
   },
   // ── 142 ──────────────────────────────────────────────────────────────────
   {
@@ -2415,8 +2851,13 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/142-watercolor-bloom.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'brushCount',    type: 'number', label: 'Brush Count',          default: 20,  min: 5,    max: 50,   step: 5 },
+      { key: 'bloomSize',     type: 'number', label: 'Bloom Size',           default: 1,   min: 0.5,  max: 2,    step: 0.1 },
+      { key: 'flowSpeed',     type: 'number', label: 'Flow Speed',           default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+      { key: 'colorBlending', type: 'number', label: 'Color Blending',       default: 1,   min: 0.2,  max: 2,    step: 0.1 },
+    ],
   },
   // ── 143 ──────────────────────────────────────────────────────────────────
   {
@@ -2429,8 +2870,13 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/143-atomic-orbital.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'electronCount',   type: 'number', label: 'Electron Count',     default: 600, min: 100,  max: 1000, step: 100 },
+      { key: 'orbitalSpeed',    type: 'number', label: 'Orbital Speed',      default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+      { key: 'nuclearGlow',     type: 'number', label: 'Nuclear Glow',       default: 1,   min: 0.2,  max: 2,    step: 0.1 },
+      { key: 'electronSize',    type: 'number', label: 'Electron Size',      default: 1,   min: 0.5,  max: 2,    step: 0.1 },
+    ],
   },
   // ── 144 ──────────────────────────────────────────────────────────────────
   {
@@ -2443,8 +2889,13 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/144-pixel-reveal.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'pixelGridX',     type: 'number', label: 'Grid Width',          default: 28,  min: 10,   max: 50,   step: 2 },
+      { key: 'pixelGridY',     type: 'number', label: 'Grid Height',         default: 28,  min: 10,   max: 50,   step: 2 },
+      { key: 'revealSpeed',    type: 'number', label: 'Reveal Speed',        default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+      { key: 'colorIntensity', type: 'number', label: 'Color Intensity',     default: 1,   min: 0.2,  max: 2,    step: 0.1 },
+    ],
   },
   // ── 145 ──────────────────────────────────────────────────────────────────
   {
@@ -2457,8 +2908,13 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/145-morphing-blob.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'blobWobble',    type: 'number', label: 'Wobble Amount',        default: 1,   min: 0.2,  max: 2,    step: 0.1 },
+      { key: 'morphSpeed',    type: 'number', label: 'Morph Speed',          default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+      { key: 'blobSize',      type: 'number', label: 'Blob Size',            default: 1,   min: 0.5,  max: 2,    step: 0.1 },
+      { key: 'strokeWidth',   type: 'number', label: 'Stroke Width',         default: 1,   min: 0.5,  max: 2,    step: 0.1 },
+    ],
   },
   // ── 146 ──────────────────────────────────────────────────────────────────
   {
@@ -2471,8 +2927,13 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/146-rain-on-glass.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'rainDensity',      type: 'number', label: 'Rain Density',       default: 1,   min: 0.2,  max: 2,    step: 0.1 },
+      { key: 'windForce',        type: 'number', label: 'Wind Force',         default: 1,   min: 0,    max: 2,    step: 0.1 },
+      { key: 'rainSpeed',        type: 'number', label: 'Rain Speed',         default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+      { key: 'weatherIntensity', type: 'number', label: 'Weather Intensity',  default: 1,   min: 0.2,  max: 2,    step: 0.1 },
+    ],
   },
   // ── 147 ──────────────────────────────────────────────────────────────────
   {
@@ -2485,8 +2946,13 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/147-hypnotic-spiral.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'spiralTightness',   type: 'number', label: 'Spiral Tightness',  default: 1,   min: 0.5,  max: 2,    step: 0.1 },
+      { key: 'rotationSpeed',     type: 'number', label: 'Rotation Speed',    default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+      { key: 'colorShift',        type: 'number', label: 'Color Shift',       default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+      { key: 'pulseIntensity',    type: 'number', label: 'Pulse Intensity',   default: 1,   min: 0.2,  max: 2,    step: 0.1 },
+    ],
   },
   // ── 148 ──────────────────────────────────────────────────────────────────
   {
@@ -2499,8 +2965,13 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/148-neon-origami.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'foldCount',        type: 'number', label: 'Fold Layers',        default: 1,   min: 0.5,  max: 3,    step: 0.5 },
+      { key: 'rotationSpeed',    type: 'number', label: 'Rotation Speed',    default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+      { key: 'neonBrightness',   type: 'number', label: 'Neon Brightness',   default: 1,   min: 0.2,  max: 2,    step: 0.1 },
+      { key: 'paperThickness',   type: 'number', label: 'Paper Thickness',   default: 1,   min: 0.5,  max: 2,    step: 0.1 },
+    ],
   },
   // ── 149 ──────────────────────────────────────────────────────────────────
   {
@@ -2513,8 +2984,13 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/149-crystal-lattice.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'latticeScale',     type: 'number', label: 'Lattice Scale',     default: 1,   min: 0.5,  max: 2,    step: 0.1 },
+      { key: 'rotationSpeed',    type: 'number', label: 'Rotation Speed',   default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+      { key: 'glowIntensity',    type: 'number', label: 'Glow Intensity',    default: 1,   min: 0.2,  max: 2,    step: 0.1 },
+      { key: 'crystallinity',    type: 'number', label: 'Crystallinity',     default: 1,   min: 0.5,  max: 2,    step: 0.1 },
+    ],
   },
   // ── 150 ──────────────────────────────────────────────────────────────────
   {
@@ -2527,8 +3003,13 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/150-firefly-meadow.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'fireflyCount',    type: 'number', label: 'Firefly Count',      default: 80,  min: 20,   max: 150,  step: 10 },
+      { key: 'glowSize',        type: 'number', label: 'Glow Size',          default: 1,   min: 0.5,  max: 2,    step: 0.1 },
+      { key: 'flightSpeed',     type: 'number', label: 'Flight Speed',       default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+      { key: 'meadowDepth',     type: 'number', label: 'Meadow Depth',       default: 1,   min: 0.5,  max: 2,    step: 0.1 },
+    ],
   },
   // ── 151 ──────────────────────────────────────────────────────────────────
   {
@@ -2541,8 +3022,13 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/151-pendulum-wave.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'pendulumCount',       type: 'number', label: 'Pendulum Count',        default: 15,  min: 5,    max: 30,   step: 1 },
+      { key: 'wavelengthVariation', type: 'number', label: 'Wavelength Variation',  default: 1,   min: 0.5,  max: 2,    step: 0.1 },
+      { key: 'swingSpeed',          type: 'number', label: 'Swing Speed',          default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+      { key: 'glowIntensity',       type: 'number', label: 'Glow Intensity',       default: 1,   min: 0.3,  max: 2,    step: 0.1 },
+    ],
   },
   // ── 154 ──────────────────────────────────────────────────────────────────
   {
@@ -2555,8 +3041,13 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/154-ink-drop.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'dropCount',      type: 'number', label: 'Drop Count',      default: 20,  min: 5,    max: 50,   step: 5 },
+      { key: 'dropSize',       type: 'number', label: 'Drop Size',       default: 1,   min: 0.5,  max: 2,    step: 0.1 },
+      { key: 'flowIntensity',  type: 'number', label: 'Flow Intensity',  default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+      { key: 'colorVariation', type: 'number', label: 'Color Variation', default: 1,   min: 0.3,  max: 2,    step: 0.1 },
+    ],
   },
   // ── 155 ──────────────────────────────────────────────────────────────────
   {
@@ -2569,8 +3060,13 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/155-quantum-foam.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'foamDensity',       type: 'number', label: 'Foam Density',       default: 1,   min: 0.3,  max: 2,    step: 0.1 },
+      { key: 'bubbleSize',        type: 'number', label: 'Bubble Size',        default: 1,   min: 0.5,  max: 2,    step: 0.1 },
+      { key: 'percolationSpeed',  type: 'number', label: 'Percolation Speed',  default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+      { key: 'energyLevel',       type: 'number', label: 'Energy Level',       default: 1,   min: 0.2,  max: 2,    step: 0.1 },
+    ],
   },
   // ── 156 ──────────────────────────────────────────────────────────────────
   {
@@ -2583,8 +3079,13 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/156-neon-city.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'buildingCount',  type: 'number', label: 'Building Count',  default: 1,   min: 0.5,  max: 2,    step: 0.1 },
+      { key: 'trafficDensity', type: 'number', label: 'Traffic Density', default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+      { key: 'neonIntensity',  type: 'number', label: 'Neon Intensity',  default: 1,   min: 0.3,  max: 2,    step: 0.1 },
+      { key: 'cityPace',       type: 'number', label: 'City Pace',       default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+    ],
   },
   // ── 157 ──────────────────────────────────────────────────────────────────
   {
@@ -2597,8 +3098,13 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/157-string-theory.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'stringCount',       type: 'number', label: 'String Count',       default: 1,   min: 0.5,  max: 2,    step: 0.1 },
+      { key: 'vibrationalMode',   type: 'number', label: 'Vibrational Mode',   default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+      { key: 'oscillationSpeed',  type: 'number', label: 'Oscillation Speed',  default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+      { key: 'dimensionalShift',  type: 'number', label: 'Dimensional Shift',  default: 1,   min: 0.2,  max: 2,    step: 0.1 },
+    ],
   },
   // ── 158 ──────────────────────────────────────────────────────────────────
   {
@@ -2611,8 +3117,13 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/158-retro-synth.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'waveCount',     type: 'number', label: 'Wave Count',     default: 1,   min: 0.5,  max: 2,    step: 0.1 },
+      { key: 'waveFrequency', type: 'number', label: 'Wave Frequency', default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+      { key: 'synthTempo',    type: 'number', label: 'Synth Tempo',    default: 1,   min: 0.5,  max: 2,    step: 0.1 },
+      { key: 'colorPalette',  type: 'number', label: 'Color Palette',  default: 1,   min: 0.5,  max: 2,    step: 0.1 },
+    ],
   },
   // ── 159 ──────────────────────────────────────────────────────────────────
   {
@@ -2625,8 +3136,13 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/159-murmuration.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'boidCount',        type: 'number', label: 'Boid Count',        default: 1,   min: 0.5,  max: 2,    step: 0.1 },
+      { key: 'flockingIntensity',type: 'number', label: 'Flocking Intensity',default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+      { key: 'alignmentForce',   type: 'number', label: 'Alignment Force',   default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+      { key: 'visualSpeed',      type: 'number', label: 'Visual Speed',      default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+    ],
   },
   // ── 160 ──────────────────────────────────────────────────────────────────
   {
@@ -2639,8 +3155,13 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/160-kaleidoscope-gem.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'symmetryOrder',      type: 'number', label: 'Symmetry Order',      default: 6,   min: 3,    max: 12,   step: 1 },
+      { key: 'rotationSpeed',      type: 'number', label: 'Rotation Speed',      default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+      { key: 'reflectionIntensity',type: 'number', label: 'Reflection Intensity',default: 1,   min: 0.3,  max: 2,    step: 0.1 },
+      { key: 'gemBrightness',      type: 'number', label: 'Gem Brightness',      default: 1,   min: 0.5,  max: 2,    step: 0.1 },
+    ],
   },
   // ── 161 ──────────────────────────────────────────────────────────────────
   {
@@ -2653,8 +3174,13 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/161-neon-jellyfish.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'jellyfishCount',   type: 'number', label: 'Jellyfish Count',   default: 1,   min: 0.5,  max: 2,    step: 0.1 },
+      { key: 'tentacleFluidity', type: 'number', label: 'Tentacle Fluidity', default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+      { key: 'glowPulsation',    type: 'number', label: 'Glow Pulsation',    default: 1,   min: 0.3,  max: 2,    step: 0.1 },
+      { key: 'oceanDepth',       type: 'number', label: 'Ocean Depth',       default: 1,   min: 0.5,  max: 2,    step: 0.1 },
+    ],
   },
   // ── 162 ──────────────────────────────────────────────────────────────────
   {
@@ -2667,8 +3193,13 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/162-magnetic-field.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'fieldStrength',  type: 'number', label: 'Field Strength',  default: 1,   min: 0.5,  max: 2,    step: 0.1 },
+      { key: 'particleDensity',type: 'number', label: 'Particle Density',default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+      { key: 'magneticSpeed',  type: 'number', label: 'Magnetic Speed',  default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+      { key: 'polarityFlip',   type: 'number', label: 'Polarity Flip',   default: 1,   min: 0,    max: 1,    step: 1 },
+    ],
   },
   // ── 163 ──────────────────────────────────────────────────────────────────
   {
@@ -2681,8 +3212,13 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/163-neural-storm.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'neuronCount',    type: 'number', label: 'Neuron Count',    default: 1,   min: 0.5,  max: 2,    step: 0.1 },
+      { key: 'synapseStrength',type: 'number', label: 'Synapse Strength',default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+      { key: 'fireRate',       type: 'number', label: 'Fire Rate',       default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+      { key: 'stormIntensity', type: 'number', label: 'Storm Intensity', default: 1,   min: 0.3,  max: 2,    step: 0.1 },
+    ],
   },
   // ── 164 ──────────────────────────────────────────────────────────────────
   {
@@ -2695,8 +3231,13 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/164-plasma-tendrils.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'tendrillCount',    type: 'number', label: 'Tendrill Count',    default: 1,   min: 0.5,  max: 2,    step: 0.1 },
+      { key: 'plasmaTemperature',type: 'number', label: 'Plasma Temperature',default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+      { key: 'flowSpeed',        type: 'number', label: 'Flow Speed',        default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+      { key: 'colorIntensity',   type: 'number', label: 'Color Intensity',   default: 1,   min: 0.3,  max: 2,    step: 0.1 },
+    ],
   },
   // ── 165 ──────────────────────────────────────────────────────────────────
   {
@@ -2709,8 +3250,13 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/165-geometric-flow.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'geometryComplexity',type: 'number', label: 'Geometry Complexity',default: 1,   min: 0.5,  max: 2,    step: 0.1 },
+      { key: 'flowSpeed',        type: 'number', label: 'Flow Speed',        default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+      { key: 'symmetryLevel',    type: 'number', label: 'Symmetry Level',    default: 1,   min: 0.5,  max: 2,    step: 0.1 },
+      { key: 'colorFlow',        type: 'number', label: 'Color Flow',        default: 1,   min: 0.3,  max: 2,    step: 0.1 },
+    ],
   },
   // ── 166 ──────────────────────────────────────────────────────────────────
   {
@@ -2723,8 +3269,13 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/166-liquid-metal.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'metalDensity',       type: 'number', label: 'Metal Density',       default: 1,   min: 0.5,  max: 2,    step: 0.1 },
+      { key: 'liquidFlow',         type: 'number', label: 'Liquid Flow',         default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+      { key: 'viscosity',          type: 'number', label: 'Viscosity',          default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+      { key: 'reflectionSharpness',type: 'number', label: 'Reflection Sharpness',default: 1,   min: 0.5,  max: 2,    step: 0.1 },
+    ],
   },
   // ── 167 ──────────────────────────────────────────────────────────────────
   {
@@ -2737,8 +3288,13 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/167-tessellating-tiles.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'tileSize',         type: 'number', label: 'Tile Size',         default: 1,   min: 0.5,  max: 2,    step: 0.1 },
+      { key: 'patternComplexity',type: 'number', label: 'Pattern Complexity',default: 1,   min: 0.3,  max: 2,    step: 0.1 },
+      { key: 'transformSpeed',   type: 'number', label: 'Transform Speed',   default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+      { key: 'colorShift',       type: 'number', label: 'Color Shift',       default: 1,   min: 0.3,  max: 2,    step: 0.1 },
+    ],
   },
   // ── 168 ──────────────────────────────────────────────────────────────────
   {
@@ -2751,8 +3307,13 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/168-grand-nexus.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
+    paramsSchema: [
+      { key: 'treeDepth',      type: 'number', label: 'Tree Depth',      default: 1,   min: 0.5,  max: 2,    step: 0.1 },
+      { key: 'branchDensity',  type: 'number', label: 'Branch Density',  default: 1,   min: 0.3,  max: 2,    step: 0.1 },
+      { key: 'growthSpeed',    type: 'number', label: 'Growth Speed',    default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+      { key: 'harmonicShift',  type: 'number', label: 'Harmonic Shift',  default: 1,   min: 0.5,  max: 2,    step: 0.1 },
+    ],
   },
   // ── 169 ──────────────────────────────────────────────────────────────────
   {
@@ -2766,6 +3327,12 @@ const rawAnimations: any[] = [
     tags: ['crystals', 'gold', 'luxury'],
     dependencies: [],
     features: ['Luxury', 'Crystals'],
+    paramsSchema: [
+      { key: 'crystalCount',       type: 'number', label: 'Crystal Count',       default: 1,   min: 0.5,  max: 2,    step: 0.1 },
+      { key: 'crystalSize',        type: 'number', label: 'Crystal Size',        default: 1,   min: 0.5,  max: 2,    step: 0.1 },
+      { key: 'clusteringIntensity',type: 'number', label: 'Clustering Intensity',default: 1,   min: 0.3,  max: 2,    step: 0.1 },
+      { key: 'glowAmount',         type: 'number', label: 'Glow Amount',         default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+    ],
   },
   // ── 170 ──────────────────────────────────────────────────────────────────
   {
@@ -2779,6 +3346,12 @@ const rawAnimations: any[] = [
     tags: ['hologram', 'data', 'visualization'],
     dependencies: [],
     features: ['Hologram', 'Data'],
+    paramsSchema: [
+      { key: 'dataPointCount',  type: 'number', label: 'Data Point Count',  default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+      { key: 'hologramDepth',   type: 'number', label: 'Hologram Depth',    default: 1,   min: 0.5,  max: 2,    step: 0.1 },
+      { key: 'dataFlow',        type: 'number', label: 'Data Flow',         default: 1,   min: 0.1,  max: 3,    step: 0.1 },
+      { key: 'visualDimension', type: 'number', label: 'Visual Dimension',  default: 1,   min: 0.5,  max: 2,    step: 0.1 },
+    ],
   },
   // ── 171 ──────────────────────────────────────────────────────────────────
   {
@@ -2791,7 +3364,6 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/171-flow-field.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
   },
   // ── 172 ──────────────────────────────────────────────────────────────────
@@ -2844,7 +3416,6 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/175-nebuleuse.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
   },
   // ── 176 ──────────────────────────────────────────────────────────────────
@@ -2858,7 +3429,6 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/176-particules.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
   },
   // ── 177 ──────────────────────────────────────────────────────────────────
@@ -2885,7 +3455,6 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/178-liquid-morph.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
   },
   // ── 179 ──────────────────────────────────────────────────────────────────
@@ -2899,7 +3468,6 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/179-constellation.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
   },
   // ── 180 ──────────────────────────────────────────────────────────────────
@@ -2913,7 +3481,6 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/180-liquid-metal.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
   },
   // ── 181 ──────────────────────────────────────────────────────────────────
@@ -2927,7 +3494,6 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/181-smoke.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
   },
   // ── 182 ──────────────────────────────────────────────────────────────────
@@ -2941,7 +3507,6 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/182-waveflow.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
   },
   // ── 183 ──────────────────────────────────────────────────────────────────
@@ -2955,7 +3520,6 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/183-crystal-orb.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
   },
   // ── 184 ──────────────────────────────────────────────────────────────────
@@ -2969,7 +3533,6 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/184-kinetic-type.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
   },
   // ── 185 ──────────────────────────────────────────────────────────────────
@@ -2983,7 +3546,6 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/185-burst.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
   },
   // ── 186 ──────────────────────────────────────────────────────────────────
@@ -2997,7 +3559,6 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/186-preloader.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
   },
   // ── 187 ──────────────────────────────────────────────────────────────────
@@ -3011,7 +3572,6 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/187-vortex.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
   },
   // ── 188 ──────────────────────────────────────────────────────────────────
@@ -3025,7 +3585,6 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/188-gravity.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
   },
   // ── 189 ──────────────────────────────────────────────────────────────────
@@ -3039,7 +3598,6 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/189-glitch.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
   },
   // ── 190 ──────────────────────────────────────────────────────────────────
@@ -3053,7 +3611,6 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/190-rain.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
   },
   // ── 191 ──────────────────────────────────────────────────────────────────
@@ -3067,7 +3624,6 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/191-stats.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
   },
   // ── 192 ──────────────────────────────────────────────────────────────────
@@ -3081,7 +3637,6 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/192-morph.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
   },
   // ── 193 ──────────────────────────────────────────────────────────────────
@@ -3095,7 +3650,6 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/193-dna.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
   },
   // ── 194 ──────────────────────────────────────────────────────────────────
@@ -3109,7 +3663,6 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/194-cube.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
   },
   // ── 195 ──────────────────────────────────────────────────────────────────
@@ -3123,7 +3676,6 @@ const rawAnimations: any[] = [
     htmlFile: '/animations-source/195-flowfield.html',
     tags: [],
     dependencies: [],
-    price: 10,
     features: [],
   },
 ];
