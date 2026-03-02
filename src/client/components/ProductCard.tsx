@@ -16,6 +16,29 @@ type ProductCardProps =
 
 type ProductCardPropsWithMode = ProductCardProps & { displayMode?: "list" | "grid" };
 
+function HoverPreviewContainer({ snippet }: { snippet: Animation3D | any }) {
+  const [active, setActive] = useState(false);
+  const anim = snippet as Animation3D;
+  const slugOrId = String(anim.slug || anim.id || "").replace(/^anim-/, "");
+  const defaultThumb = anim.previewImageUrl || `/animations-preview/${slugOrId}.png`;
+
+  return (
+    <div
+      onPointerEnter={() => setActive(true)}
+      onPointerLeave={() => setActive(false)}
+      className="w-full h-full"
+    >
+      <AnimationPreview
+        previewType={anim.previewType}
+        previewSrc={anim.previewSrc}
+        title={anim.title}
+        thumbnail={defaultThumb}
+        active={active}
+      />
+    </div>
+  );
+}
+
 const ProductCard = ({ snippet, type, displayMode = "grid" }: ProductCardPropsWithMode) => {
   const { session } = useSession();
   const [fav, setFav] = useState(false);
@@ -43,9 +66,11 @@ const ProductCard = ({ snippet, type, displayMode = "grid" }: ProductCardPropsWi
       }
     >
       {displayMode !== "list" && (
-        <div className="aspect-[4/3] bg-[linear-gradient(180deg,rgba(41,50,63,0.55),rgba(18,24,33,0.75))] flex items-center justify-center overflow-hidden border-b border-[rgba(216,178,110,0.18)]">
+        <div
+          className="aspect-[4/3] bg-[linear-gradient(180deg,rgba(41,50,63,0.55),rgba(18,24,33,0.75))] flex items-center justify-center overflow-hidden border-b border-[rgba(216,178,110,0.18)]"
+        >
           {type === "animation3d" ? (
-            <AnimationPreview previewType={snippet.previewType} previewSrc={snippet.previewSrc} title={snippet.title} />
+            <HoverPreviewContainer snippet={snippet} />
           ) : snippet.images && snippet.images[0] ? (
             <img
               src={`/snippets/${snippet.images[0]}`}

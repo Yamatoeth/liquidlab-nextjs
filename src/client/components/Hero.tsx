@@ -1,13 +1,12 @@
 "use client";
 import dynamic from "next/dynamic";
 import { BadgeCheck, Sparkles, Zap } from "lucide-react";
-import SearchAutocomplete from "./SearchAutocomplete";
 
 const Hero3D = dynamic(() => import("../../app/Hero3D"), { ssr: false });
 
 interface HeroProps {
-  searchQuery: string;
-  onSearchChange: (query: string) => void;
+  searchQuery?: string;
+  onSearchChange?: (query: string) => void;
   onSelectSuggestion?: (value: string) => void;
 }
 
@@ -28,10 +27,6 @@ const Hero = ({ searchQuery, onSearchChange, onSelectSuggestion }: HeroProps) =>
             Explore production-ready 3D effects built for performance and premium design. Filter, preview, and find
             the perfect animation in seconds.
           </p>
-
-          <div className="panel relative mx-auto mb-9 max-w-2xl p-2">
-            <SearchAutocomplete value={searchQuery} onChange={onSearchChange} onSelect={(id) => onSelectSuggestion?.(id)} />
-          </div>
 
           <div className="mx-auto grid max-w-3xl grid-cols-1 gap-4 text-left sm:grid-cols-3">
             <div className="surface-soft px-4 py-3 backdrop-blur">

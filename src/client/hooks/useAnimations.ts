@@ -79,7 +79,11 @@ export function useAnimations({ search = "", typeId = undefined }: { search?: st
       .order("sort_order", { ascending: true })
       .order("created_at", { ascending: false });
     if (typeId) query = query.eq("animation_type_id", typeId);
-    if (search) query = query.ilike("title", `%${search}%`);
+    // Search in title or description (using or filter)
+    if (search) {
+      const pattern = `%${search}%`;
+      query = query.or(`title.ilike.${pattern},description.ilike.${pattern}`);
+    }
     query
       .then((res: any) => {
         const { data, error, status } = res || {};

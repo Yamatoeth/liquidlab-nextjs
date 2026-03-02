@@ -6,6 +6,8 @@ interface AnimationPreviewProps {
   previewSrc: string;
   title: string;
   className?: string;
+  thumbnail?: string;
+  active?: boolean; // when true, force-mount interactive preview (used on hover)
 }
 
 export const AnimationPreview: React.FC<AnimationPreviewProps> = ({
@@ -13,6 +15,8 @@ export const AnimationPreview: React.FC<AnimationPreviewProps> = ({
   previewSrc,
   title,
   className = "",
+  thumbnail,
+  active = false,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
@@ -22,8 +26,8 @@ export const AnimationPreview: React.FC<AnimationPreviewProps> = ({
   const iframeSrc =
     previewType === "iframe" &&
     (previewSrc.startsWith("/animations/") || previewSrc.startsWith("/animations-source/"))
-    ? toPreviewAnimationPath(previewSrc)
-    : previewSrc;
+      ? toPreviewAnimationPath(previewSrc)
+      : previewSrc;
 
   useEffect(() => {
     setIframeLoaded(false);
@@ -82,9 +86,12 @@ export const AnimationPreview: React.FC<AnimationPreviewProps> = ({
     return () => document.removeEventListener("visibilitychange", onVisibility);
   }, [previewType, nearViewport, inViewport, postToIframe]);
 
+  // Decide whether to mount the interactive iframe/video.
+  const shouldMountInteractive = previewType === "iframe" && nearViewport && (active || inViewport);
+
   return (
     <div ref={ref} className={className} style={{ width: "100%", height: "100%" }}>
-      {nearViewport && previewType === "iframe" && (
+      {shouldMountInteractive && (
         <iframe
           ref={iframeRef}
           src={iframeSrc}
@@ -124,9 +131,23 @@ export const AnimationPreview: React.FC<AnimationPreviewProps> = ({
         />
       )}
       {(!nearViewport || (previewType === "iframe" && !iframeLoaded)) && (
-        <div className="flex h-full w-full items-center justify-center rounded border border-neutral-200 bg-[url('/placeholder.svg')] bg-cover bg-center text-xs text-muted-foreground">
-          Loading preview...
-        </div>
+        thumbnail ? (
+          <img
+            src={thumbnail}
+            alt={title}
+            className="w-full h-full rounded border border-neutral-200 bg-black object-cover"
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            onError={(e) => {
+              // fall back to placeholder if thumbnail missing
+              e.currentTarget.onerror = null;
+              e.currentTarget.src = '/placeholder.svg';
+            }}
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center rounded border border-neutral-200 bg-[url('/placeholder.svg')] bg-cover bg-center text-xs text-muted-foreground">
+            Loading preview...
+          </div>
+        )
       )}
     </div>
   );

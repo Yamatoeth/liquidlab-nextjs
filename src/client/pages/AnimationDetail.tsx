@@ -13,7 +13,6 @@ import Footer from "@/components/Footer";
 import SyntaxHighlighter from "@/components/SyntaxHighlighter";
 import { toPreviewAnimationPath } from "@/lib/protectedAnimation";
 import { useSubscriptionAccess } from "@/hooks/useSubscriptionAccess";
-import 'react-horizontal-scrolling-menu/dist/styles.css';
 
 const tabList = ["Preview", "Code", "ReadMe", "React"] as const;
 type Tab = (typeof tabList)[number];

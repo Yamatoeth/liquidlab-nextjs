@@ -30,3 +30,7 @@ dist-ssr
 /animations-source
 /supabase
 data
+animations.ts.bak
+animations-manifests
+scripts
+src/data/animations.ts.bak

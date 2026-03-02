@@ -10,10 +10,11 @@ import ErrorAlert from './ui/ErrorAlert'
 interface Props {
   value: string
   onChange: (v: string) => void
-  onSelect?: (id: string) => void
+  onSelect?: (value: string) => void
+  navigateOnSelect?: boolean
 }
 
-const SearchAutocomplete = ({ value, onChange, onSelect }: Props) => {
+const SearchAutocomplete = ({ value, onChange, onSelect, navigateOnSelect = true }: Props) => {
   const [suggestions, setSuggestions] = useState<Snippet[]>([])
   const [active, setActive] = useState(0)
   const [open, setOpen] = useState(false)
@@ -71,8 +72,9 @@ const SearchAutocomplete = ({ value, onChange, onSelect }: Props) => {
       e.preventDefault()
       const s = suggestions[active]
       if (s) {
-        onSelect?.(s.id)
-        nav(`/snippet/${s.id}`)
+        onSelect?.(s.title)
+        onChange(s.title)
+        if (navigateOnSelect) nav(`/snippet/${s.id}`)
         setOpen(false)
       }
     }
@@ -109,7 +111,13 @@ const SearchAutocomplete = ({ value, onChange, onSelect }: Props) => {
           {!loading && !error && suggestions.map((s, i) => (
             <li
               key={s.id}
-              onMouseDown={(e) => { e.preventDefault(); onSelect?.(s.id); nav(`/snippet/${s.id}`); setOpen(false) }}
+              onMouseDown={(e) => {
+                e.preventDefault()
+                onSelect?.(s.title)
+                onChange(s.title)
+                if (navigateOnSelect) nav(`/snippet/${s.id}`)
+                setOpen(false)
+              }}
               className={`cursor-pointer rounded-md px-3 py-2 text-sm ${i === active ? 'bg-accent' : ''}`}
             >
               <div className="font-medium">{s.title}</div>

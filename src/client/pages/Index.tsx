@@ -22,8 +22,11 @@ const Index = () => {
   const [displayMode, setDisplayMode] = useState<"list" | "grid3" | "grid6">("grid3");
 
   const sourceAnimations = useMemo(() => {
+    let animsToUse: Animation3D[] = [];
+    
+    // Use remote animations if available and no error
     if (!loading && !error && Array.isArray(animations) && animations.length > 0) {
-      return animations.map((anim) => ({
+      animsToUse = animations.map((anim) => ({
         ...anim,
         previewSrc:
           anim.previewSrc ||
@@ -31,23 +34,38 @@ const Index = () => {
           anim.previewImageUrl ||
           toPreviewAnimationPath(`/animations-source/${anim.slug || anim.id}.html`),
       })) as Animation3D[];
+    } else {
+      // Fallback to local animations
+      animsToUse = animations3D;
     }
-    return animations3D;
-  }, [animations, loading, error]);
+
+    // Apply search filter on local data 
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      animsToUse = animsToUse.filter((anim) => {
+        const searchText = `${anim.title} ${anim.description || ""} ${anim.tags.join(" ")}`.toLowerCase();
+        return searchText.includes(query);
+      });
+    }
+
+    return animsToUse;
+  }, [animations, loading, error, searchQuery]);
 
   const filteredAnimations = useMemo(() => {
+    if (searchQuery.trim()) return sourceAnimations;
+
     if (selectedCategories.includes("All")) return sourceAnimations;
 
     return sourceAnimations.filter((animation) => {
       const haystack = `${animation.title} ${animation.description || ""} ${animation.tags.join(" ")}`.toLowerCase();
       return selectedCategories.some((category) => haystack.includes(category.toLowerCase()));
     });
-  }, [sourceAnimations, selectedCategories]);
+  }, [sourceAnimations, selectedCategories, searchQuery]);
 
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
       <Navbar />
-      <Hero searchQuery={searchQuery} onSearchChange={setSearchQuery} onSelectSuggestion={(v) => setSearchQuery(v)} />
+      <Hero />
 
       {/* Testimonials removed per request */}
       <Onboarding />
@@ -86,7 +104,7 @@ const Index = () => {
               </div>
               <DisplayModeToggle value={displayMode} onChange={setDisplayMode} />
             </div>
-            <CategoryFilter selected={selectedCategories} onChange={setSelectedCategories} />
+            <CategoryFilter selected={selectedCategories} onChange={setSelectedCategories} searchQuery={searchQuery} onSearchChange={setSearchQuery} />
           </section>
 
           {loading ? (
