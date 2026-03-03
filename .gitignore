@@ -24,7 +24,6 @@ dist-ssr
 *.sw?
 
 .env
-/.agent
 /.next
 /migrations
 /animations-source
@@ -34,3 +33,4 @@ animations.ts.bak
 animations-manifests
 scripts
 src/data/animations.ts.bak
+/animations-react
