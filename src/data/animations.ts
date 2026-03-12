@@ -789,25 +789,24 @@ const rawAnimations: any[] = [
     ],
   },
   // ── 034 ──────────────────────────────────────────────────────────────────
-  {
-    id: 'anim-34-kaleidoscope',
-    title: 'Kaleidoscope',
-    description: 'Kaleidoscope animation featuring kaleidoscope, symmetry and mirror effects.',
-    renderer: 'threejs',
-    previewType: 'iframe',
-    previewSrc: '/animations-source/34-kaleidoscope.html',
-    htmlFile: '/animations-source/34-kaleidoscope.html',
-    previewImageUrl: '/animations-preview/34-kaleidoscope.png',
-    tags: ['kaleidoscope', 'symmetry', 'mirror'],
-    dependencies: [],
-    features: [],
-    previewImageUrl: '/animations-preview/34-kaleidoscope.png',
-    paramsSchema: [
-      { key: 'slices', type: 'number', label: 'Slices', default: 12,  min: 2,   max: 36,  step: 1 },
-      { key: 'scale',  type: 'number', label: 'Scale',  default: 1.0, min: 0.1, max: 4,   step: 0.01 },
-      { key: 'hue',    type: 'number', label: 'Hue',    default: 260, min: 0,   max: 360, step: 1 },
-    ],
-  },
+  // {
+  //   id: 'anim-34-kaleidoscope',
+  //   title: 'Kaleidoscope',
+  //   description: 'Kaleidoscope animation featuring kaleidoscope, symmetry and mirror effects.',
+  //   renderer: 'threejs',
+  //   previewType: 'iframe',
+  //   previewSrc: '/animations-source/34-kaleidoscope.html',
+  //   htmlFile: '/animations-source/34-kaleidoscope.html',
+  //   previewImageUrl: '/animations-preview/34-kaleidoscope.png',
+  //   tags: ['kaleidoscope', 'symmetry', 'mirror'],
+  //   dependencies: [],
+  //   features: [],
+  //   paramsSchema: [
+  //     { key: 'slices', type: 'number', label: 'Slices', default: 12,  min: 2,   max: 36,  step: 1 },
+  //     { key: 'scale',  type: 'number', label: 'Scale',  default: 1.0, min: 0.1, max: 4,   step: 0.01 },
+  //     { key: 'hue',    type: 'number', label: 'Hue',    default: 260, min: 0,   max: 360, step: 1 },
+  //   ],
+  // },
   // ── 035 ──────────────────────────────────────────────────────────────────
   {
     id: 'anim-35-gravity-well',
@@ -821,7 +820,6 @@ const rawAnimations: any[] = [
     tags: ['gravity', 'particles', 'force'],
     dependencies: [],
     features: [],
-    previewImageUrl: '/animations-preview/35-gravity-well.png',
     paramsSchema: [
       { key: 'mass',          type: 'number', label: 'Mass',      default: 1.0, min: 0.1, max: 10,   step: 0.1 },
       { key: 'particleCount', type: 'number', label: 'Particles', default: 300, min: 10,  max: 2000, step: 1 },
