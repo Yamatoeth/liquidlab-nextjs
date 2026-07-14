@@ -6,7 +6,8 @@ import puppeteer from 'puppeteer';
 const SRC_DIR = path.resolve(process.cwd(), 'animations-source');
 const OUT_DIR = path.resolve(process.cwd(), 'public', 'animations-preview');
 const VIEWPORT = { width: 800, height: 450 };
-const WAIT_MS = 800; // extra wait after load
+const WAIT_MS = 1200; // extra wait after load
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 async function ensureDir(dir) {
   try {
@@ -36,7 +37,7 @@ async function capture(filePath, outPath, browser) {
   try {
       await page.goto(fileUrl, { waitUntil: 'networkidle2', timeout: 60000 });
     // allow animations to settle
-      await page.waitForTimeout(1200); // extra wait after load
+      await delay(WAIT_MS);
 
     // Optionally hide heavy UI if present
     // await page.evaluate(() => { /* hide elements */ });
