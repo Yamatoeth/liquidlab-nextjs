@@ -34,3 +34,4 @@ animations-manifests
 scripts
 src/data/animations.ts.bak
 /animations-react
+.omx/
